@@ -1,41 +1,29 @@
-﻿@model processDataShare.Models.Asq5_model
+﻿@model processDataShare.Models.MainIndex_model
 @{
     <meta http-equiv="refresh" content="5">
     <!-- Obnoví stránku každých 5 sekúnd -->
     ViewData["Title"] = "Home Page";
-    string farba = Model.ROB1_Downtime_Time> 0 ? "bg-danger" : "bg-success";
+    string colorStatus_Asq5_ROB1 = Model.ASQ_5_ROB1_Downtime_Time> 0 ? "bg-danger" : "bg-success";
+    string colorStatus_OpelArmrestFD = Model.OpelArmrestFD_actualDowntime > 0 ? "bg-danger" : "bg-success";
 }
 
 
 <div class="d-flex flex-wrap text-white-50">
-    <div class="text-center card @farba text-black w-25 mx-1 mb-2">
-        <h1 class="display-2">ASQ 5</h1>
-        <p class="@farba  ">Stroj nevyraba : @Model.ROB1_Downtime_Time.  min</p>
-        <a class="btn btn-primary" asp-controller="Home" asp-action="Asq5">Prejsť na stránku Info</a>
+
+    <div class="text-center d-flex justify-content-end card @colorStatus_Asq5_ROB1 text-black w-25 mx-1 mb-2">
+        <h1 class="display-2 border-bottom border-1 border-dark-subtle">ASQ 5</h1>
+        <p>Stroj nevyraba : <span class="text-white fs-5 mx-1">@Model.ASQ_5_ROB1_Downtime_Time</span>   min</p>
+        <a class="btn btn-primary " asp-controller="Home" asp-action="Asq5">Aktualne parametre info</a>
     </div>
 
-    <div class="text-center card @farba text-black w-25 mx-1 mb-2">
-        <h1 class="display-2">ASQ 5</h1>
-        <p class="@farba  ">Stroj nevyraba : @Model.ROB1_Downtime_Time.  min</p>
-        <a class="btn btn-primary" asp-controller="Home" asp-action="Asq5">Prejsť na stránku Info</a>
-    </div>
+  <div class="text-center justify-content-between card @colorStatus_OpelArmrestFD text-black w-25  mx-1 mb-2">
+     <h1 class="display-5 border-bottom border-1 border-dark-subtle">Opel Armrest FD</h1>
+     <p>Stroj nevyraba : <span class="text-white fs-5 mx-1">@Model.OpelArmrestFD_actualDowntime</span>min</p>
+     <a class="btn btn-primary  asp-controller="Home" asp-action="OpelArmrestFD">Aktualne parametre info</a>
+ </div>
 
-    <div class="text-center card @farba text-black w-25 mx-1 mb-2">
-        <h1 class="display-2">ASQ 5</h1>
-        <p class="@farba  ">Stroj nevyraba : @Model.ROB1_Downtime_Time.  min</p>
-        <a class="btn btn-primary" asp-controller="Home" asp-action="Asq5">Prejsť na stránku Info</a>
-    </div>
+   
 
-    <div class="text-center card @farba text-black w-25 mx-1 mb-2">
-        <h1 class="display-2">ASQ 5</h1>
-        <p class="@farba  ">Stroj nevyraba : @Model.ROB1_Downtime_Time.  min</p>
-        <a class="btn btn-primary" asp-controller="Home" asp-action="Asq5">Prejsť na stránku Info</a>
-    </div>
-
-    <div class="text-center card @farba text-black w-25 mx-1 mb-2">
-        <h1 class="display-2">ASQ 5</h1>
-        <p class="@farba  ">Stroj nevyraba : @Model.ROB1_Downtime_Time.  min</p>
-        <a class="btn btn-primary" asp-controller="Home" asp-action="Asq5">Prejsť na stránku Info</a>
-    </div>
+    
 </div>
 

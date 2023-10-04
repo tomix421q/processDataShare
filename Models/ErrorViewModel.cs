@@ -1,4 +1,4 @@
-namespace processDataShare.Models
+namespace myFirstApp.Models
 {
     public class ErrorViewModel
     {

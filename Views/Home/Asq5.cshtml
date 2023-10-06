@@ -13,14 +13,50 @@
     <title></title>
 </head>
 <body>
+    <div>
 
 
-    <p>Referencna hodnota vahy :@Model.ROB1_RefValue g</p>
-    <p>Referencna hodnota tolerancia minus :  @Model.ROB1_WeightTolMinus g</p>
-    <p>Referencna hodnota tolerancia plus :  @Model.ROB1_WeightTolPlus g</p>
-    <p>Aktualna hodnota vahy :  @Model.ROB1_WeightActualValue g</p>
-    <p>Teplota :  @Model.ROB1_Temperature C</p>
-    <p>Nastavena teplota :  @Model.ROB1_SetTemperature C</p>
-    <p>Cas miesania :  @Model.MixingTime min</p>
+
+
+        @*ROB1*@
+        <div>
+            <h1>ASQ 5 [Form A - ROB1]</h1>
+            <p>Actual downtime: @Model.ROB1_Downtime_Time min</p>
+            <p>Actual formnumber: @Model.ROB1_FormNumber</p>
+            <p>Actual weight: @Model.ROB1_WeightActualValue g</p>
+            <p>Temperature: @Model.ROB1_Temperature C&deg;</p>
+            <p>Set temperature: @Model.ROB1_SetTemperature C&deg;</p>
+            <p>Time drying: @Model.ROB1_TimeDrying</p>
+        </div>
+
+        @*ROB2*@
+        <div>
+            <h1>ASQ 5 [Form B - ROB2]</h1>
+            <p>Actual downtime: @Model.ROB2_Downtime_Time min</p>
+            <p>Actual formnumber: @Model.ROB2_FormNumber</p>
+            <p>Actual weight: @Model.ROB2_WeightActualValue g</p>
+            <p>Temperature: @Model.ROB2_Temperature C&deg;</p>
+            <p>Set temperature: @Model.ROB2_SetTemperature </p>
+            <p>Time drying: @Model.ROB2_TimeDrying</p>
+        </div>
+
+        @*Global*@
+        <div>
+            <h1>ASQ 5 [Global parameter]</h1>
+            <p>Weight ref value: @Model.Global_RefValue g</p>
+            <p>Weight tolerance minus: @Model.Global_WeightTolMinus g</p>
+            <p>Weight tolerance plus: @Model.Global_WeightTolPlus g</p>
+            <p>Mixing every: @Model.Global_MixingTime min</p>
+
+        </div>
+
+
+
+
+
+    </div>
+   
+
+
 </body>
 </html>

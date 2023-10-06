@@ -38,9 +38,19 @@ namespace processDataShare.Controllers
                 /////////////////ASQ_5/////////////////////
                 using (var plc = new Plc(CpuType.S71500, "10.184.159.108", 0, 1))
                 {
-                        plc.Open(); //Connect
+                        plc.Open(); 
                         MainIndexModel.ASQ_5_ROB1_Downtime_Time = ((ushort)plc.Read("DB179.DBW0.0")).ConvertToShort();
-                       
+                        MainIndexModel.ASQ_5_ROB2_Downtime_Time = ((ushort)plc.Read("DB179.DBW20.0")).ConvertToShort();
+
+                }
+
+                /////////////////ASQ_6/////////////////////
+                using (var plc = new Plc(CpuType.S71500, "10.184.159.184", 0, 1))
+                {
+                    plc.Open();
+                    MainIndexModel.ASQ_6_ROB1_Downtime_Time = ((ushort)plc.Read("DB179.DBW0.0")).ConvertToShort();
+                    MainIndexModel.ASQ_6_ROB2_Downtime_Time = ((ushort)plc.Read("DB179.DBW20.0")).ConvertToShort();
+
                 }
 
                 ///////////////Armrest//////////////////////
@@ -65,17 +75,26 @@ namespace processDataShare.Controllers
             using (var plc = new Plc(CpuType.S71500, "10.184.159.108", 0, 1))
             {
                 plc.Open(); //Connect
+                //ROB1
                 Asq5Model.ROB1_Downtime_Time = ((ushort)plc.Read("DB179.DBW0.0")).ConvertToShort();
                 Asq5Model.ROB1_FormNumber = ((ushort)plc.Read("DB179.DBW2.0")).ConvertToShort();
-                Asq5Model.ROB1_GoWeightAfter = ((ushort)plc.Read("DB179.DBW0.0")).ConvertToShort();
-                Asq5Model.ROB1_RefValue = ((uint)plc.Read("DB179.DBD6.0")).ConvertToFloat();
-                Asq5Model.ROB1_WeightTolMinus = ((uint)plc.Read("DB179.DBD10.0")).ConvertToFloat();
-                Asq5Model.ROB1_WeightTolPlus = ((uint)plc.Read("DB179.DBD14.0")).ConvertToFloat();
-                Asq5Model.ROB1_WeightActualValue = ((uint)plc.Read("DB179.DBD18.0")).ConvertToFloat();
-                Asq5Model.ROB1_Temperature = ((uint)plc.Read("DB179.DBD22.0")).ConvertToFloat();
-                Asq5Model.ROB1_SetTemperature = ((uint)plc.Read("DB179.DBD26.0")).ConvertToFloat();
-                Asq5Model.ROB1_TimeDrying = ((uint)plc.Read("DB179.DBD30.0")).ConvertToFloat();
-                Asq5Model.MixingTime = ((uint)plc.Read("DB179.DBD34.0")).ConvertToFloat();
+                Asq5Model.ROB1_WeightActualValue = ((uint)plc.Read("DB179.DBD4.0")).ConvertToFloat();
+                Asq5Model.ROB1_Temperature = ((uint)plc.Read("DB179.DBD8.0")).ConvertToFloat();
+                Asq5Model.ROB1_SetTemperature = ((uint)plc.Read("DB179.DBD12.0")).ConvertToFloat();
+                Asq5Model.ROB1_TimeDrying = ((uint)plc.Read("DB179.DBD16.0")).ConvertToFloat();
+                //ROB2
+                Asq5Model.ROB2_Downtime_Time = ((ushort)plc.Read("DB179.DBW20.0")).ConvertToShort();
+                Asq5Model.ROB2_FormNumber = ((ushort)plc.Read("DB179.DBW22.0")).ConvertToShort();
+                Asq5Model.ROB2_WeightActualValue = ((uint)plc.Read("DB179.DBD24.0")).ConvertToFloat();
+                Asq5Model.ROB2_Temperature = ((uint)plc.Read("DB179.DBD28.0")).ConvertToFloat();
+                Asq5Model.ROB2_SetTemperature = ((uint)plc.Read("DB179.DBD32.0")).ConvertToFloat();
+                Asq5Model.ROB2_TimeDrying = ((uint)plc.Read("DB179.DBD36.0")).ConvertToFloat();
+                //Global
+                Asq5Model.Global_RefValue = ((uint)plc.Read("DB179.DBD40.0")).ConvertToFloat();
+                Asq5Model.Global_WeightTolMinus = ((uint)plc.Read("DB179.DBD44.0")).ConvertToFloat();
+                Asq5Model.Global_WeightTolPlus = ((uint)plc.Read("DB179.DBD48.0")).ConvertToFloat();
+                Asq5Model.Global_MixingTime = ((uint)plc.Read("DB179.DBD54.0")).ConvertToFloat();
+                Asq5Model.Global_GoWeightAfter = ((ushort)plc.Read("DB179.DBW0.0")).ConvertToShort();
             }
             return View(Asq5Model);
         }

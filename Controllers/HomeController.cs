@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using S7.Net;
-
+using System.Security.Cryptography.X509Certificates;
 
 namespace processDataShare.Controllers
 {
@@ -39,6 +39,7 @@ namespace processDataShare.Controllers
                 using (var plc = new Plc(CpuType.S71500, "10.184.159.108", 0, 1))
                 {
                         plc.Open(); 
+                   
                         MainIndexModel.ASQ_5_ROB1_Downtime_Time = ((ushort)plc.Read("DB179.DBW0.0")).ConvertToShort();
                         MainIndexModel.ASQ_5_ROB2_Downtime_Time = ((ushort)plc.Read("DB179.DBW20.0")).ConvertToShort();
 

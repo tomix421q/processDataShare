@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using S7.Net;
-using System.Security.Cryptography.X509Certificates;
 
 namespace processDataShare.Controllers
 {
@@ -12,67 +11,92 @@ namespace processDataShare.Controllers
         {
             _logger = logger;
         }
-
-        //10.184.159.108 ASQ5
-
         public IActionResult Index()
         {
-            Models.Asq5_model Asq5Model = new();
-            Models.OpelArmrestFront_model OpelArmrestFDmodel = new();
             Models.MainIndex_model MainIndexModel = new();
             {
-                /////////////FAKE////////////////////////
-                //Asq5Model.ROB1_RefValue = 0.0f;
-                //Asq5Model.ROB1_WeightTolMinus = 0.0f;
-                //Asq5Model.ROB1_WeightTolPlus = 0.0f;
-                //Asq5Model.ROB1_WeightActualValue = 0.0f;
-                //Asq5Model.ROB1_Temperature = 0.0f;
-                //Asq5Model.ROB1_SetTemperature = 0.0f;
-                //Asq5Model.ROB1_TimeDrying = 0.0f;
-                //Asq5Model.MixingTime = 0.0f;
-                //Asq5Model.ROB1_Downtime_Time = 0;
-                //Asq5Model.ROB1_FormNumber = 0;
-                //Asq5Model.ROB1_GoWeightAfter = 0;
 
+                /////////////////ASQ_5///////////////////// 
+                ///
 
-                /////////////////ASQ_5/////////////////////
-                using (var plc = new Plc(CpuType.S71500, "10.184.159.108", 0, 1))
+                try
                 {
-                        plc.Open(); 
-                   
-                        MainIndexModel.ASQ_5_ROB1_Downtime_Time = ((ushort)plc.Read("DB179.DBW0.0")).ConvertToShort();
-                        MainIndexModel.ASQ_5_ROB2_Downtime_Time = ((ushort)plc.Read("DB179.DBW20.0")).ConvertToShort();
+                    using (var plc_asq5 = new Plc(CpuType.S71500, "10.184.159.108", 0, 1))
 
+                    {
+                        plc_asq5.Open();
+                        if (plc_asq5.IsConnected)
+                        {
+                            MainIndexModel.connectionAsq5 = "Nepodarilo sa pripojiť k PLC ASQ5.";
+                        }
+                        else
+                        {
+                            MainIndexModel.ASQ_5_ROB1_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW0.0")).ConvertToShort();
+                            MainIndexModel.ASQ_5_ROB2_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW20.0")).ConvertToShort();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                    MainIndexModel.connectionAsq5 = "Nastala chyba pri komunikácii s PLC ASQ5: " + ex.Message;
                 }
 
                 /////////////////ASQ_6/////////////////////
-                using (var plc = new Plc(CpuType.S71500, "10.184.159.184", 0, 1))
+                try
                 {
-                    plc.Open();
-                    MainIndexModel.ASQ_6_ROB1_Downtime_Time = ((ushort)plc.Read("DB179.DBW0.0")).ConvertToShort();
-                    MainIndexModel.ASQ_6_ROB2_Downtime_Time = ((ushort)plc.Read("DB179.DBW20.0")).ConvertToShort();
+                    using (var plc_asq6 = new Plc(CpuType.S71500, "10.184.159.184", 0, 1))
 
+                    {
+                        plc_asq6.Open();
+                        if (plc_asq6.IsConnected)
+                        {
+                            MainIndexModel.connectionAsq6 = "Nepodarilo sa pripojiť k PLC ASQ6.";
+                        }
+                        else
+                        {
+                            MainIndexModel.ASQ_6_ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort();
+                            MainIndexModel.ASQ_6_ROB2_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW20.0")).ConvertToShort();
+                        }
+                    }
                 }
+                catch (Exception ex)
+                {
+                    MainIndexModel.connectionAsq6 = "Nastala chyba pri komunikácii s PLC ASQ6: " + ex.Message;
+                }
+
 
                 ///////////////Armrest//////////////////////
-
-                using (var plc = new Plc(CpuType.S71500, "10.184.159.45", 0, 1))
+                try
                 {
-                    plc.Open();
-                    MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc.Read("DB26.DBW0.0")).ConvertToShort();
+                    using (var plc_OpelArmrestFd = new Plc(CpuType.S71500, "10.184.159.45", 0, 1))
+                    {
+                        plc_OpelArmrestFd.Open();
+                        if (plc_OpelArmrestFd.IsConnected)
+                        {
+                            MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort();
+                        }
+                        else
+                        {
+                            MainIndexModel.connectionOpelArmrestFd = "Nepodarilo sa pripojiť k PLC opel armrest fd.";
+                        }
+                    }
                 }
-                return View(MainIndexModel);
+                catch (Exception ex)
+                {
+                    MainIndexModel.connectionOpelArmrestFd = "Nastala chyba pri komunikácii s PLC opel armrest fd: " + ex.Message;
 
-              
+                }
+
+                return View(MainIndexModel);
 
             }
         }
 
-
         public IActionResult Asq5()
         {
             Models.Asq5_model Asq5Model = new();
-            // Inicializácia modelu a prípadné nastavenie hodnôt
+            Models.MainIndex_model MainIndexModel = new();
             using (var plc = new Plc(CpuType.S71500, "10.184.159.108", 0, 1))
             {
                 plc.Open(); //Connect
@@ -103,6 +127,7 @@ namespace processDataShare.Controllers
         public IActionResult OpelArmrestFD()
         {
             Models.OpelArmrestFront_model OpelArmrestFDmodel = new();
+            Models.MainIndex_model MainIndexModel = new();
             using (var plc = new Plc(CpuType.S71500, "10.184.159.45", 0, 1))
             {
                 plc.Open();

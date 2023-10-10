@@ -37,8 +37,10 @@
 
     @*Opel Armrest FD container*@
     <div class="text-center card @colorStatus_OpelArmrestFD text-black w-auto  mx-1 mb-2 shadow-lg justify-content-between">
+        <div class="position-absolute w-100 h-100 bg-white" ><p>@Model.connectionAsq5.</p></div>
         <h1 class="display-6 border-bottom border-1 border-dark-subtle bg-success-subtle pb-2 px-1 text-center">Opel Armrest FD</h1>
-        <p>Stav <br /><span class="text-white fs-5 bg-dark p-1">@productionStatus_OpelArmrestFD</span></p>
+        <p>Stav <br /><span class="text-white fs-5 bg-dark p-1 ">@productionStatus_OpelArmrestFD</span></p>
+        
         <a class="btn btn-primary w-100 " asp-controller="Home" asp-action="OpelArmrestFD">Aktualne parametre info</a>
     </div>
 

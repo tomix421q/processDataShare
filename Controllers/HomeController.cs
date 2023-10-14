@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using S7.Net;
+using System.Security.Cryptography.X509Certificates;
 
 namespace processDataShare.Controllers
 {
@@ -17,29 +18,31 @@ namespace processDataShare.Controllers
             {
 
                 /////////////////ASQ_5///////////////////// 
-                ///
 
                 try
                 {
                     using (var plc_asq5 = new Plc(CpuType.S71500, "10.184.159.108", 0, 1))
-
+                        
                     {
                         plc_asq5.Open();
                         if (plc_asq5.IsConnected)
                         {
-                            MainIndexModel.connectionAsq5 = "Nepodarilo sa pripojiť k PLC ASQ5.";
+                            MainIndexModel.ASQ_5_ROB1_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW0.0")).ConvertToShort();
+                            MainIndexModel.ASQ_5_ROB2_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW20.0")).ConvertToShort();
+                          
+                            
                         }
                         else
                         {
-                            MainIndexModel.ASQ_5_ROB1_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW0.0")).ConvertToShort();
-                            MainIndexModel.ASQ_5_ROB2_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW20.0")).ConvertToShort();
+                            MainIndexModel.connectionAsq5 = "Nieco sa pokazilo :(";
+
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-
-                    MainIndexModel.connectionAsq5 = "Nastala chyba pri komunikácii s PLC ASQ5: " + ex.Message;
+                    
+                    MainIndexModel.connectionAsq5 = ex.Message ;
                 }
 
                 /////////////////ASQ_6/////////////////////
@@ -51,12 +54,12 @@ namespace processDataShare.Controllers
                         plc_asq6.Open();
                         if (plc_asq6.IsConnected)
                         {
-                            MainIndexModel.connectionAsq6 = "Nepodarilo sa pripojiť k PLC ASQ6.";
+                            MainIndexModel.ASQ_6_ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort();
+                            MainIndexModel.ASQ_6_ROB2_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW20.0")).ConvertToShort();
                         }
                         else
                         {
-                            MainIndexModel.ASQ_6_ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort();
-                            MainIndexModel.ASQ_6_ROB2_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW20.0")).ConvertToShort();
+                            MainIndexModel.connectionAsq6 = "Nepodarilo sa pripojiť k PLC ASQ6.";
                         }
                     }
                 }
@@ -74,7 +77,9 @@ namespace processDataShare.Controllers
                         plc_OpelArmrestFd.Open();
                         if (plc_OpelArmrestFd.IsConnected)
                         {
+
                             MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort();
+                            
                         }
                         else
                         {

@@ -33,43 +33,42 @@
 }
 
 <div class="d-flex flex-wrap text-white-50 justify-content-xl-center ">
-  
-   <Components.DoubleTabTemplateIndex colorStatus_ROB1="sss" productionStatus_ROB1="sss" colorStatus_ROB2="ddd" productionStatus_ROB2="sss" linkMachine="Asq5" />
-   @*<div class="card">
-       @(await Html.RenderComponentAsync<processDataShare.Views.Shared.Components.DoubleTabTemplateIndex>(RenderMode.ServerPrerendered))
-   </div>*@
-    <partial name="_DoubleTabTemplateIndex"/>
+
+    @Html.Partial("_MachineStatusPartial", asq5Model)
+    <partial name="_doubleTabTemplate" ColorStatus_ROB1=colorStatus_Asq5_ROB1 />
     @*ASQ5_Container*@
     @*<div class="text-black bg-success-subtle col-md-5 col-lg-4 col-xl-3 col-xxl-2 justify-content-between border border-2 border-info-subtle mx-1 mb-2 shadow-lg card ">
-        <h1 class="w-100 fs-3 text-center">ASQ 5</h1>
-        <div class="d-flex">
-            <div class="text-center @colorStatus_Asq5_ROB1 text-black justify-content-between max-w w-50 rounded-2">
-                <h1 class="fs-3 text-success-emphasis border-bottom border-1 border-dark-subtle pb-2">[Forma A]</h1>
-                <p>Stav<br /> <span class="text-white fs-5 mx-1 bg-dark p-1">@productionStatus_Asq_ROB1</span> </p>
+            <h1 class="w-100 fs-3 text-center">ASQ 5</h1>
+            <div class="d-flex">
+                <div class="text-center @colorStatus_Asq5_ROB1 text-black justify-content-between max-w w-50 rounded-2">
+                    <h1 class="fs-3 text-success-emphasis border-bottom border-1 border-dark-subtle pb-2">[Forma A]</h1>
+                    <p>Stav<br /> <span class="text-white fs-5 mx-1 bg-dark p-1">@productionStatus_Asq_ROB1</span> </p>
+                </div>
+                <div class="text-center @colorStatus_Asq5_ROB2 text-black justify-content-between max-w  w-50 rounded-2">
+                    <h1 class="fs-3 text-success-emphasis border-bottom border-1 border-dark-subtle pb-2">[Forma B]</h1>
+                    <p>Stav<br /> <span class="text-white fs-5 bg-dark p-1">@productionStatus_Asq_ROB2</span></p>
+                </div>
             </div>
-            <div class="text-center @colorStatus_Asq5_ROB2 text-black justify-content-between max-w  w-50 rounded-2">
-                <h1 class="fs-3 text-success-emphasis border-bottom border-1 border-dark-subtle pb-2">[Forma B]</h1>
-                <p>Stav<br /> <span class="text-white fs-5 bg-dark p-1">@productionStatus_Asq_ROB2</span></p>
-            </div>
-        </div>
-        <a class="btn btn-primary w-100 " asp-controller="Home" asp-action="Asq5">Aktualne parametre info</a>
-    </div>*@
+            <a class="btn btn-primary w-100 " asp-controller="Home" asp-action="Asq5">Aktualne parametre info</a>
+        </div>*@
 
-        
+
 
     @*Opel Armrest FD container*@
     <div class="text-center card  @OpelarmrestFD_colorStatus text-black mx-1 mb-2 shadow-lg justify-content-between w-auto">
-        <div class="position-absolute bg-opacity-75 w-100 h-100 bg-dark  @(Model.connectionOpelArmrestFd == null ? "d-none" : "d-block")" ><h2 class="fs-4 text-warning mt-5 pt-2 gap-3 bg-dark p-2  d-flex flex-column justify-content-center align-middle">
+        <div class="position-absolute bg-opacity-75 w-100 h-100 bg-dark  @(Model.connectionOpelArmrestFd == null ? "d-none" : "d-block")">
+            <h2 class="fs-4 text-warning mt-5 pt-2 gap-3 bg-dark p-2  d-flex flex-column justify-content-center align-middle">
                 Problem s pripojenim k PLC
-                <br/><abbr title="@Model.connectionOpelArmrestFd" class="text-info fs-5">Viac Info</abbr>
-           </h2></div>
-        <h1 class="fs-3 z-2 border-bottom border-1 border-dark-subtle bg-success-subtle pb-2 px-1 text-center rounded-2">Opel Armrest <br/> FD</h1>
+                <br /><abbr title="@Model.connectionOpelArmrestFd" class="text-info fs-5">Viac Info</abbr>
+            </h2>
+        </div>
+        <h1 class="fs-3 z-2 border-bottom border-1 border-dark-subtle bg-success-subtle pb-2 px-1 text-center rounded-2">Opel Armrest <br /> FD</h1>
         <p>Stav <br /><span class="text-white fs-5 bg-dark p-1 ">@Opel_armrestFD_productionStatus</span></p>
-        
+
         <a class="btn btn-primary w-100 " asp-controller="Home" asp-action="OpelArmrestFD">Aktualne parametre info</a>
     </div>
 
-  
+
 
 </div>
 

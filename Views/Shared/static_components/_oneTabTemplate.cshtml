@@ -1,0 +1,19 @@
+﻿@model dynamic
+@{
+
+}
+
+
+<div class="text-center card  @Model.colorStatus text-black mx-1 mb-2 shadow-lg justify-content-between w-auto">
+    <div class="position-absolute w-100 h-75 bottom-0 mb-1 bg-dark  @(Model.connection == null ? "d-none" : "d-block")">
+        <h2 class="fs-4 text-warning mt-5 pt-2 gap-3 bg-dark  d-flex flex-column align-middle justify-content-between">
+            Problem s pripojenim k PLC
+            <br /><abbr title="@Model.connectionInfo" class="text-info fs-5">Viac Info</abbr>
+        </h2>
+    </div>
+    <h1 class="z-2 fs-3 border-bottom border-1 border-dark-subtle bg-success-subtle pb-2 px-1 text-center rounded-2">@Model.nameMachine <br /> </h1>
+
+    <p>Stav <br /><span class="text-white fs-5 bg-dark p-1 ">@Model.productionStatus</span></p>
+
+    <a class="btn btn-primary w-100 " asp-controller="Home" asp-action="@Model.linkMachine">Aktualne parametre info</a>
+</div>

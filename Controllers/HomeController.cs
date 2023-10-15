@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using S7.Net;
-using System.Security.Cryptography.X509Certificates;
 
 namespace processDataShare.Controllers
 {
@@ -22,15 +21,15 @@ namespace processDataShare.Controllers
                 try
                 {
                     using (var plc_asq5 = new Plc(CpuType.S71500, "10.184.159.108", 0, 1))
-                        
+
                     {
-                        plc_asq5.Open();
+                        //plc_asq5.Open();
                         if (plc_asq5.IsConnected)
                         {
                             MainIndexModel.ASQ_5_ROB1_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW0.0")).ConvertToShort();
                             MainIndexModel.ASQ_5_ROB2_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW20.0")).ConvertToShort();
-                          
-                            
+
+
                         }
                         else
                         {
@@ -41,8 +40,8 @@ namespace processDataShare.Controllers
                 }
                 catch (Exception ex)
                 {
-                    
-                    MainIndexModel.connectionAsq5 = ex.Message ;
+
+                    MainIndexModel.connectionAsq5 = ex.Message;
                 }
 
                 /////////////////ASQ_6/////////////////////
@@ -51,7 +50,7 @@ namespace processDataShare.Controllers
                     using (var plc_asq6 = new Plc(CpuType.S71500, "10.184.159.184", 0, 1))
 
                     {
-                        plc_asq6.Open();
+                        //plc_asq6.Open();
                         if (plc_asq6.IsConnected)
                         {
                             MainIndexModel.ASQ_6_ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort();
@@ -74,12 +73,12 @@ namespace processDataShare.Controllers
                 {
                     using (var plc_OpelArmrestFd = new Plc(CpuType.S71500, "10.184.159.45", 0, 1))
                     {
-                        plc_OpelArmrestFd.Open();
+                        //plc_OpelArmrestFd.Open();
                         if (plc_OpelArmrestFd.IsConnected)
                         {
 
                             MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort();
-                            
+
                         }
                         else
                         {
@@ -104,7 +103,7 @@ namespace processDataShare.Controllers
             Models.MainIndex_model MainIndexModel = new();
             using (var plc = new Plc(CpuType.S71500, "10.184.159.108", 0, 1))
             {
-                plc.Open(); //Connect
+                //plc.Open(); //Connect
                 //ROB1
                 Asq5Model.ROB1_Downtime_Time = ((ushort)plc.Read("DB179.DBW0.0")).ConvertToShort();
                 Asq5Model.ROB1_FormNumber = ((ushort)plc.Read("DB179.DBW2.0")).ConvertToShort();
@@ -135,7 +134,7 @@ namespace processDataShare.Controllers
             Models.MainIndex_model MainIndexModel = new();
             using (var plc = new Plc(CpuType.S71500, "10.184.159.45", 0, 1))
             {
-                plc.Open();
+                // plc.Open();
 
                 OpelArmrestFDmodel.rightPart = ((uint)plc.Read("DB26.DBD2.0")).ConvertToInt();
                 OpelArmrestFDmodel.leftPart = ((uint)plc.Read("DB26.DBD6.0")).ConvertToInt();

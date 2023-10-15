@@ -14,6 +14,5 @@
         public string connectionAsq5 { get; set; }
         public string connectionAsq6 { get; set; }
         public string connectionOpelArmrestFd { get; set; }
-
     }
 }

@@ -3,12 +3,12 @@
  
 }
 <div class="text-black bg-success-subtle col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2 justify-content-between border border-2 border-info-subtle mx-1 mb-2 shadow-lg card ">
-    <div class="position-absolute d-flex mb-1 w-100 h-75 bottom-0 bg-dark  @(Model.connection == null ? "d-none" : "d-block")">
+    @*<div class="position-absolute d-flex mb-1 w-100 h-75 bottom-0 bg-dark  @(Model.connection == null ? "d-none" : "d-block")">
         <h2 class="fs-4 w-75 mx-auto text-center d-flex flex-column justify-content-end text-warning gap-3 bg-dark">
             Problem s pripojenim k PLC
             <br /><abbr title="@Model.connectionInfo" class="text-info fs-5 justify-content-end">Viac Info</abbr>
         </h2>
-    </div>
+    </div>*@
     <h1 class="w-100 fs-3 text-center">@Model.nameMachine</h1>
     <div class="d-flex">
         <div class="text-center @Model.colorStatus_ROB1 text-black justify-content-between max-w w-50 rounded-2">
@@ -20,5 +20,5 @@
             <p>Stav<br /> <span class="text-white fs-5 bg-dark p-1">@Model.productionStatus_ROB2</span></p>
         </div>
     </div>
-    <a class="btn btn-primary w-100 " asp-controller="Home" asp-action=@Model.linkMachine>Aktualne parametre info</a>
+    <a class="btn btn-primary w-100 " asp-controller="Asq" asp-action=@Model.linkMachine>Aktualne parametre info</a>
 </div>

@@ -9,8 +9,9 @@
     <title></title>
 </head>
 <body class="mx-auto text-center">
-   
-    <h4 class="text-bg-danger text-warning rounded-2 w-auto mx-auto text-center p-2 m-4">@ViewBag.connection</h4>
+    <h4 class="text-warning rounded-2 mx-auto text-center p-2 m-4 @(ViewBag.connection == "Connection OK" ? "bg-success text-dark" : "bg-warning text-danger")">@ViewBag.connection
+    </h4>
+ 
     <div class="text-dark">
         @*ROB1*@
         <div class="d-flex justify-content-around m-4 flex-md-row flex-column gap-4">

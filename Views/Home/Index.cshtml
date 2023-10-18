@@ -2,27 +2,32 @@
 @{
     <meta http-equiv="refresh" content="5">
     <!-- Obnoví stránku každých 5 sekúnd -->
-    ViewData["Title"] = "Home Dashboard";
-
-
-  
-
-
-   
+    ViewData["Title"] = "Home Dashboard";   
 }
 
 <div class="d-flex flex-wrap text-white-50 justify-content-center ">
+    @*__________________ASQ5_Container_______________*@
     @{
-        @*ASQ5_Container*@
         string colorStatus_Asq5_ROB1 = Model.ASQ_5_ROB1_Downtime_Time > 0 ? "bg-danger" : "bg-success";
-        string productionStatus_Asq5_ROB1 = Model.ASQ_5_ROB1_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_5_ROB1_Downtime_Time + "min";
+        string productionStatus_Asq5_ROB1 = Model.ASQ_5_ROB1_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_5_ROB1_Downtime_Time + " min";
         string colorStatus_Asq5_ROB2 = Model.ASQ_5_ROB2_Downtime_Time > 0 ? "bg-danger" : "bg-success";
-        string productionStatus_Asq5_ROB2 = Model.ASQ_5_ROB2_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_5_ROB2_Downtime_Time + "min";
+        string productionStatus_Asq5_ROB2 = Model.ASQ_5_ROB2_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_5_ROB2_Downtime_Time + " min";
+        
     }
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq5, connectionInfo = Model.connectionAsq5, nameMachine = "ASQ 5", colorStatus_ROB1 = colorStatus_Asq5_ROB1, productionStatus_ROB1 = productionStatus_Asq5_ROB1, colorStatus_ROB2 = colorStatus_Asq5_ROB2, productionStatus_ROB2 = productionStatus_Asq5_ROB2, linkMachine = "Asq5" })
+    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq5, nameMachine = "ASQ 5", colorStatus_ROB1 = colorStatus_Asq5_ROB1, productionStatus_ROB1 = productionStatus_Asq5_ROB1, colorStatus_ROB2 = colorStatus_Asq5_ROB2, productionStatus_ROB2 = productionStatus_Asq5_ROB2, linkMachine = "Asq5" })
 
+    @*_________________ASQ6_Container________________*@
     @{
-        @*Opel Armrest FD container*@
+        string colorStatus_Asq6_ROB1 = Model.ASQ_6_ROB1_Downtime_Time > 0 ? "bg-danger" : "bg-success";
+        string productionStatus_Asq6_ROB1 = Model.ASQ_6_ROB1_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_6_ROB1_Downtime_Time + " min";
+        string colorStatus_Asq6_ROB2 = Model.ASQ_6_ROB2_Downtime_Time > 0 ? "bg-danger" : "bg-success";
+        string productionStatus_Asq6_ROB2 = Model.ASQ_6_ROB2_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_6_ROB2_Downtime_Time + " min";
+        Console.WriteLine(Model.ASQ_6_ROB2_Downtime_Time);
+    }
+    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq6, nameMachine = "ASQ 6", colorStatus_ROB1 = colorStatus_Asq6_ROB1, productionStatus_ROB1 = productionStatus_Asq6_ROB1, colorStatus_ROB2 = colorStatus_Asq6_ROB2, productionStatus_ROB2 = productionStatus_Asq6_ROB2, linkMachine = "Asq6" })
+
+    @*___________Opel Armrest FD container_____________*@
+    @{
         string OpelarmrestFD_colorStatus;
         string Opel_armrestFD_productionStatus;
         if (Model.OpelArmrestFD_actualDowntime == 0)
@@ -44,9 +49,7 @@
             };
         };
     }
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestFd, connectionInfo = @Model.connectionOpelArmrestFd, nameMachine = "Opel Armrest FD", colorStatus = OpelarmrestFD_colorStatus, productionStatus = Opel_armrestFD_productionStatus, linkMachine = "OpelArmrestFD" })
-
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestFd, connectionInfo = @Model.connectionOpelArmrestFd, nameMachine = "Opel Armrest FD", colorStatus = OpelarmrestFD_colorStatus, productionStatus = Opel_armrestFD_productionStatus, linkMachine = "OpelArmrestFD" })
+    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestFd, connectionInfo = @Model.connectionOpelArmrestFd, nameMachine = "Opel Armrest FD", colorStatus = OpelarmrestFD_colorStatus, productionStatus = Opel_armrestFD_productionStatus,controller= "Opel", linkMachine = "OpelArmrestFd" })
 
 
 

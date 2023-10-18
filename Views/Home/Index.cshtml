@@ -24,7 +24,7 @@
         string productionStatus_Asq2_ROB2 = Model.ASQ_2_ROB2_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_2_ROB2_Downtime_Time + " min";
 
     }
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq1, nameMachine = "ASQ 2", colorStatus_ROB1 = colorStatus_Asq2_ROB1, productionStatus_ROB1 = productionStatus_Asq2_ROB1, colorStatus_ROB2 = colorStatus_Asq2_ROB2, productionStatus_ROB2 = productionStatus_Asq2_ROB2, linkMachine = "Asq2" })
+    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq2, nameMachine = "ASQ 2", colorStatus_ROB1 = colorStatus_Asq2_ROB1, productionStatus_ROB1 = productionStatus_Asq2_ROB1, colorStatus_ROB2 = colorStatus_Asq2_ROB2, productionStatus_ROB2 = productionStatus_Asq2_ROB2, linkMachine = "Asq2" })
 
     @*__________________ASQ5_Container_______________*@
     @{

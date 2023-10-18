@@ -72,7 +72,7 @@ namespace processDataShare.Controllers
             try
             {
 
-                using (var plc_asq2 = new Plc(CpuType.S71500, "10.184.159.241", 0, 1))
+                using (var plc_asq2 = new Plc(CpuType.S71500, "10.184.159.109", 0, 1))
                 {
                     plc_asq2.Open();//Connect
 

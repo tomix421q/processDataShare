@@ -1,0 +1,50 @@
+﻿@model processDataShare.Models.Asq5_model
+@{
+    <meta http-equiv="refresh" content="3">
+    ViewData["Title"] = "ASQ_2 Info";
+
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Asq 2</title>
+</head>
+<body class="mx-auto text-center">
+    <h4 class="text-warning rounded-2 mx-auto text-center p-2 m-4 @(ViewBag.connection == "Connection OK" ? "bg-success text-dark" : "bg-warning text-danger")">
+        @ViewBag.connection
+</h4>
+
+<div class="text-dark">
+    @*ROB1*@
+    <div class="d-flex justify-content-around m-4 flex-md-row flex-column gap-4">
+        <div class="bg-info-subtle p-2 rounded-2">
+            <h1>ASQ 2 [Form A - ROB1]</h1>
+            <p>Actual downtime: @Model.ROB1_Downtime_Time min</p>
+            <p>Actual formnumber: @Model.ROB1_FormNumber</p>
+            <p>Actual weight: @Model.ROB1_WeightActualValue g</p>
+            <p>Temperature: @Model.ROB1_Temperature C&deg;</p>
+            <p>Set temperature: @Model.ROB1_SetTemperature C&deg;</p>
+            <p>Time drying: @Model.ROB1_TimeDrying</p>
+        </div>
+        @*Global*@
+        <div class="bg-info-subtle p-2 rounded-2">
+            <h1>ASQ 2 [Global parameter]</h1>
+            <p>Weight ref value: @Model.Global_RefValue g</p>
+            <p>Weight tolerance minus: @Model.Global_WeightTolMinus g</p>
+            <p>Weight tolerance plus: @Model.Global_WeightTolPlus g</p>
+            <p>Mixing every: @Model.Global_MixingTime min</p>
+
+        </div>
+        @*ROB2*@
+        <div class="bg-info-subtle p-2 rounded-2">
+            <h1>ASQ 2 [Form B - ROB2]</h1>
+            <p>Actual downtime: @Model.ROB2_Downtime_Time min</p>
+            <p>Actual formnumber: @Model.ROB2_FormNumber</p>
+            <p>Actual weight: @Model.ROB2_WeightActualValue g</p>
+            <p>Temperature: @Model.ROB2_Temperature C&deg;</p>
+            <p>Set temperature: @Model.ROB2_SetTemperature </p>
+            <p>Time drying: @Model.ROB2_TimeDrying</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

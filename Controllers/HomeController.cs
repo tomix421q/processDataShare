@@ -1,6 +1,7 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using S7.Net;
+using S7.Net.Types;
 
 namespace processDataShare.Controllers
 {
@@ -56,7 +57,7 @@ namespace processDataShare.Controllers
                 }
                 catch (Exception ex)
                 {
-                    MainIndexModel.connectionAsq5 = ex.Message;
+                    MainIndexModel.connectionAsq2 = ex.Message;
                 }
                 //________________ASQ_5_________________
                 try
@@ -103,13 +104,32 @@ namespace processDataShare.Controllers
                 //________________Armrest_________________
                 try
                 {
-                    using (var plc_OpelArmrestFd = new Plc(CpuType.S71500, "10.184.159.45", 0, 1))
+                    using (var plc_OpelArmrestFd = new Plc(CpuType.S71500, "10.184.159.48", 0, 1))
                     {
                         plc_OpelArmrestFd.Open();
                         if (plc_OpelArmrestFd.IsConnected)
                         {
+                            //var bytes = plc_OpelArmrestFd.ReadBytes(DataType.DataBlock, 24, 50442, 200);
+                            //MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort();
+                            var temp = ((uint)plc_OpelArmrestFd.Read("DB24.DBD50442.0")).ConvertToFloat();
 
-                            MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort();
+                            List<DataItem> dataItems = new List<DataItem>
+                            { 
+                             new DataItem()
+                              {
+                                    DataType = DataType.DataBlock,
+                                    DB = 24,
+                                    Count = 12,
+                                    
+                                   },
+                   
+                            };
+
+                            plc_OpelArmrestFd.ReadMultipleVars(dataItems);
+                            var db1Bytes = dataItems[0].Value as byte[];
+
+                            float db1Bool1 = S7.Net.Types.Real.FromByteArray(db1Bytes.Skip(8).Take(4).ToArray());
+                            Console.WriteLine(db1Bytes);
 
                         }
                         else
@@ -121,6 +141,7 @@ namespace processDataShare.Controllers
                 catch (Exception ex)
                 {
                     MainIndexModel.connectionOpelArmrestFd = ex.Message;
+                    
                 }
 
 

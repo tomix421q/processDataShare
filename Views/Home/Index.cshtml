@@ -43,7 +43,7 @@
         string productionStatus_Asq6_ROB1 = Model.ASQ_6_ROB1_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_6_ROB1_Downtime_Time + " min";
         string colorStatus_Asq6_ROB2 = Model.ASQ_6_ROB2_Downtime_Time > 0 ? "bg-danger" : "bg-success";
         string productionStatus_Asq6_ROB2 = Model.ASQ_6_ROB2_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_6_ROB2_Downtime_Time + " min";
-        Console.WriteLine(Model.ASQ_6_ROB2_Downtime_Time);
+        
     }
     @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq6, nameMachine = "ASQ 6", colorStatus_ROB1 = colorStatus_Asq6_ROB1, productionStatus_ROB1 = productionStatus_Asq6_ROB1, colorStatus_ROB2 = colorStatus_Asq6_ROB2, productionStatus_ROB2 = productionStatus_Asq6_ROB2, linkMachine = "Asq6" })
 

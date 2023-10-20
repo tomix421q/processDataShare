@@ -109,26 +109,53 @@ namespace processDataShare.Controllers
                         plc_OpelArmrestFd.Open();
                         if (plc_OpelArmrestFd.IsConnected)
                         {
-                            //var bytes = plc_OpelArmrestFd.ReadBytes(DataType.DataBlock, 24, 50442, 200);
                             MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort();
-                            //var temp = ((uint)plc_OpelArmrestFd.Read("DB24.DBD50442.0")).ConvertToFloat();
 
-                            int udtAddress = 48040; // Adresa UDT
-                            int udtSizeInBytes = 16; // Veľkosť UDT v bajtoch 39
+                            int startAdress = 14; // Adresa UDT
+                            int sizeInBytes =39; // Veľkosť UDT v bajtoch 39
+                            int numberDB = 26; // Cislo DB blocku v plc
 
-                            byte[] udtData = plc_OpelArmrestFd.ReadBytes(DataType.DataBlock, 2, udtAddress, udtSizeInBytes);
+                            //Scan UDT
+                            var udtData = plc_OpelArmrestFd.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
+                            // UDT
+                            float realValue1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(0).Take(4).ToArray());
+                            Console.WriteLine("realValue1: " + realValue1);
+                            float realValue2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(4).Take(4).ToArray());
+                            Console.WriteLine("realValue2: " + realValue2);
+                            float realValue3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(8).Take(4).ToArray());
+                            Console.WriteLine("realValue3: " + realValue3);
+                            float realValue4 = S7.Net.Types.Real.FromByteArray(udtData.Skip(12).Take(4).ToArray());
+                            Console.WriteLine("realValue4: " + realValue4);
+                            int uint1 = S7.Net.Types.Int.FromByteArray(udtData.Skip(16).Take(2).ToArray());
+                            Console.WriteLine("uint1: " + uint1);
+                            int uint2 = S7.Net.Types.Int.FromByteArray(udtData.Skip(18).Take(2).ToArray());
+                            Console.WriteLine("uint2: " + uint2);
+                            int uint3 = S7.Net.Types.Int.FromByteArray(udtData.Skip(20).Take(2).ToArray());
+                            Console.WriteLine("uint3: " + uint3);
+                            int uint4 = S7.Net.Types.Int.FromByteArray(udtData.Skip(22).Take(2).ToArray());
+                            Console.WriteLine("uint4: " + uint4);
+                            int uint5 = S7.Net.Types.Int.FromByteArray(udtData.Skip(24).Take(2).ToArray());
+                            Console.WriteLine("uint5: " + uint5);
+                            var DateTime = S7.Net.Types.DateTime.FromByteArray(udtData.Skip(26).Take(8).ToArray());
+                            Console.WriteLine("DataTime: " + DateTime);
+                            var word = S7.Net.Types.Word.FromByteArray(udtData.Skip(34).Take(2).ToArray());
+                            Console.WriteLine("word: " + word);
+                            int int1 = S7.Net.Types.Int.FromByteArray(udtData.Skip(36).Take(2).ToArray());
+                            Console.WriteLine("int1: " + int1);
+                            bool bool1 = udtData[38].SelectBit(48078);
+                            Console.WriteLine("bool1: " + bool1);
 
-                            // UDT obsahuje int, float a bool
-                            float realValue1 = S7.Net.Types.Real.FromByteArray(udtData.Take(4).ToArray();
-                            float realValue2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(4).Take(4).ToArray();
-                            float realValue3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(8).Take(4).ToArray();
-                            float realValue4 = S7.Net.Types.Real.FromByteArray(udtData.Skip(12).Take(4).ToArray();
-                            Console.WriteLine(realValue1,realValue2,realValue3,realValue4);
                         }
+                        else
+                        {
+                            MainIndexModel.connectionOpelArmrestFd = "Nieco sa pokazilo...";
+                        }
+                    }
+                }
                 catch (Exception ex)
                 {
                     MainIndexModel.connectionOpelArmrestFd = ex.Message;
-                    
+
                 }
 
 

@@ -104,40 +104,27 @@ namespace processDataShare.Controllers
                 //________________Armrest_________________
                 try
                 {
-                    using (var plc_OpelArmrestFd = new Plc(CpuType.S71500, "10.184.159.48", 0, 1))
+                    using (var plc_OpelArmrestFd = new Plc(CpuType.S71500, "10.184.159.45", 0, 1))
                     {
                         plc_OpelArmrestFd.Open();
                         if (plc_OpelArmrestFd.IsConnected)
                         {
                             //var bytes = plc_OpelArmrestFd.ReadBytes(DataType.DataBlock, 24, 50442, 200);
-                            //MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort();
-                            var temp = ((uint)plc_OpelArmrestFd.Read("DB24.DBD50442.0")).ConvertToFloat();
+                            MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort();
+                            //var temp = ((uint)plc_OpelArmrestFd.Read("DB24.DBD50442.0")).ConvertToFloat();
 
-                            List<DataItem> dataItems = new List<DataItem>
-                            { 
-                             new DataItem()
-                              {
-                                    DataType = DataType.DataBlock,
-                                    DB = 24,
-                                    Count = 12,
-                                    
-                                   },
-                   
-                            };
+                            int udtAddress = 48040; // Adresa UDT
+                            int udtSizeInBytes = 16; // Veľkosť UDT v bajtoch 39
 
-                            plc_OpelArmrestFd.ReadMultipleVars(dataItems);
-                            var db1Bytes = dataItems[0].Value as byte[];
+                            byte[] udtData = plc_OpelArmrestFd.ReadBytes(DataType.DataBlock, 2, udtAddress, udtSizeInBytes);
 
-                            float db1Bool1 = S7.Net.Types.Real.FromByteArray(db1Bytes.Skip(8).Take(4).ToArray());
-                            Console.WriteLine(db1Bytes);
-
+                            // UDT obsahuje int, float a bool
+                            float realValue1 = S7.Net.Types.Real.FromByteArray(udtData.Take(4).ToArray();
+                            float realValue2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(4).Take(4).ToArray();
+                            float realValue3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(8).Take(4).ToArray();
+                            float realValue4 = S7.Net.Types.Real.FromByteArray(udtData.Skip(12).Take(4).ToArray();
+                            Console.WriteLine(realValue1,realValue2,realValue3,realValue4);
                         }
-                        else
-                        {
-                            MainIndexModel.connectionOpelArmrestFd = "Nepodarilo sa pripojiť k PLC opel armrest fd.";
-                        }
-                    }
-                }
                 catch (Exception ex)
                 {
                     MainIndexModel.connectionOpelArmrestFd = ex.Message;

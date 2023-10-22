@@ -1,7 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
 using S7.Net;
-using S7.Net.Types;
 
 namespace processDataShare.Controllers
 {
@@ -80,7 +79,7 @@ namespace processDataShare.Controllers
                 {
                     MainIndexModel.connectionAsq5 = ex.Message;
                 }
-                //_______________ASQ_6________________
+                //________________ASQ_6________________
                 try
                 {
                     using (var plc_asq6 = new Plc(CpuType.S71500, "10.184.159.184", 0, 1))
@@ -110,41 +109,6 @@ namespace processDataShare.Controllers
                         if (plc_OpelArmrestFd.IsConnected)
                         {
                             MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort();
-
-                            int startAdress = 14; // Adresa UDT
-                            int sizeInBytes =39; // Veľkosť UDT v bajtoch 39
-                            int numberDB = 26; // Cislo DB blocku v plc
-
-                            //Scan UDT
-                            var udtData = plc_OpelArmrestFd.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
-                            // UDT
-                            float realValue1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(0).Take(4).ToArray());
-                            Console.WriteLine("realValue1: " + realValue1);
-                            float realValue2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(4).Take(4).ToArray());
-                            Console.WriteLine("realValue2: " + realValue2);
-                            float realValue3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(8).Take(4).ToArray());
-                            Console.WriteLine("realValue3: " + realValue3);
-                            float realValue4 = S7.Net.Types.Real.FromByteArray(udtData.Skip(12).Take(4).ToArray());
-                            Console.WriteLine("realValue4: " + realValue4);
-                            int uint1 = S7.Net.Types.Int.FromByteArray(udtData.Skip(16).Take(2).ToArray());
-                            Console.WriteLine("uint1: " + uint1);
-                            int uint2 = S7.Net.Types.Int.FromByteArray(udtData.Skip(18).Take(2).ToArray());
-                            Console.WriteLine("uint2: " + uint2);
-                            int uint3 = S7.Net.Types.Int.FromByteArray(udtData.Skip(20).Take(2).ToArray());
-                            Console.WriteLine("uint3: " + uint3);
-                            int uint4 = S7.Net.Types.Int.FromByteArray(udtData.Skip(22).Take(2).ToArray());
-                            Console.WriteLine("uint4: " + uint4);
-                            int uint5 = S7.Net.Types.Int.FromByteArray(udtData.Skip(24).Take(2).ToArray());
-                            Console.WriteLine("uint5: " + uint5);
-                            var DateTime = S7.Net.Types.DateTime.FromByteArray(udtData.Skip(26).Take(8).ToArray());
-                            Console.WriteLine("DataTime: " + DateTime);
-                            var word = S7.Net.Types.Word.FromByteArray(udtData.Skip(34).Take(2).ToArray());
-                            Console.WriteLine("word: " + word);
-                            int int1 = S7.Net.Types.Int.FromByteArray(udtData.Skip(36).Take(2).ToArray());
-                            Console.WriteLine("int1: " + int1);
-                            bool bool1 = udtData[38].SelectBit(48078);
-                            Console.WriteLine("bool1: " + bool1);
-
                         }
                         else
                         {

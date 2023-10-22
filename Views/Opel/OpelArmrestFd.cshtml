@@ -1,8 +1,9 @@
-﻿@model processDataShare.Models.OpelArmrestFront_model
+﻿
+@model processDataShare.Models.OpelArmrestFront_model
 @{
     <meta http-equiv="refresh" content="3">
     ViewData["Title"] = "OpelArmrestFront Info";
-
+    Model.actualStep = 2;
 }
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -25,15 +26,13 @@
 
             </div>
             @*Global*@
-            <div class="bg-info-subtle p-2 rounded-2">
+        <div class="bg-info-subtle p-2 rounded-2">
 
+           
 
-            </div>
-            @*ROB2*@
-            <div class="bg-info-subtle p-2 rounded-2">
-
-            </div>
         </div>
-    </div>
+        </div>
 </body>
 </html>
+
+

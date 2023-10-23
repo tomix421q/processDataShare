@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using processDataShare.Data;
+using processDataShare.Models;
 using S7.Net;
 
 
@@ -16,7 +18,12 @@ namespace processDataShare.Controllers
             return View();
         }
 
+        private readonly ApplicationDbContext _context;
 
+        public OpelController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
 
         //______________________OpelArmrestFD_________________________
@@ -75,30 +82,30 @@ namespace processDataShare.Controllers
                         OpelArmrestFDmodel.pyroIndicatorOnOff = udtData[38].SelectBit(48078);
                         Console.WriteLine("pyroIndicatorOnOff: " + OpelArmrestFDmodel.pyroIndicatorOnOff);
 
-                        //if (OpelArmrestFDmodel.actualStep == 2)
-                        //{
-                        //    var opelData = new OpelArmrestData
-                        //    {
+                        if (OpelArmrestFDmodel.actualStep == 2)
+                        {
+                            var opelData = new OpelArmrestData
+                            {
 
-                        //        // Nastavte vlastnosti objektu OpelArmrestData z OpelArmrestFDmodel
-                        //        tempLeftUp = OpelArmrestFDmodel.tempLeftUp,
-                        //        tempRightUp = OpelArmrestFDmodel.tempRightUp,
-                        //        tempRightDown = OpelArmrestFDmodel.tempRightDown,
-                        //        tempLeftDown = OpelArmrestFDmodel.tempLeftDown,
-                        //        heatingTime = OpelArmrestFDmodel.heatingTime,
-                        //        heatingSetPointMax = OpelArmrestFDmodel.heatingSetPointMax,
-                        //        foldingTime = OpelArmrestFDmodel.foldingTime,
-                        //        foldingSetPointMax = OpelArmrestFDmodel.foldingSetPointMax,
-                        //        cycleTime = OpelArmrestFDmodel.cycleTime,
-                        //        shotDateTime = OpelArmrestFDmodel.shotDateTime,
-                        //        mouldNumber = OpelArmrestFDmodel.mouldNumber,
-                        //        recipe = OpelArmrestFDmodel.recipe,
-                        //        pyroIndicatorOnOff = OpelArmrestFDmodel.pyroIndicatorOnOff
-                        //    };
+                                // Nastavte vlastnosti objektu OpelArmrestData z OpelArmrestFDmodel
+                                tempLeftUp = OpelArmrestFDmodel.tempLeftUp,
+                                tempRightUp = OpelArmrestFDmodel.tempRightUp,
+                                tempRightDown = OpelArmrestFDmodel.tempRightDown,
+                                tempLeftDown = OpelArmrestFDmodel.tempLeftDown,
+                                heatingTime = OpelArmrestFDmodel.heatingTime,
+                                heatingSetPointMax = OpelArmrestFDmodel.heatingSetPointMax,
+                                foldingTime = OpelArmrestFDmodel.foldingTime,
+                                foldingSetPointMax = OpelArmrestFDmodel.foldingSetPointMax,
+                                cycleTime = OpelArmrestFDmodel.cycleTime,
+                                shotDateTime = OpelArmrestFDmodel.shotDateTime,
+                                mouldNumber = OpelArmrestFDmodel.mouldNumber,
+                                recipe = OpelArmrestFDmodel.recipe,
+                                pyroIndicatorOnOff = OpelArmrestFDmodel.pyroIndicatorOnOff
+                            };
 
-                        //    _context.OpelArmrestData.Add(opelData);
-                        //    _context.SaveChanges();
-                        //}
+                            _context.OpelArmrestDatas.Add(opelData);
+                            _context.SaveChanges();
+                        }
 
                     }
                     else

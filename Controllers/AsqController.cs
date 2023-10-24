@@ -29,14 +29,14 @@ namespace processDataShare.Controllers
                         ViewBag.connection = "Connection OK";
 
                         //ROB1
-                        Asq1Model.ROB1_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW0.0")).ConvertToShort();
+                        Asq1Model.ROB1_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW0.0")).ConvertToShort()/60;
                         Asq1Model.ROB1_FormNumber = ((ushort)plc_asq1.Read("DB179.DBW2.0")).ConvertToShort();
                         Asq1Model.ROB1_WeightActualValue = ((uint)plc_asq1.Read("DB179.DBD4.0")).ConvertToFloat();
                         Asq1Model.ROB1_Temperature = ((uint)plc_asq1.Read("DB179.DBD8.0")).ConvertToFloat();
                         Asq1Model.ROB1_SetTemperature = ((uint)plc_asq1.Read("DB179.DBD12.0")).ConvertToFloat();
                         Asq1Model.ROB1_TimeDrying = ((uint)plc_asq1.Read("DB179.DBD16.0")).ConvertToFloat();
                         //ROB2
-                        Asq1Model.ROB2_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW20.0")).ConvertToShort();
+                        Asq1Model.ROB2_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW20.0")).ConvertToShort()/60;
                         Asq1Model.ROB2_FormNumber = ((ushort)plc_asq1.Read("DB179.DBW22.0")).ConvertToShort();
                         Asq1Model.ROB2_WeightActualValue = ((uint)plc_asq1.Read("DB179.DBD24.0")).ConvertToFloat();
                         Asq1Model.ROB2_Temperature = ((uint)plc_asq1.Read("DB179.DBD28.0")).ConvertToFloat();
@@ -81,14 +81,14 @@ namespace processDataShare.Controllers
                         ViewBag.connection = "Connection OK";
 
                         //ROB1
-                        Asq2Model.ROB1_Downtime_Time = ((ushort)plc_asq2.Read("DB179.DBW0.0")).ConvertToShort();
+                        Asq2Model.ROB1_Downtime_Time = ((ushort)plc_asq2.Read("DB179.DBW0.0")).ConvertToShort()/60;
                         Asq2Model.ROB1_FormNumber = ((ushort)plc_asq2.Read("DB179.DBW2.0")).ConvertToShort();
                         Asq2Model.ROB1_WeightActualValue = ((uint)plc_asq2.Read("DB179.DBD4.0")).ConvertToFloat();
                         Asq2Model.ROB1_Temperature = ((uint)plc_asq2.Read("DB179.DBD8.0")).ConvertToFloat();
                         Asq2Model.ROB1_SetTemperature = ((uint)plc_asq2.Read("DB179.DBD12.0")).ConvertToFloat();
                         Asq2Model.ROB1_TimeDrying = ((uint)plc_asq2.Read("DB179.DBD16.0")).ConvertToFloat();
                         //ROB2
-                        Asq2Model.ROB2_Downtime_Time = ((ushort)plc_asq2.Read("DB179.DBW20.0")).ConvertToShort();
+                        Asq2Model.ROB2_Downtime_Time = ((ushort)plc_asq2.Read("DB179.DBW20.0")).ConvertToShort() / 60;
                         Asq2Model.ROB2_FormNumber = ((ushort)plc_asq2.Read("DB179.DBW22.0")).ConvertToShort();
                         Asq2Model.ROB2_WeightActualValue = ((uint)plc_asq2.Read("DB179.DBD24.0")).ConvertToFloat();
                         Asq2Model.ROB2_Temperature = ((uint)plc_asq2.Read("DB179.DBD28.0")).ConvertToFloat();
@@ -134,14 +134,14 @@ namespace processDataShare.Controllers
                         ViewBag.connection = "Connection OK";
 
                         //ROB1
-                        Asq5Model.ROB1_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW0.0")).ConvertToShort();
+                        Asq5Model.ROB1_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW0.0")).ConvertToShort() / 60;
                         Asq5Model.ROB1_FormNumber = ((ushort)plc_asq5.Read("DB179.DBW2.0")).ConvertToShort();
                         Asq5Model.ROB1_WeightActualValue = ((uint)plc_asq5.Read("DB179.DBD4.0")).ConvertToFloat();
                         Asq5Model.ROB1_Temperature = ((uint)plc_asq5.Read("DB179.DBD8.0")).ConvertToFloat();
                         Asq5Model.ROB1_SetTemperature = ((uint)plc_asq5.Read("DB179.DBD12.0")).ConvertToFloat();
                         Asq5Model.ROB1_TimeDrying = ((uint)plc_asq5.Read("DB179.DBD16.0")).ConvertToFloat();
                         //ROB2
-                        Asq5Model.ROB2_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW20.0")).ConvertToShort();
+                        Asq5Model.ROB2_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW20.0")).ConvertToShort() / 60;
                         Asq5Model.ROB2_FormNumber = ((ushort)plc_asq5.Read("DB179.DBW22.0")).ConvertToShort();
                         Asq5Model.ROB2_WeightActualValue = ((uint)plc_asq5.Read("DB179.DBD24.0")).ConvertToFloat();
                         Asq5Model.ROB2_Temperature = ((uint)plc_asq5.Read("DB179.DBD28.0")).ConvertToFloat();
@@ -183,14 +183,14 @@ namespace processDataShare.Controllers
                         ViewBag.connection = "Connection OK";
 
                         //ROB1
-                        Asq6Model.ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort();
+                        Asq6Model.ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort() / 60;
                         Asq6Model.ROB1_FormNumber = ((ushort)plc_asq6.Read("DB179.DBW2.0")).ConvertToShort();
                         Asq6Model.ROB1_WeightActualValue = ((uint)plc_asq6.Read("DB179.DBD4.0")).ConvertToFloat();
                         Asq6Model.ROB1_Temperature = ((uint)plc_asq6.Read("DB179.DBD8.0")).ConvertToFloat();
                         Asq6Model.ROB1_SetTemperature = ((uint)plc_asq6.Read("DB179.DBD12.0")).ConvertToFloat();
                         Asq6Model.ROB1_TimeDrying = ((uint)plc_asq6.Read("DB179.DBD16.0")).ConvertToFloat();
                         //ROB2
-                        Asq6Model.ROB2_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW20.0")).ConvertToShort();
+                        Asq6Model.ROB2_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW20.0")).ConvertToShort() / 60;
                         Asq6Model.ROB2_FormNumber = ((ushort)plc_asq6.Read("DB179.DBW22.0")).ConvertToShort();
                         Asq6Model.ROB2_WeightActualValue = ((uint)plc_asq6.Read("DB179.DBD24.0")).ConvertToFloat();
                         Asq6Model.ROB2_Temperature = ((uint)plc_asq6.Read("DB179.DBD28.0")).ConvertToFloat();

@@ -2,8 +2,7 @@
 @model processDataShare.Models.OpelArmrestFront_model
 @{
     <meta http-equiv="refresh" content="3">
-    ViewData["Title"] = "OpelArmrestFront Info";
-    Model.actualStep = 2;
+
 }
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -15,22 +14,37 @@
     </h4>
 
     <div class="text-dark">
-        @*ROB1*@
+        @*Main*@
         <div class="d-flex justify-content-around m-4 flex-md-row flex-column gap-4">
-            <div class="bg-info-subtle p-2 rounded-2">
-                <h1>Opel Armrest [Front] </h1>
-                <p>Actual downtime: @Model.actualDowntime min</p>
-                <p>Actual Step: @Model.actualStep </p>
-                <p>Left parts: @Model.leftPart</p>
-                <p>Right parts: @Model.rightPart </p>
-
+            <div class="bg-info-subtle p-2 px-4 rounded-2 w-25 fs-5 ">
+                <h1 class="fs-2 text-center py-2">Opel Armrest [Front] </h1>
+                <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+                <p>Actual downtime: <span class="text-info fw-bold">@Model.actualDowntime min</span>  </p>
+                <p>Actual Step: <span class="text-info fw-bold">@Model.actualStep</span>   </p>
+                <p>Left parts: <span class="text-info fw-bold">@Model.leftPart</span> </p>
+                <p>Right parts: <span class="text-info fw-bold">@Model.rightPart</span>  </p>
+                <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
             </div>
-            @*Global*@
-        <div class="bg-info-subtle p-2 rounded-2">
 
-           
-
+            @*UDT*@
+        <div class="bg-info-subtle p-2 px-4 rounded-2 w-25 fs-5">
+            <h1 class="fs-2 text-center py-2">Last Shot [Front] </h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p class="text-dark-emphasis">TempLeft Up:<span class="text-info fw-bold"> @Model.tempLeftUp C&deg;</span></p>
+            <p class="text-dark-emphasis">TempRight Up:<span class="text-info fw-bold"> @Model.tempRightUp C&deg;</span></p>
+            <p class="text-dark-emphasis">TempLeft Down:<span class="text-info fw-bold"> @Model.tempLeftDown C&deg;</span></p>
+            <p class="text-dark-emphasis">TempRight Down:<span class="text-info fw-bold"> @Model.tempRightDown C&deg;</span></p>
+            <p class="text-dark-emphasis">Heating time:<span class="text-info fw-bold"> @Model.heatingTime s</span></p>
+            <p class="text-dark-emphasis">Heating setpoint max:<span class="text-info fw-bold"> @Model.heatingSetPointMax s</span></p>
+            <p class="text-dark-emphasis">Folding time:<span class="text-info fw-bold"> @Model.foldingTime s</span></p>
+            <p class="text-dark-emphasis">Folding setpoint max:<span class="text-info fw-bold"> @Model.foldingSetPointMax s</span></p>
+            <p class="text-dark-emphasis">Cycle time:<span class="text-info fw-bold"> @Model.cycleTime s</span></p>
+            <p class="text-dark-emphasis">Date time:<span class="text-info fw-bold"> @Model.shotDateTime </span></p>
+            <p class="text-dark-emphasis">Mould number:<span class="text-info fw-bold"> @Model.mouldNumber </span></p>
+            <p class="text-dark-emphasis">Recipe:<span class="text-info fw-bold"> @Model.recipe </span></p>
+            <p class="text-dark-emphasis">Pyro indicator:<span class="text-info fw-bold"> @Model.pyroIndicatorOnOff </span></p>
         </div>
+            
         </div>
 </body>
 </html>

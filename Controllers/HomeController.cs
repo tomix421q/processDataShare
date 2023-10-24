@@ -24,8 +24,8 @@ namespace processDataShare.Controllers
                         plc_asq1.Open();
                         if (plc_asq1.IsConnected)
                         {
-                            MainIndexModel.ASQ_1_ROB1_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW0.0")).ConvertToShort();
-                            MainIndexModel.ASQ_1_ROB2_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW20.0")).ConvertToShort();
+                            MainIndexModel.ASQ_1_ROB1_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW0.0")).ConvertToShort() / 60;
+                            MainIndexModel.ASQ_1_ROB2_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW20.0")).ConvertToShort() / 60;
                         }
                         else
                         {
@@ -45,8 +45,8 @@ namespace processDataShare.Controllers
                         plc_asq2.Open();
                         if (plc_asq2.IsConnected)
                         {
-                            MainIndexModel.ASQ_2_ROB1_Downtime_Time = ((ushort)plc_asq2.Read("DB179.DBW0.0")).ConvertToShort();
-                            MainIndexModel.ASQ_2_ROB2_Downtime_Time = ((ushort)plc_asq2.Read("DB179.DBW20.0")).ConvertToShort();
+                            MainIndexModel.ASQ_2_ROB1_Downtime_Time = ((ushort)plc_asq2.Read("DB179.DBW0.0")).ConvertToShort() / 60;
+                            MainIndexModel.ASQ_2_ROB2_Downtime_Time = ((ushort)plc_asq2.Read("DB179.DBW20.0")).ConvertToShort()/ 60;
                         }
                         else
                         {
@@ -66,8 +66,8 @@ namespace processDataShare.Controllers
                         plc_asq5.Open();
                         if (plc_asq5.IsConnected)
                         {
-                            MainIndexModel.ASQ_5_ROB1_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW0.0")).ConvertToShort();
-                            MainIndexModel.ASQ_5_ROB2_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW20.0")).ConvertToShort();
+                            MainIndexModel.ASQ_5_ROB1_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW0.0")).ConvertToShort() / 60;
+                            MainIndexModel.ASQ_5_ROB2_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW20.0")).ConvertToShort() / 60;
                         }
                         else
                         {
@@ -79,7 +79,7 @@ namespace processDataShare.Controllers
                 {
                     MainIndexModel.connectionAsq5 = ex.Message;
                 }
-                //________________ASQ_6________________
+                //________________ASQ_6__________________
                 try
                 {
                     using (var plc_asq6 = new Plc(CpuType.S71500, "10.184.159.184", 0, 1))
@@ -87,8 +87,8 @@ namespace processDataShare.Controllers
                         plc_asq6.Open();
                         if (plc_asq6.IsConnected)
                         {
-                            MainIndexModel.ASQ_6_ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort();
-                            MainIndexModel.ASQ_6_ROB2_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW20.0")).ConvertToShort();
+                            MainIndexModel.ASQ_6_ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort() / 60;
+                            MainIndexModel.ASQ_6_ROB2_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW20.0")).ConvertToShort() / 60;
                         }
                         else
                         {
@@ -100,7 +100,7 @@ namespace processDataShare.Controllers
                 {
                     MainIndexModel.connectionAsq6 = ex.Message;
                 }
-                //________________Armrest_________________
+                //________________Armrest FD______________
                 try
                 {
                     using (var plc_OpelArmrestFd = new Plc(CpuType.S71500, "10.184.159.45", 0, 1))
@@ -108,7 +108,7 @@ namespace processDataShare.Controllers
                         plc_OpelArmrestFd.Open();
                         if (plc_OpelArmrestFd.IsConnected)
                         {
-                            MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort();
+                            MainIndexModel.OpelArmrestFD_actualDowntime = ((ushort)plc_OpelArmrestFd.Read("DB26.DBW0.0")).ConvertToShort() / 60;
                         }
                         else
                         {
@@ -121,6 +121,36 @@ namespace processDataShare.Controllers
                     MainIndexModel.connectionOpelArmrestFd = ex.Message;
 
                 }
+                //________________Armrest RD______________
+                try
+                {
+                    using (var plc_OpelArmrestRd = new Plc(CpuType.S71500, "10.184.159.46", 0, 1))
+                    {
+                        plc_OpelArmrestRd.Open();
+                        if (plc_OpelArmrestRd.IsConnected)
+                        {
+                            MainIndexModel.OpelArmrestRD_actualDowntime = ((ushort)plc_OpelArmrestRd.Read("DB26.DBW0.0")).ConvertToShort() / 60;
+                        }
+                        else
+                        {
+                            MainIndexModel.connectionOpelArmrestRd = "Nieco sa pokazilo...";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainIndexModel.connectionOpelArmrestRd = ex.Message;
+
+                }
+
+
+
+
+
+
+
+
+
 
 
 

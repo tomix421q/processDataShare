@@ -25,9 +25,15 @@
 
         //_____________Opel_Armrest______________
         public int OpelArmrestFD_actualDowntime { get; set; }
+        public int OpelArmrestRD_actualDowntime { get; set; }
+        public int OpelInsertFD_actualDowntime { get; set; }
+        public int OpelInsertRD_actualDowntime { get; set; }
 
 
         //connections
         public string connectionOpelArmrestFd { get; set; }
+        public string connectionOpelArmrestRd { get; set; }
+        public string connectionOpelInsertFd { get; set; }
+        public string connectionOpelInsertRd { get; set; }
     }
 }

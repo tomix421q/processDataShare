@@ -2,101 +2,30 @@
 @{
     <meta http-equiv="refresh" content="5">
     <!-- Obnoví stránku každých 5 sekúnd -->
-    ViewData["Title"] = "Home Dashboard";   
+    ViewData["Title"] = "Home Dashboard";
 }
 
 <div class="d-flex flex-wrap text-white-50 justify-content-center ">
     @*__________________ASQ1_Container_______________*@
-    @{
-        string colorStatus_Asq1_ROB1 = Model.ASQ_1_ROB1_Downtime_Time > 0 ? "bg-danger" : "bg-success";
-        string productionStatus_Asq1_ROB1 = Model.ASQ_1_ROB1_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_1_ROB1_Downtime_Time;
-        string colorStatus_Asq1_ROB2 = Model.ASQ_1_ROB2_Downtime_Time > 0 ? "bg-danger" : "bg-success";
-        string productionStatus_Asq1_ROB2 = Model.ASQ_1_ROB2_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_1_ROB2_Downtime_Time;
-
-    }
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq1, nameMachine = "ASQ 1", colorStatus_ROB1 = colorStatus_Asq1_ROB1, productionStatus_ROB1 = productionStatus_Asq1_ROB1, colorStatus_ROB2 = colorStatus_Asq1_ROB2, productionStatus_ROB2 = productionStatus_Asq1_ROB2, linkMachine = "Asq1" })
+    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq1, nameMachine = "ASQ 1", inc_AsqRob1_Downtime_Time = Model.ASQ_1_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_1_ROB2_Downtime_Time, linkMachine = "Asq1" })
 
     @*__________________ASQ2_Container_______________*@
-    @{
-        string colorStatus_Asq2_ROB1 = Model.ASQ_2_ROB1_Downtime_Time > 0 ? "bg-danger" : "bg-success";
-        string productionStatus_Asq2_ROB1 = Model.ASQ_2_ROB1_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_2_ROB1_Downtime_Time;
-        string colorStatus_Asq2_ROB2 = Model.ASQ_2_ROB2_Downtime_Time > 0 ? "bg-danger" : "bg-success";
-        string productionStatus_Asq2_ROB2 = Model.ASQ_2_ROB2_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_2_ROB2_Downtime_Time;
-
-    }
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq2, nameMachine = "ASQ 2", colorStatus_ROB1 = colorStatus_Asq2_ROB1, productionStatus_ROB1 = productionStatus_Asq2_ROB1, colorStatus_ROB2 = colorStatus_Asq2_ROB2, productionStatus_ROB2 = productionStatus_Asq2_ROB2, linkMachine = "Asq2" })
+    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq2, nameMachine = "ASQ 2", inc_AsqRob1_Downtime_Time = Model.ASQ_2_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_2_ROB2_Downtime_Time, linkMachine = "Asq2" })
 
     @*__________________ASQ5_Container_______________*@
-    @{
-        string colorStatus_Asq5_ROB1 = Model.ASQ_5_ROB1_Downtime_Time > 0 ? "bg-danger" : "bg-success";
-        string productionStatus_Asq5_ROB1 = Model.ASQ_5_ROB1_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_5_ROB1_Downtime_Time;
-        string colorStatus_Asq5_ROB2 = Model.ASQ_5_ROB2_Downtime_Time > 0 ? "bg-danger" : "bg-success";
-        string productionStatus_Asq5_ROB2 = Model.ASQ_5_ROB2_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_5_ROB2_Downtime_Time;
-
-    }
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq5, nameMachine = "ASQ 5", colorStatus_ROB1 = colorStatus_Asq5_ROB1, productionStatus_ROB1 = productionStatus_Asq5_ROB1, colorStatus_ROB2 = colorStatus_Asq5_ROB2, productionStatus_ROB2 = productionStatus_Asq5_ROB2, linkMachine = "Asq5" })
-
+    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq5, nameMachine = "ASQ 5", inc_AsqRob1_Downtime_Time = Model.ASQ_5_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_5_ROB2_Downtime_Time, linkMachine = "Asq5" })
 
     @*_________________ASQ6_Container________________*@
-    @{
-        string colorStatus_Asq6_ROB1 = Model.ASQ_6_ROB1_Downtime_Time > 0 ? "bg-danger" : "bg-success";
-        string productionStatus_Asq6_ROB1 = Model.ASQ_6_ROB1_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_6_ROB1_Downtime_Time;
-        string colorStatus_Asq6_ROB2 = Model.ASQ_6_ROB2_Downtime_Time > 0 ? "bg-danger" : "bg-success";
-        string productionStatus_Asq6_ROB2 = Model.ASQ_6_ROB2_Downtime_Time == 0 ? "In Production" : "Nevyrába " + Model.ASQ_6_ROB2_Downtime_Time;
-
-    }
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq6, nameMachine = "ASQ 6", colorStatus_ROB1 = colorStatus_Asq6_ROB1, productionStatus_ROB1 = productionStatus_Asq6_ROB1, colorStatus_ROB2 = colorStatus_Asq6_ROB2, productionStatus_ROB2 = productionStatus_Asq6_ROB2, linkMachine = "Asq6" })
+    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq6, nameMachine = "ASQ 6", inc_AsqRob1_Downtime_Time = Model.ASQ_6_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_6_ROB2_Downtime_Time, linkMachine = "Asq6" })
 
 
     @*___________Opel Armrest FD container_____________*@
-    @{
-        string OpelarmrestFD_colorStatus;
-        string Opel_armrestFD_productionStatus;
-        if (Model.OpelArmrestFD_actualDowntime == 0)
-        {
-            OpelarmrestFD_colorStatus = "bg-success";
-            Opel_armrestFD_productionStatus = "In Production";
-        }
-        else
-        {
-            if (Model.OpelArmrestFD_actualDowntime >= 300)
-            {
-                OpelarmrestFD_colorStatus = "bg-danger";
-                Opel_armrestFD_productionStatus = "Nevyrába " + Model.OpelArmrestFD_actualDowntime + "+++" + " min";
-            }
-            else
-            {
-                OpelarmrestFD_colorStatus = "bg-danger";
-                Opel_armrestFD_productionStatus = "Nevyrába " + Model.OpelArmrestFD_actualDowntime + " min";
-            };
-        };
-    }
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestFd, connectionInfo = @Model.connectionOpelArmrestFd, nameMachine = "Opel Armrest FD", colorStatus = OpelarmrestFD_colorStatus, productionStatus = Opel_armrestFD_productionStatus, controller = "Opel", linkMachine = "OpelArmrestFd" })
+    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestFd, nameMachine = "Opel Armrest FD", inc_Downtime_Time = Model.OpelArmrestFD_actualDowntime, controller = "Opel", linkMachine = "OpelArmrestFd" })
 
     @*___________Opel Armrest RD container_____________*@
-    @{
-        string OpelarmrestRD_colorStatus;
-        string Opel_armrestRD_productionStatus;
-        if (Model.OpelArmrestRD_actualDowntime == 0)
-        {
-            OpelarmrestRD_colorStatus = "bg-success";
-            Opel_armrestRD_productionStatus = "In Production";
-        }
-        else
-        {
-            if (Model.OpelArmrestRD_actualDowntime >= 300)
-            {
-                OpelarmrestRD_colorStatus = "bg-danger";
-                Opel_armrestRD_productionStatus = "Nevyrába " + Model.OpelArmrestRD_actualDowntime + "+++" + " min";
-            }
-            else
-            {
-                OpelarmrestRD_colorStatus = "bg-danger";
-                Opel_armrestRD_productionStatus = "Nevyrába " + Model.OpelArmrestRD_actualDowntime + " min";
-            };
-        };
-    }
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestRd, connectionInfo = @Model.connectionOpelArmrestRd, nameMachine = "Opel Armrest RD", colorStatus = OpelarmrestRD_colorStatus, productionStatus = Opel_armrestRD_productionStatus, controller = "Opel", linkMachine = "OpelArmrestRd" })
+    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestRd, nameMachine = "Opel Armrest RD", inc_Downtime_Time = Model.OpelArmrestRD_actualDowntime, controller = "Opel", linkMachine = "OpelArmrestRd" })
+
+
 
 
 

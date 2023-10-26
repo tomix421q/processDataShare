@@ -1,0 +1,65 @@
+﻿
+@model processDataShare.Models.OpelInsertRear_model
+@{
+    <meta http-equiv="refresh" content="3">
+
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body class="mx-auto text-center">
+    <h4 class="text-warning rounded-2 mx-auto text-center p-2 m-4 @(ViewBag.connection == "Connection OK" ? "bg-success text-dark" : "bg-warning text-danger")">
+        @ViewBag.connection
+    </h4>
+
+    <div class="text-dark">
+        @*Main*@
+        <div class="d-flex justify-content-around m-4 flex-md-row flex-column gap-4 ">
+            <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-md-3 col-12">
+                <h1 class="fs-2 text-center py-2">Opel Insert [Rear] </h1>
+                <div class="border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+                <p class="pt-2">Actual downtime: <span class="text-info fw-bold">@Model.actualDowntime min</span>  </p>
+                <p>Actual Step: <span class="text-info fw-bold">@Model.actualStep</span>   </p>
+                <p>Left parts: <span class="text-info fw-bold">@Model.leftPart</span> </p>
+                <p>Right parts: <span class="text-info fw-bold">@Model.rightPart</span>  </p>
+                <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            </div>
+
+            @*UDT*@
+            <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-md-5 col-12 ">
+                <h1 class="fs-2 text-center py-2">Last Shot [Rear] </h1>
+                <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+                <div class="d-flex flex-column justify-content-around flex-md-row ">
+                    <div class="py-2">
+                        <p class="text-dark-emphasis">TempLeft Up:<span class="text-info fw-bold"> @Model.tempLeftUp C&deg;</span></p>
+                        <p class="text-dark-emphasis">TempRight Up:<span class="text-info fw-bold"> @Model.tempRightUp C&deg;</span></p>
+                        <p class="text-dark-emphasis">TempLeft Down:<span class="text-info fw-bold"> @Model.tempLeftDown C&deg;</span></p>
+                        <p class="text-dark-emphasis">TempRight Down:<span class="text-info fw-bold"> @Model.tempRightDown C&deg;</span></p>
+                        <p class="text-dark-emphasis">Heating time:<span class="text-info fw-bold"> @Model.heatingTime s</span></p>
+                        <p class="text-dark-emphasis">Heating setpoint max:<span class="text-info fw-bold"> @Model.heatingSetPointMax s</span></p>
+                        <p class="text-dark-emphasis">Folding time:<span class="text-info fw-bold"> @Model.foldingTime s</span></p>
+                        <p class="text-dark-emphasis">Folding setpoint max:<span class="text-info fw-bold"> @Model.foldingSetPointMax s</span></p>
+                    </div>
+                    <div class="py-2">
+                        <p class="text-dark-emphasis">Cycle time:<span class="text-info fw-bold"> @Model.cycleTime s</span></p>
+                        <p class="text-dark-emphasis">Date time:<span class="text-info fw-bold"> @Model.shotDateTime </span></p>
+                        <p class="text-dark-emphasis">Mould number:<span class="text-info fw-bold"> @Model.mouldNumber </span></p>
+                        <p class="text-dark-emphasis">Recipe:<span class="text-info fw-bold"> @Model.recipe </span></p>
+                        <p class="text-dark-emphasis">Part Recipe:<span class="text-info fw-bold"> @Model.partRecipe </span></p>
+                        <p class="text-dark-emphasis">Pyro indicator:<span class="text-info fw-bold"> @Model.pyroIndicatorOnOff </span></p>
+                        <p class="text-dark-emphasis">Work A Side:<span class="text-info fw-bold"> @Model.Workside_A </span></p>
+                        <p class="text-dark-emphasis">Work B side:<span class="text-info fw-bold"> @Model.Workside_B </span></p>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+
+        </div>
+</body>
+</html>
+
+

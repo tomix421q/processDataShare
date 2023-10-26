@@ -10,12 +10,12 @@
     else
     {
         colorStatus_ROB1 = "bg-danger";
-        if(Model.inc_AsqRob1_Downtime_Time <= 1)
+        if(Model.inc_AsqRob1_Downtime_Time <= 60)
         {
-            productionStatus_ROB1 = "Nevyrába " + Model.inc_AsqRob1_Downtime_Time * 60 + " Min";
+            productionStatus_ROB1 = "Nevyrába " + Model.inc_AsqRob1_Downtime_Time + " Min";
         }else
         {
-            productionStatus_ROB1 = "Nevyrába " + Model.inc_AsqRob1_Downtime_Time + " Hod";
+            productionStatus_ROB1 = "Nevyrába " + (Model.inc_AsqRob1_Downtime_Time / 60) +"Hod " + (Model.inc_AsqRob1_Downtime_Time % 60) + "Min";
         }
 
     };
@@ -30,12 +30,12 @@
     else
     {
         colorStatus_ROB2 = "bg-danger";
-        if(Model.inc_AsqRob2_Downtime_Time <= 1)
+        if(Model.inc_AsqRob2_Downtime_Time <= 60)
         {
-            productionStatus_ROB2 = "Nevyrába " + Model.inc_AsqRob2_Downtime_Time * 60 + " Min";
+            productionStatus_ROB2 = "Nevyrába " + Model.inc_AsqRob2_Downtime_Time + " Min";
         }else
         {
-            productionStatus_ROB2 = "Nevyrába " + Model.inc_AsqRob2_Downtime_Time + " Hod";
+            productionStatus_ROB2 = "Nevyrába " + (Model.inc_AsqRob2_Downtime_Time / 60) + "Hod " + (Model.inc_AsqRob2_Downtime_Time % 60) + "Min";
         }
     };
 }

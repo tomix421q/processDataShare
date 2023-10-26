@@ -25,6 +25,12 @@
     @*___________Opel Armrest RD container_____________*@
     @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestRd, nameMachine = "Opel Armrest RD", inc_Downtime_Time = Model.OpelArmrestRD_actualDowntime, controller = "Opel", linkMachine = "OpelArmrestRd" })
 
+    @*___________Opel Insert FD container_____________*@
+    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelInsertFd, nameMachine = "Opel Insert FD", inc_Downtime_Time = Model.OpelInsertFD_actualDowntime, controller = "Opel", linkMachine = "OpelInsertFd" })
+
+    @*___________Opel Insert RD container_____________*@
+    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelInsertRd, nameMachine = "Opel Insert RD", inc_Downtime_Time = Model.OpelInsertRD_actualDowntime, controller = "Opel", linkMachine = "OpelInsertRd" })
+
 
 
 

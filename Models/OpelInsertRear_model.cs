@@ -20,6 +20,9 @@
         public DateTime shotDateTime { get; set; }
         public ushort mouldNumber { get; set; }
         public int recipe { get; set; }
+        public int partRecipe { get; set; }
         public bool pyroIndicatorOnOff { get; set; }
+        public bool Workside_A { get; set; }
+        public bool Workside_B { get; set; }
     }
 }

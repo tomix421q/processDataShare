@@ -10,20 +10,20 @@
     else
     {
         colorStatus = "bg-danger";
-        if (Model.inc_Downtime_Time < 1)
+        if (Model.inc_Downtime_Time <= 60)
         {
-            productionStatus = "Nevyrába " + Model.inc_Downtime_Time * 60 + " Min";
+            productionStatus = "Nevyrába " + Model.inc_Downtime_Time + " Min";
         }
         else
         {
-            productionStatus = "Nevyrába " + Model.inc_Downtime_Time + " Hod";
+            productionStatus = "Nevyrába " + (Model.inc_Downtime_Time / 60) + "Hod " + (Model.inc_Downtime_Time % 60) + "Min";
+            
         }
 
     };
 }
 
-
-<div class="text-center card  @colorStatus text-black mx-1 mb-2 shadow-lg justify-content-between w-auto">
+<div class="text-center card  @colorStatus text-black mx-1 mb-2 shadow-lg justify-content-between w-auto card col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2">
     <div class="position-absolute w-100 h-75 bottom-0 mb-3 bg-dark  @(Model.connection == null ? "d-none" : "d-block")">
         <h2 class="fs-4 text-warning mt-5 pt-2 gap-3 bg-dark  d-flex flex-column align-middle justify-content-between">
             Problem s pripojenim k PLC

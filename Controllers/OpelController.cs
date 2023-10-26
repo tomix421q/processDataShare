@@ -12,7 +12,7 @@ namespace processDataShare.Controllers
             return View();
         }
 
-        //______________________OpelArmrestFD_________________________
+        //______________________OpelArmrest_FD_________________________
         public IActionResult OpelArmrestFD()
         {
             Models.OpelArmrestFront_model OpelArmrestFDmodel = new();
@@ -53,7 +53,7 @@ namespace processDataShare.Controllers
                         OpelArmrestFDmodel.shotDateTime = S7.Net.Types.DateTime.FromByteArray(udtData.Skip(26).Take(8).ToArray());
                         OpelArmrestFDmodel.mouldNumber = S7.Net.Types.Word.FromByteArray(udtData.Skip(34).Take(2).ToArray());
                         OpelArmrestFDmodel.recipe = S7.Net.Types.Int.FromByteArray(udtData.Skip(36).Take(2).ToArray());
-                        OpelArmrestFDmodel.pyroIndicatorOnOff = udtData[38].SelectBit(48078);
+                        OpelArmrestFDmodel.pyroIndicatorOnOff = udtData[38].SelectBit(0);
 
                         //if (OpelArmrestFDmodel.actualStep == 2)
                         //{
@@ -94,7 +94,7 @@ namespace processDataShare.Controllers
             }
             return View(OpelArmrestFDmodel);
         }
-
+        //______________________OpelArmrest_RD_________________________
         public IActionResult OpelArmrestRD()
         {
             Models.OpelArmrestRear_model OpelArmrestRDmodel = new();
@@ -135,7 +135,7 @@ namespace processDataShare.Controllers
                         OpelArmrestRDmodel.shotDateTime = S7.Net.Types.DateTime.FromByteArray(udtData.Skip(26).Take(8).ToArray());
                         OpelArmrestRDmodel.mouldNumber = S7.Net.Types.Word.FromByteArray(udtData.Skip(34).Take(2).ToArray());
                         OpelArmrestRDmodel.recipe = S7.Net.Types.Int.FromByteArray(udtData.Skip(36).Take(2).ToArray());
-                        OpelArmrestRDmodel.pyroIndicatorOnOff = udtData[38].SelectBit(48078);
+                        OpelArmrestRDmodel.pyroIndicatorOnOff = udtData[38].SelectBit(0);
 
                         //if (OpelArmrestFDmodel.actualStep == 2)
                         //{
@@ -176,7 +176,126 @@ namespace processDataShare.Controllers
             }
             return View(OpelArmrestRDmodel);
         }
+        //______________________OpelInsert_FD__________________________
+        public IActionResult OpelInsertFD()
+        {
+            Models.OpelInsertFront_model OpelInsertFDmodel = new();
+            Models.MainIndex_model MainIndexModel = new();
+            try
+            {
 
+                using (var plc_opelInsertFD = new Plc(CpuType.S71500, "10.184.159.48", 0, 1))
+                {
+                    plc_opelInsertFD.Open();//Connect
+
+                    if (plc_opelInsertFD.IsConnected)
+                    {
+                        ViewBag.connection = "Connection OK";
+
+                        OpelInsertFDmodel.rightPart = ((uint)plc_opelInsertFD.Read("DB26.DBD2.0")).ConvertToInt();
+                        OpelInsertFDmodel.leftPart = ((uint)plc_opelInsertFD.Read("DB26.DBD6.0")).ConvertToInt();
+                        OpelInsertFDmodel.actualStep = ((uint)plc_opelInsertFD.Read("DB26.DBD10.0")).ConvertToInt();
+                        OpelInsertFDmodel.actualDowntime = ((ushort)plc_opelInsertFD.Read("DB26.DBW0.0")).ConvertToShort();
+
+                        int startAdress = 14; // Adresa UDT
+                        int sizeInBytes = 41; // Veľkosť UDT v bajtoch 39
+                        int numberDB = 26; // Cislo DB blocku v plc
+
+                        //Scan UDT
+                        var udtData = plc_opelInsertFD.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
+                        // UDT
+                        OpelInsertFDmodel.tempLeftUp = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(0).Take(4).ToArray()));
+                        OpelInsertFDmodel.tempRightUp = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(4).Take(4).ToArray()));
+                        OpelInsertFDmodel.tempLeftDown = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(8).Take(4).ToArray()));
+                        OpelInsertFDmodel.tempRightDown = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(12).Take(4).ToArray()));
+                        OpelInsertFDmodel.heatingTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(16).Take(2).ToArray()) / 10;
+                        OpelInsertFDmodel.heatingSetPointMax = S7.Net.Types.Int.FromByteArray(udtData.Skip(18).Take(2).ToArray()) / 10;
+                        OpelInsertFDmodel.foldingTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(20).Take(2).ToArray()) / 10;
+                        OpelInsertFDmodel.foldingSetPointMax = S7.Net.Types.Int.FromByteArray(udtData.Skip(22).Take(2).ToArray()) / 10;
+                        OpelInsertFDmodel.cycleTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(24).Take(2).ToArray()) / 10;
+                        OpelInsertFDmodel.shotDateTime = S7.Net.Types.DateTime.FromByteArray(udtData.Skip(26).Take(8).ToArray());
+                        OpelInsertFDmodel.mouldNumber = S7.Net.Types.Word.FromByteArray(udtData.Skip(34).Take(2).ToArray());
+                        OpelInsertFDmodel.recipe = S7.Net.Types.Int.FromByteArray(udtData.Skip(36).Take(2).ToArray());
+                        OpelInsertFDmodel.partRecipe = S7.Net.Types.Int.FromByteArray(udtData.Skip(38).Take(2).ToArray());
+                        OpelInsertFDmodel.pyroIndicatorOnOff = udtData[40].SelectBit(0);
+                        OpelInsertFDmodel.Workside_A = udtData[40].SelectBit(1);
+                        Console.WriteLine(OpelInsertFDmodel.Workside_A);
+                        OpelInsertFDmodel.Workside_B = udtData[40].SelectBit(2);
+                        Console.WriteLine(OpelInsertFDmodel.Workside_B);
+                    }
+                    else
+                    {
+                        ViewBag.connection = "Something is bad..." + MainIndexModel.connectionOpelInsertFd;
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                MainIndexModel.connectionOpelInsertFd = ex.Message;
+                ViewBag.connection = MainIndexModel.connectionOpelInsertFd;
+            }
+            return View(OpelInsertFDmodel);
+        }
+        //______________________OpelInsert_RD__________________________
+        public IActionResult OpelInsertRD()
+        {
+            Models.OpelInsertRear_model OpelInsertRDmodel = new();
+            Models.MainIndex_model MainIndexModel = new();
+            try
+            {
+
+                using (var plc_opelInsertRD = new Plc(CpuType.S71500, "10.184.159.47", 0, 1))
+                {
+                    plc_opelInsertRD.Open();//Connect
+
+                    if (plc_opelInsertRD.IsConnected)
+                    {
+                        ViewBag.connection = "Connection OK";
+
+                        OpelInsertRDmodel.rightPart = ((uint)plc_opelInsertRD.Read("DB26.DBD2.0")).ConvertToInt();
+                        OpelInsertRDmodel.leftPart = ((uint)plc_opelInsertRD.Read("DB26.DBD6.0")).ConvertToInt();
+                        OpelInsertRDmodel.actualStep = ((uint)plc_opelInsertRD.Read("DB26.DBD10.0")).ConvertToInt();
+                        OpelInsertRDmodel.actualDowntime = ((ushort)plc_opelInsertRD.Read("DB26.DBW0.0")).ConvertToShort();
+
+                        int startAdress = 14; // Adresa UDT
+                        int sizeInBytes = 41; // Veľkosť UDT v bajtoch 39
+                        int numberDB = 26; // Cislo DB blocku v plc
+
+                        //Scan UDT
+                        var udtData = plc_opelInsertRD.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
+                        // UDT
+                        OpelInsertRDmodel.tempLeftUp = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(0).Take(4).ToArray()));
+                        OpelInsertRDmodel.tempRightUp = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(4).Take(4).ToArray()));
+                        OpelInsertRDmodel.tempLeftDown = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(8).Take(4).ToArray()));
+                        OpelInsertRDmodel.tempRightDown = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(12).Take(4).ToArray()));
+                        OpelInsertRDmodel.heatingTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(16).Take(2).ToArray()) / 10;
+                        OpelInsertRDmodel.heatingSetPointMax = S7.Net.Types.Int.FromByteArray(udtData.Skip(18).Take(2).ToArray()) / 10;
+                        OpelInsertRDmodel.foldingTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(20).Take(2).ToArray()) / 10;
+                        OpelInsertRDmodel.foldingSetPointMax = S7.Net.Types.Int.FromByteArray(udtData.Skip(22).Take(2).ToArray()) / 10;
+                        OpelInsertRDmodel.cycleTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(24).Take(2).ToArray()) / 10;
+                        OpelInsertRDmodel.shotDateTime = S7.Net.Types.DateTime.FromByteArray(udtData.Skip(26).Take(8).ToArray());
+                        OpelInsertRDmodel.mouldNumber = S7.Net.Types.Word.FromByteArray(udtData.Skip(34).Take(2).ToArray());
+                        OpelInsertRDmodel.recipe = S7.Net.Types.Int.FromByteArray(udtData.Skip(36).Take(2).ToArray());
+                        OpelInsertRDmodel.partRecipe = S7.Net.Types.Int.FromByteArray(udtData.Skip(38).Take(2).ToArray());
+                        OpelInsertRDmodel.pyroIndicatorOnOff = udtData[40].SelectBit(0);
+                        OpelInsertRDmodel.Workside_A = udtData[40].SelectBit(1);
+                        Console.WriteLine(OpelInsertRDmodel.Workside_A);
+                        OpelInsertRDmodel.Workside_B = udtData[40].SelectBit(2);
+                        Console.WriteLine(OpelInsertRDmodel.Workside_B);
+                    }
+                    else
+                    {
+                        ViewBag.connection = "Something is bad..." + MainIndexModel.connectionOpelInsertRd;
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                MainIndexModel.connectionOpelInsertRd = ex.Message;
+                ViewBag.connection = MainIndexModel.connectionOpelInsertRd;
+            }
+            return View(OpelInsertRDmodel);
+        }
 
     }
 }

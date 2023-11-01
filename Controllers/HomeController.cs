@@ -58,6 +58,48 @@ namespace processDataShare.Controllers
                 {
                     MainIndexModel.connectionAsq2 = ex.Message;
                 }
+                //________________ASQ_3_________________
+                try
+                {
+                    using (var plc_asq3 = new Plc(CpuType.S71500, "10.184.159.240", 0, 1))
+                    {
+                        plc_asq3.Open();
+                        if (plc_asq3.IsConnected)
+                        {
+                            MainIndexModel.ASQ_3_ROB1_Downtime_Time = ((ushort)plc_asq3.Read("DB179.DBW0.0")).ConvertToShort();
+                            MainIndexModel.ASQ_3_ROB2_Downtime_Time = ((ushort)plc_asq3.Read("DB179.DBW20.0")).ConvertToShort();
+                        }
+                        else
+                        {
+                            MainIndexModel.connectionAsq3 = "Nieco sa pokazilo :(";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainIndexModel.connectionAsq3 = ex.Message;
+                }
+                //________________ASQ_4_________________
+                try
+                {
+                    using (var plc_asq4 = new Plc(CpuType.S71500, "10.184.159.12", 0, 1))
+                    {
+                        plc_asq4.Open();
+                        if (plc_asq4.IsConnected)
+                        {
+                            MainIndexModel.ASQ_4_ROB1_Downtime_Time = ((ushort)plc_asq4.Read("DB179.DBW0.0")).ConvertToShort();
+                            MainIndexModel.ASQ_4_ROB2_Downtime_Time = ((ushort)plc_asq4.Read("DB179.DBW20.0")).ConvertToShort();
+                        }
+                        else
+                        {
+                            MainIndexModel.connectionAsq4 = "Nieco sa pokazilo :(";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainIndexModel.connectionAsq4 = ex.Message;
+                }
                 //________________ASQ_5_________________
                 try
                 {
@@ -184,6 +226,114 @@ namespace processDataShare.Controllers
                     MainIndexModel.connectionOpelInsertRd = ex.Message;
 
                 }
+                //_________________Eqc Mf M1_______________
+                try
+                {
+                    using (var plc_eqcMf1 = new Plc(CpuType.S71500, "10.184.159.173", 0, 1))
+                    {
+                        plc_eqcMf1.Open();
+                        if (plc_eqcMf1.IsConnected)
+                        {
+                            MainIndexModel.EqcMF1_actualDownTime = ((ushort)plc_eqcMf1.Read("DB103.DBW0.0")).ConvertToShort();
+                        }
+                        else
+                        {
+                            MainIndexModel.connectionEqcMF1 = "Nieco sa pokazilo...";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainIndexModel.connectionEqcMF1 = ex.Message;
+
+                }
+                //_________________Eqc Mf M2_______________
+                try
+                {
+                    using (var plc_eqcMf2 = new Plc(CpuType.S71500, "10.184.159.174", 0, 1))
+                    {
+                        plc_eqcMf2.Open();
+                        if (plc_eqcMf2.IsConnected)
+                        {
+                            MainIndexModel.EqcMF2_actualDownTime = ((ushort)plc_eqcMf2.Read("DB103.DBW0.0")).ConvertToShort();
+                        }
+                        else
+                        {
+                            MainIndexModel.connectionEqcMF2 = "Nieco sa pokazilo...";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainIndexModel.connectionEqcMF2 = ex.Message;
+
+                }
+                //_________________Eqc Mf M3_______________
+                try
+                {
+                    using (var plc_eqcMf3 = new Plc(CpuType.S71500, "10.184.159.175", 0, 1))
+                    {
+                        plc_eqcMf3.Open();
+                        if (plc_eqcMf3.IsConnected)
+                        {
+                            MainIndexModel.EqcMF3_actualDownTime = ((ushort)plc_eqcMf3.Read("DB103.DBW0.0")).ConvertToShort();
+                        }
+                        else
+                        {
+                            MainIndexModel.connectionEqcMF3 = "Nieco sa pokazilo...";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainIndexModel.connectionEqcMF3 = ex.Message;
+
+                }
+                //_________________Eqc Mf M4_______________
+                try
+                {
+                    using (var plc_eqcMf4 = new Plc(CpuType.S71500, "10.184.159.176", 0, 1))
+                    {
+                        plc_eqcMf4.Open();
+                        if (plc_eqcMf4.IsConnected)
+                        {
+                            MainIndexModel.EqcMF4_actualDownTime = ((ushort)plc_eqcMf4.Read("DB103.DBW0.0")).ConvertToShort();
+                        }
+                        else
+                        {
+                            MainIndexModel.connectionEqcMF4 = "Nieco sa pokazilo...";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MainIndexModel.connectionEqcMF4 = ex.Message;
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,0 +1,52 @@
+﻿@model processDataShare.Models.eqcMfModels.EqcMf4_model
+@{
+    <meta http-equiv="refresh" content="3">
+    ViewData["Title"] = "MF_4 Info";
+
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>EqcMf 4</title>
+</head>
+<body class="mx-auto text-center container-md">
+
+
+    @Html.Partial("static_components/_eqcMFlayout", new
+    {
+    Connection = ViewBag.connection,
+    downtime = Model.actualDowntime,
+    MachineAuto = Model.MachineAuto,
+    ConveyorOk = Model.ConveyorOK,
+    StepNumber = Model.MainStepNumber,
+    CycleTime = Model.CycleTime,
+    productionCurrent = Model.ProductionCurrentNum,
+    ToolHoomed = Model.ToolHome,
+    HeaterOk = Model.HeaterOk,
+    ToolNumber = Model.ToolNumber,
+    ToolName = Model.ActualToolName,
+    BluemeltOk = Model.BluemeltOk,
+    ActualPressure = Model.ActualPressure,
+    AirInside1 = Model.SetAirInside1,
+    AirOutside1 = Model.SetAirOutside1,
+    PumpSpeed1 = Model.SetpumpSpeed1,
+    AirInside2 = Model.SetAirInside2,
+    AirOutside2 = Model.SetAirOutside2,
+    PumpSpeed2 = Model.SetpumpSpeed2,
+    AirInside3 = Model.SetAirInside3,
+    PumpSpeed3 = Model.SetpumpSpeed3,
+    ActualAirInside1 = Model.Actual_AirInside1,
+    ActualAirOutside1 = Model.Actual_AirOutside1,
+    ActualAirInside2 = Model.Actual_AirInside2,
+    ActualAirOutside2 = Model.Actual_AirOutside2,
+    ActualAirInside3 = Model.Actual_AirInside3,
+    RobotAutoMode = Model.RobotAutomaticMode,
+    RobotRunning = Model.RobotRunning,
+    RobotHome = Model.RobotHome,
+    ConnectedGripper = Model.RobotConnectedGripper,
+    RobotToolNumber = Model.RobotToolNumber
+    }
+)
+
+
+</body>
+</html>

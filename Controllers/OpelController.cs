@@ -218,10 +218,8 @@ namespace processDataShare.Controllers
                         OpelInsertFDmodel.recipe = S7.Net.Types.Int.FromByteArray(udtData.Skip(36).Take(2).ToArray());
                         OpelInsertFDmodel.partRecipe = S7.Net.Types.Int.FromByteArray(udtData.Skip(38).Take(2).ToArray());
                         OpelInsertFDmodel.pyroIndicatorOnOff = udtData[40].SelectBit(0);
-                        OpelInsertFDmodel.Workside_A = udtData[40].SelectBit(1);
-                        Console.WriteLine(OpelInsertFDmodel.Workside_A);
-                        OpelInsertFDmodel.Workside_B = udtData[40].SelectBit(2);
-                        Console.WriteLine(OpelInsertFDmodel.Workside_B);
+                        OpelInsertFDmodel.Workside_A = udtData[40].SelectBit(1);                      
+                        OpelInsertFDmodel.Workside_B = udtData[40].SelectBit(2);                      
                     }
                     else
                     {

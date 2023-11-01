@@ -23,14 +23,14 @@
     };
 }
 
-<div class="text-center card  @colorStatus text-black mx-1 mb-2 shadow-lg justify-content-between w-auto card col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2">
-    <div class="position-absolute w-100 h-75 bottom-0 mb-3 bg-dark  @(Model.connection == null ? "d-none" : "d-block")">
-        <h2 class="fs-4 text-warning mt-5 pt-2 gap-3 bg-dark  d-flex flex-column align-middle justify-content-between">
+<div class="text-center card  @colorStatus text-black m-2 shadow-lg justify-content-between col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2">
+    <div class="position-absolute d-flex w-100 h-100 bottom-0  bg-dark  @(Model.connection == null ? "d-none" : "d-block")">
+        <h2 class="fs-4 w-75 mx-auto text-center text-warning pb-3 gap-2 bg-dark  d-flex flex-column justify-content-end">
             Problem s pripojenim k PLC
             <br /><abbr title="@Model.connection" class="text-info fs-5">Viac Info</abbr>
         </h2>
     </div>
-    <h1 class="z-2 fs-3 border-bottom border-1 border-dark-subtle bg-success-subtle pb-2 px-1 text-center rounded-2">@Model.nameMachine <br /> </h1>
+    <h1 class="z-2 fs-3 border-bottom border-1 border-dark-subtle bg-success-subtle pb-1 px-1 text-center rounded-2">@Model.nameMachine <br /> </h1>
 
     <p>Stav <br /><span class="text-white fs-5 bg-dark p-1 ">@productionStatus</span></p>
 

@@ -39,21 +39,22 @@
         }
     };
 }
-<div class="text-black bg-success-subtle col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2 justify-content-between border border-2 border-info-subtle mx-1 mb-2 shadow-lg card ">
-    <div class="position-absolute d-flex mb-1 w-100 h-75 bottom-0 bg-dark  @(Model.connection == null ? "d-none" : "d-block")">
-        <h2 class="fs-4 w-75 mx-auto text-center d-flex flex-column justify-content-end text-warning gap-3 bg-dark">
+<div class="text-black bg-success-subtle col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2 justify-content-between m-2 shadow-lg card " >
+    <div class="position-absolute d-flex  w-100 h-100 bottom-0 bg-dark  @(Model.connection == null ? "d-none" : "d-block")">
+        <h2 class="fs-4 w-75 mx-auto text-center d-flex flex-column justify-content-end text-warning gap-3 pb-3 bg-dark">
             Problem s pripojenim k PLC
             <br /><abbr title="@Model.connection" class="text-info fs-5 justify-content-end">Viac Info</abbr>
         </h2>
     </div>
-    <h1 class="w-100 fs-3 text-center">@Model.nameMachine</h1>
+    <h1 class="z-2 fs-3 pb-1  bg-success-subtle px-1 text-center rounded-2 mb-0">@Model.nameMachine</h1>
     <div class="d-flex h-100">
-        <div class="text-center @colorStatus_ROB1 text-black justify-content-between max-w w-50 rounded-2">
-            <h1 class="fs-4 text-success-emphasis border-bottom border-1 border-dark-subtle pb-2">[Forma A]</h1>
+        
+        <div class="text-center @colorStatus_ROB1 text-black justify-content-between max-w w-50 rounded-2 border-dark-subtle border-1 border">
+            <h1 class="fs-4 text-success-emphasis  ">[Forma A]</h1>
             <p>Stav<br /> <span class="text-white fs-6  bg-dark p-1">@productionStatus_ROB1 </span> </p>
         </div>
-        <div class="text-center @colorStatus_ROB2 text-black justify-content-between max-w  w-50 rounded-2">
-            <h1 class="fs-4 text-success-emphasis border-bottom border-1 border-dark-subtle pb-2">[Forma B]</h1>
+        <div class="text-center @colorStatus_ROB2 text-black justify-content-between max-w  w-50 rounded-2 border-dark-subtle border-1 border">
+            <h1 class="fs-4 text-success-emphasis  ">[Forma B]</h1>
             <p>Stav<br /> <span class="text-white fs-6 bg-dark p-1">@productionStatus_ROB2 </span></p>
         </div>
     </div>

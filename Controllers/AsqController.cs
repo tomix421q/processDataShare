@@ -62,6 +62,7 @@ namespace processDataShare.Controllers
             }
             return View(Asq1Model);
         }
+
         //________________________Asq_2___________________________
         public IActionResult Asq2()
         {
@@ -113,6 +114,111 @@ namespace processDataShare.Controllers
                 ViewBag.connection = MainIndexModel.connectionAsq2;
             }
             return View(Asq2Model);
+        }
+
+        //________________________Asq_3___________________________
+        public IActionResult Asq3()
+        {
+            Models.Asq3_model Asq3Model = new();
+            Models.MainIndex_model MainIndexModel = new();
+
+
+            try
+            {
+
+                using (var plc_asq3 = new Plc(CpuType.S71500, "10.184.159.240", 0, 1))
+                {
+                    plc_asq3.Open();//Connect
+
+                    if (plc_asq3.IsConnected)
+                    {
+                        ViewBag.connection = "Connection OK";
+
+                        //ROB1
+                        Asq3Model.ROB1_Downtime_Time = ((ushort)plc_asq3.Read("DB179.DBW0.0")).ConvertToShort();
+                        Asq3Model.ROB1_FormNumber = ((ushort)plc_asq3.Read("DB179.DBW2.0")).ConvertToShort();
+                        Asq3Model.ROB1_WeightActualValue = ((uint)plc_asq3.Read("DB179.DBD4.0")).ConvertToFloat();
+                        Asq3Model.ROB1_Temperature = ((uint)plc_asq3.Read("DB179.DBD8.0")).ConvertToFloat();
+                        Asq3Model.ROB1_SetTemperature = ((uint)plc_asq3.Read("DB179.DBD12.0")).ConvertToFloat();
+                        Asq3Model.ROB1_TimeDrying = ((uint)plc_asq3.Read("DB179.DBD16.0")).ConvertToFloat();
+                        //ROB2
+                        Asq3Model.ROB2_Downtime_Time = ((ushort)plc_asq3.Read("DB179.DBW20.0")).ConvertToShort();
+                        Asq3Model.ROB2_FormNumber = ((ushort)plc_asq3.Read("DB179.DBW22.0")).ConvertToShort();
+                        Asq3Model.ROB2_WeightActualValue = ((uint)plc_asq3.Read("DB179.DBD24.0")).ConvertToFloat();
+                        Asq3Model.ROB2_Temperature = ((uint)plc_asq3.Read("DB179.DBD28.0")).ConvertToFloat();
+                        Asq3Model.ROB2_SetTemperature = ((uint)plc_asq3.Read("DB179.DBD32.0")).ConvertToFloat();
+                        Asq3Model.ROB2_TimeDrying = ((uint)plc_asq3.Read("DB179.DBD36.0")).ConvertToFloat();
+                        //Global
+                        Asq3Model.Global_RefValue = ((uint)plc_asq3.Read("DB179.DBD40.0")).ConvertToFloat();
+                        Asq3Model.Global_WeightTolMinus = ((uint)plc_asq3.Read("DB179.DBD44.0")).ConvertToFloat();
+                        Asq3Model.Global_WeightTolPlus = ((uint)plc_asq3.Read("DB179.DBD48.0")).ConvertToFloat();
+                        Asq3Model.Global_MixingTime = ((uint)plc_asq3.Read("DB179.DBD54.0")).ConvertToFloat();
+                        Asq3Model.Global_GoWeightAfter = ((ushort)plc_asq3.Read("DB179.DBW0.0")).ConvertToShort();
+                    }
+                    else
+                    {
+                        ViewBag.connection = "Nieco sa pokazilo :(";
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                MainIndexModel.connectionAsq3 = ex.Message;
+                ViewBag.connection = MainIndexModel.connectionAsq3;
+            }
+            return View(Asq3Model);
+        }
+
+        //________________________Asq_4___________________________
+        public IActionResult Asq4()
+        {
+            Models.Asq4_model Asq4Model = new();
+            Models.MainIndex_model MainIndexModel = new();
+
+            try
+            {
+
+                using (var plc_asq4 = new Plc(CpuType.S71500, "10.184.159.12", 0, 1))
+                {
+                    plc_asq4.Open();//Connect
+
+                    if (plc_asq4.IsConnected)
+                    {
+                        ViewBag.connection = "Connection OK";
+
+                        //ROB1
+                        Asq4Model.ROB1_Downtime_Time = ((ushort)plc_asq4.Read("DB179.DBW0.0")).ConvertToShort();
+                        Asq4Model.ROB1_FormNumber = ((ushort)plc_asq4.Read("DB179.DBW2.0")).ConvertToShort();
+                        Asq4Model.ROB1_WeightActualValue = ((uint)plc_asq4.Read("DB179.DBD4.0")).ConvertToFloat();
+                        Asq4Model.ROB1_Temperature = ((uint)plc_asq4.Read("DB179.DBD8.0")).ConvertToFloat();
+                        Asq4Model.ROB1_SetTemperature = ((uint)plc_asq4.Read("DB179.DBD12.0")).ConvertToFloat();
+                        Asq4Model.ROB1_TimeDrying = ((uint)plc_asq4.Read("DB179.DBD16.0")).ConvertToFloat();
+                        //ROB2
+                        Asq4Model.ROB2_Downtime_Time = ((ushort)plc_asq4.Read("DB179.DBW20.0")).ConvertToShort();
+                        Asq4Model.ROB2_FormNumber = ((ushort)plc_asq4.Read("DB179.DBW22.0")).ConvertToShort();
+                        Asq4Model.ROB2_WeightActualValue = ((uint)plc_asq4.Read("DB179.DBD24.0")).ConvertToFloat();
+                        Asq4Model.ROB2_Temperature = ((uint)plc_asq4.Read("DB179.DBD28.0")).ConvertToFloat();
+                        Asq4Model.ROB2_SetTemperature = ((uint)plc_asq4.Read("DB179.DBD32.0")).ConvertToFloat();
+                        Asq4Model.ROB2_TimeDrying = ((uint)plc_asq4.Read("DB179.DBD36.0")).ConvertToFloat();
+                        //Global
+                        Asq4Model.Global_RefValue = ((uint)plc_asq4.Read("DB179.DBD40.0")).ConvertToFloat();
+                        Asq4Model.Global_WeightTolMinus = ((uint)plc_asq4.Read("DB179.DBD44.0")).ConvertToFloat();
+                        Asq4Model.Global_WeightTolPlus = ((uint)plc_asq4.Read("DB179.DBD48.0")).ConvertToFloat();
+                        Asq4Model.Global_MixingTime = ((uint)plc_asq4.Read("DB179.DBD54.0")).ConvertToFloat();
+                        Asq4Model.Global_GoWeightAfter = ((ushort)plc_asq4.Read("DB179.DBW0.0")).ConvertToShort();
+                    }
+                    else
+                    {
+                        ViewBag.connection = "Nieco sa pokazilo :(";
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                MainIndexModel.connectionAsq4 = ex.Message;
+                ViewBag.connection = MainIndexModel.connectionAsq4;
+            }
+            return View(Asq4Model);
         }
 
         //________________________Asq_5___________________________

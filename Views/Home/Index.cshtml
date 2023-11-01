@@ -5,19 +5,24 @@
     ViewData["Title"] = "Home Dashboard";
 }
 
-<div class="d-flex flex-wrap text-white-50 justify-content-center ">
+<div class="d-flex flex-wrap justify-content-center">
     @*__________________ASQ1_Container_______________*@
     @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq1, nameMachine = "ASQ 1", inc_AsqRob1_Downtime_Time = Model.ASQ_1_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_1_ROB2_Downtime_Time, linkMachine = "Asq1" })
 
     @*__________________ASQ2_Container_______________*@
     @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq2, nameMachine = "ASQ 2", inc_AsqRob1_Downtime_Time = Model.ASQ_2_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_2_ROB2_Downtime_Time, linkMachine = "Asq2" })
 
+    @*__________________ASQ3_Container_______________*@
+    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq3, nameMachine = "ASQ 3", inc_AsqRob1_Downtime_Time = Model.ASQ_3_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_3_ROB2_Downtime_Time, linkMachine = "Asq3" })
+
+    @*__________________ASQ4_Container_______________*@
+    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq4, nameMachine = "ASQ 4", inc_AsqRob1_Downtime_Time = Model.ASQ_4_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_4_ROB2_Downtime_Time, linkMachine = "Asq4" })
+
     @*__________________ASQ5_Container_______________*@
     @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq5, nameMachine = "ASQ 5", inc_AsqRob1_Downtime_Time = Model.ASQ_5_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_5_ROB2_Downtime_Time, linkMachine = "Asq5" })
 
     @*_________________ASQ6_Container________________*@
     @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq6, nameMachine = "ASQ 6", inc_AsqRob1_Downtime_Time = Model.ASQ_6_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_6_ROB2_Downtime_Time, linkMachine = "Asq6" })
-
 
     @*___________Opel Armrest FD container_____________*@
     @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestFd, nameMachine = "Opel Armrest FD", inc_Downtime_Time = Model.OpelArmrestFD_actualDowntime, controller = "Opel", linkMachine = "OpelArmrestFd" })
@@ -31,6 +36,17 @@
     @*___________Opel Insert RD container_____________*@
     @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelInsertRd, nameMachine = "Opel Insert RD", inc_Downtime_Time = Model.OpelInsertRD_actualDowntime, controller = "Opel", linkMachine = "OpelInsertRd" })
 
+    @*_____________Eqc MF 1 container_________________*@
+    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF1, nameMachine = "Eqc MF 1", inc_Downtime_Time = Model.EqcMF1_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF1" })
+
+    @*_____________Eqc MF 2 container_________________*@
+    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF2, nameMachine = "Eqc MF 2", inc_Downtime_Time = Model.EqcMF2_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF2" })
+
+    @*_____________Eqc MF 3 container_________________*@
+    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF3, nameMachine = "Eqc MF 3", inc_Downtime_Time = Model.EqcMF3_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF3" })
+
+    @*_____________Eqc MF 4 container_________________*@
+    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF4, nameMachine = "Eqc MF 4", inc_Downtime_Time = Model.EqcMF4_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF4" })
 
 
 

@@ -35,5 +35,25 @@
         public string connectionOpelArmrestRd { get; set; }
         public string connectionOpelInsertFd { get; set; }
         public string connectionOpelInsertRd { get; set; }
+
+
+        //__________________EqcMf______________________
+        public int EqcMF1_actualDownTime { get; set; }
+        public int EqcMF2_actualDownTime { get; set; }
+        public int EqcMF3_actualDownTime { get; set; }
+        public int EqcMF4_actualDownTime { get; set; }
+        public int EqcMF5_actualDownTime { get; set; }
+        public int EqcMF6_actualDownTime { get; set; }
+        public int EqcMF7_actualDownTime { get; set; }
+        public int EqcMF8_actualDownTime { get; set; }
+        //connections
+        public string connectionEqcMF1 { get; set; }
+        public string connectionEqcMF2 { get; set; }
+        public string connectionEqcMF3 { get; set; }
+        public string connectionEqcMF4 { get; set; }
+        public string connectionEqcMF5 { get; set; }
+        public string connectionEqcMF6 { get; set; }
+        public string connectionEqcMF7 { get; set; }
+        public string connectionEqcMF8 { get; set; }
     }
 }

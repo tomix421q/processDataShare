@@ -7,11 +7,23 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/processDataShare.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
-<body class="bg-gradient">
-    <header class="">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-white bg-light-subtle border-bottom box-shadow mb-3">
-                
+<body class="" style="background-color: #222831; ">
+    @{
+
+    }
+    <div class="bg-dark vw-100 vh-100 position-absolute z-3 d-flex justify-content-center align-items-center flex-column d-none">
+
+        <div class="spinner-border text-warning" role="status" style="width: 6rem; height: 6rem;">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+            <h4 class="m-3 fs-3">Loading...</h4>
+
+    </div>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-white box-shadow mb-3 p-1 m-0" style="background-color: #EEEEEE; ">
+
             <div class="container-fluid ">
                 <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index"><span class=" text-success fs-4 fw-bolder">[ </span>  Process Live Share <span class=" text-success fs-4 fw-bolder">] </span></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -23,10 +35,41 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        @*<li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            </li>*@
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Machines
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq1">Asq1</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq2">Asq2</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq3">Asq3</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq4">Asq4</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq5">Asq5</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq6">Asq6</a></li>
+                                <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelArmrestFd">OpelArmrestFd</a></li>
+                                <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelArmrestRd">OpelArmrestRd</a></li>
+                                <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelInsertFd">OpelInsertFd</a></li>
+                                <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelInsertRd">OpelInsertRd</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF1">EqcMF1</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF2">EqcMF2</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF3">EqcMF3</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF4">EqcMF4</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF5">EqcMF5</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF6">EqcMF6</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF7">EqcMF7</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF8">EqcMF8</a></li>
+                            </ul>
                         </li>
+
                     </ul>
+                    <div class="hover-zoom">
+                        <a href="mailto: tomas.zilka@yanfeng.com?subject = Feedback&body = Message" class="pe-auto cursor-pointer hover-zoom text-decoration-none"><i class="bi bi-send text-dark fs-5 pe-auto cursor-pointer ">Send Idea/Fault</i> </a>
+
+                    </div>
+
                 </div>
             </div>
         </nav>
@@ -37,11 +80,15 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
+    <footer class="footer text-muted">
         <div class="container">
-            &copy; 2023 - processDataShare - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+
         </div>
     </footer>
+
+
+
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

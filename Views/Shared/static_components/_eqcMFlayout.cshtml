@@ -1,0 +1,64 @@
+﻿@model dynamic
+
+@{
+}
+
+<h4 class="text-warning rounded-2 mx-auto text-center p-2 m-4 @(Model.Connection == "Connection OK" ? "bg-success text-dark" : "bg-warning text-danger")">
+    @Model.Connection
+</h4>
+
+<div class="text-dark ">
+    @*Basic Info*@
+    <div class="d-flex justify-content-around m-4 flex-md-row flex-column  gap-4 p-2 pb-4 h-auto">
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-2 ">
+            <h1 class="fs-2 text-center py-2 text-bg-primary">Info [MF 1]</h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p>Inactive time: <span class="text-info fw-bold">@Model.downtime </span> </p>
+            <p>Machine Auto: <span class="text-info fw-bold">@Model.MachineAuto </span> </p>
+            <p>Conveyor Ok: <span class="text-info fw-bold">@Model.ConveyorOk </span> </p>
+            <p>Main Step Number: <span class="text-info fw-bold">@Model.StepNumber </span> </p>
+            <p>Cycle Time: <span class="text-info fw-bold">@Model.CycleTime</span> </p>
+            <p>Actual parts: <span class="text-info fw-bold">@Model.productionCurrent</span> </p>
+        </div>
+        @*Tool*@
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3">
+            <h1 class="fs-2 text-center py-2 text-bg-info">[Tool]</h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p>Tool Hoomed: <span class="text-info fw-bold">@Model.ToolHoomed </span> </p>
+            <p>Heater Ok: <span class="text-info fw-bold">@Model.HeaterOk </span> </p>
+            <p>Tool Number: <span class="text-info fw-bold">@Model.ToolNumber </span> </p>
+            <p>Tool Name: <span class="text-info fw-bold">@Model.ToolName </span> </p>
+        </div>
+        @*Gluestation*@
+    <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3">
+        <h1 class="fs-2 text-center py-2 text-bg-secondary">[Gluestation]</h1>
+        <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+        <p>Bluemelt Ok: <span class="text-info fw-bold">@Model.BluemeltOk </span> </p>
+        <p>Actual Pressure: <span class="text-info fw-bold">@Model.ActualPressure bar</span> </p>
+        <p>Set air inside 1: <span class="text-info fw-bold">@Model.AirInside1 %</span> </p>
+        <p>Set air outside 1: <span class="text-info fw-bold">@Model.AirOutside1 %</span> </p>
+        <p>Set pump speed 1: <span class="text-info fw-bold">@Model.PumpSpeed1 %</span> </p>
+        <p>Set air inside 2: <span class="text-info fw-bold">@Model.AirInside2 %</span> </p>
+        <p>Set air outside 2: <span class="text-info fw-bold">@Model.AirOutside2 %</span> </p>
+        <p>Set pump speed 2: <span class="text-info fw-bold">@Model.PumpSpeed2 %</span> </p>
+        <p>Set air inside 3: <span class="text-info fw-bold">@Model.AirInside3 %</span> </p>
+        <p>Set pump speed 3: <span class="text-info fw-bold">@Model.PumpSpeed3 %</span> </p>
+        <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+        <p class="text-danger">Actual air inside 1: <span class="text-info fw-bold">@Model.ActualAirInside1 %</span> </p>
+        <p class="text-danger">Actual air outside 1: <span class="text-info fw-bold">@Model.ActualAirOutside1 %</span> </p>
+        <p class="text-danger">Actual air inside 2: <span class="text-info fw-bold">@Model.ActualAirInside2 %</span> </p>
+        <p class="text-danger">Actual air outside 2: <span class="text-info fw-bold">@Model.ActualAirOutside2 %</span> </p>
+        <p class="text-danger">Actual air inside 3: <span class="text-info fw-bold">@Model.ActualAirInside3 %</span> </p>
+    </div>
+        @*Tool*@
+    <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3">
+        <h1 class="fs-2 text-center py-2 text-bg-warning">[Robot]</h1>
+        <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+        <p>Automatic mode: <span class="text-info fw-bold">@Model.RobotAutoMode </span> </p>
+        <p>Robot running: <span class="text-info fw-bold">@Model.RobotRunning </span> </p>
+        <p>Robot home: <span class="text-info fw-bold">@Model.RobotHome </span> </p>
+        <p>Connected gripper: <span class="text-info fw-bold">@Model.ConnectedGripper </span> </p>
+        <p>Gripper tool number: <span class="text-info fw-bold">@Model.RobotToolNumber </span> </p>
+    </div>
+    </div>
+</div>

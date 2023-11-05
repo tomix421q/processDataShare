@@ -1,11 +1,15 @@
 ﻿@model processDataShare.Models.MainIndex_model
 @{
-    <meta http-equiv="refresh" content="5">
+    <meta http-equiv="refresh" content="60">
     <!-- Obnoví stránku každých 5 sekúnd -->
     ViewData["Title"] = "Home Dashboard";
 }
 
+
 <div class="d-flex flex-wrap justify-content-center">
+    
+    @*__________________ASQ1_Container_______________*@
+    <!--@Html.Partial("static_components/_loadingScreen")-->
     @*__________________ASQ1_Container_______________*@
     @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq1, nameMachine = "ASQ 1", inc_AsqRob1_Downtime_Time = Model.ASQ_1_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_1_ROB2_Downtime_Time, linkMachine = "Asq1" })
 

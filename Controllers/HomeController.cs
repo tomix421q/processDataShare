@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using processDataShare.Models;
 using S7.Net;
 
 namespace processDataShare.Controllers
@@ -14,11 +15,15 @@ namespace processDataShare.Controllers
         }
         public IActionResult Index()
         {
+            ViewBag.loadingg = true;
+            Console.WriteLine(ViewBag.loadingg);
             Models.MainIndex_model MainIndexModel = new();
             {
+                
                 //________________ASQ_1_________________
                 try
                 {
+                    
                     using (var plc_asq1 = new Plc(CpuType.S71500, "10.184.159.241", 0, 1))
                     {
                         plc_asq1.Open();
@@ -234,7 +239,7 @@ namespace processDataShare.Controllers
                         plc_eqcMf1.Open();
                         if (plc_eqcMf1.IsConnected)
                         {
-                            MainIndexModel.EqcMF1_actualDownTime = ((ushort)plc_eqcMf1.Read("DB103.DBW0.0")).ConvertToShort();
+                            MainIndexModel.EqcMF1_actualDownTime = ((ushort)plc_eqcMf1.Read("DB189.DBW0.0")).ConvertToShort();
                         }
                         else
                         {
@@ -255,7 +260,7 @@ namespace processDataShare.Controllers
                         plc_eqcMf2.Open();
                         if (plc_eqcMf2.IsConnected)
                         {
-                            MainIndexModel.EqcMF2_actualDownTime = ((ushort)plc_eqcMf2.Read("DB103.DBW0.0")).ConvertToShort();
+                            MainIndexModel.EqcMF2_actualDownTime = ((ushort)plc_eqcMf2.Read("DB189.DBW0.0")).ConvertToShort();
                         }
                         else
                         {
@@ -276,7 +281,7 @@ namespace processDataShare.Controllers
                         plc_eqcMf3.Open();
                         if (plc_eqcMf3.IsConnected)
                         {
-                            MainIndexModel.EqcMF3_actualDownTime = ((ushort)plc_eqcMf3.Read("DB103.DBW0.0")).ConvertToShort();
+                            MainIndexModel.EqcMF3_actualDownTime = ((ushort)plc_eqcMf3.Read("DB189.DBW0.0")).ConvertToShort();
                         }
                         else
                         {
@@ -297,19 +302,21 @@ namespace processDataShare.Controllers
                         plc_eqcMf4.Open();
                         if (plc_eqcMf4.IsConnected)
                         {
-                            MainIndexModel.EqcMF4_actualDownTime = ((ushort)plc_eqcMf4.Read("DB103.DBW0.0")).ConvertToShort();
+                            MainIndexModel.EqcMF4_actualDownTime = ((ushort)plc_eqcMf4.Read("DB189.DBW0.0")).ConvertToShort();
                         }
                         else
                         {
                             MainIndexModel.connectionEqcMF4 = "Nieco sa pokazilo...";
                         }
                     }
+                    
                 }
                 catch (Exception ex)
                 {
                     MainIndexModel.connectionEqcMF4 = ex.Message;
 
                 }
+                
 
 
 
@@ -327,29 +334,16 @@ namespace processDataShare.Controllers
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                ViewBag.loadingg = false;
+                Console.WriteLine(ViewBag.loadingg);
 
 
 
 
                 return View(MainIndexModel);
             }
-        }
 
+        }
 
 
 

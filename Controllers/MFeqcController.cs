@@ -28,14 +28,14 @@ namespace processDataShare.Controllers
                     {
                         ViewBag.connection = "Connection OK";
 
-                        EqcMf1model.actualDowntime = ((ushort)plc_eqcMf1.Read("DB103.DBW0.0")).ConvertToShort();
+                        EqcMf1model.actualDowntime = ((ushort)plc_eqcMf1.Read("DB189.DBW0.0")).ConvertToShort();
 
-                        EqcMf1model.ActualToolName = plc_eqcMf1.Read(DataType.DataBlock, 103, 2, VarType.String, 20).ToString();
+                        EqcMf1model.ActualToolName = plc_eqcMf1.Read(DataType.DataBlock, 189, 2, VarType.String, 20).ToString();
                         
 
                         int startAdress = 258; // Adresa UDT
                         int sizeInBytes = 78; // Veľkosť UDT v bajtoch
-                        int numberDB = 103; // Cislo DB blocku v plc
+                        int numberDB = 189; // Cislo DB blocku v plc
 
                         //Scan multiply
                         var udtData = plc_eqcMf1.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
@@ -109,14 +109,14 @@ namespace processDataShare.Controllers
                     {
                         ViewBag.connection = "Connection OK";
 
-                        EqcMf2model.actualDowntime = ((ushort)plc_eqcMf2.Read("DB103.DBW0.0")).ConvertToShort();
+                        EqcMf2model.actualDowntime = ((ushort)plc_eqcMf2.Read("DB189.DBW0.0")).ConvertToShort();
 
-                        EqcMf2model.ActualToolName = plc_eqcMf2.Read(DataType.DataBlock, 103, 2, VarType.String, 20).ToString();
+                        EqcMf2model.ActualToolName = plc_eqcMf2.Read(DataType.DataBlock, 189, 2, VarType.String, 20).ToString();
 
 
                         int startAdress = 258; // Adresa UDT
                         int sizeInBytes = 78; // Veľkosť UDT v bajtoch
-                        int numberDB = 103; // Cislo DB blocku v plc
+                        int numberDB = 189; // Cislo DB blocku v plc
 
                         //Scan multiply
                         var udtData = plc_eqcMf2.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
@@ -188,14 +188,14 @@ namespace processDataShare.Controllers
                     {
                         ViewBag.connection = "Connection OK";
 
-                        EqcMf3model.actualDowntime = ((ushort)plc_eqcMf3.Read("DB103.DBW0.0")).ConvertToShort();
+                        EqcMf3model.actualDowntime = ((ushort)plc_eqcMf3.Read("DB189.DBW0.0")).ConvertToShort();
 
-                        EqcMf3model.ActualToolName = plc_eqcMf3.Read(DataType.DataBlock, 103, 2, VarType.String, 20).ToString();
+                        EqcMf3model.ActualToolName = plc_eqcMf3.Read(DataType.DataBlock, 189, 2, VarType.String, 20).ToString();
 
 
                         int startAdress = 258; // Adresa UDT
                         int sizeInBytes = 78; // Veľkosť UDT v bajtoch
-                        int numberDB = 103; // Cislo DB blocku v plc
+                        int numberDB = 189; // Cislo DB blocku v plc
 
                         //Scan multiply
                         var udtData = plc_eqcMf3.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
@@ -267,14 +267,14 @@ namespace processDataShare.Controllers
                     {
                         ViewBag.connection = "Connection OK";
 
-                        EqcMf4model.actualDowntime = ((ushort)plc_eqcMf4.Read("DB103.DBW0.0")).ConvertToShort();
+                        EqcMf4model.actualDowntime = ((ushort)plc_eqcMf4.Read("DB189.DBW0.0")).ConvertToShort();
 
-                        EqcMf4model.ActualToolName = plc_eqcMf4.Read(DataType.DataBlock, 103, 2, VarType.String, 20).ToString();
+                        EqcMf4model.ActualToolName = plc_eqcMf4.Read(DataType.DataBlock, 189, 2, VarType.String, 20).ToString();
 
 
                         int startAdress = 258; // Adresa UDT
                         int sizeInBytes = 78; // Veľkosť UDT v bajtoch
-                        int numberDB = 103; // Cislo DB blocku v plc
+                        int numberDB = 189; // Cislo DB blocku v plc
 
                         //Scan multiply
                         var udtData = plc_eqcMf4.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);

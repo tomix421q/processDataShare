@@ -1,5 +1,8 @@
-﻿namespace processDataShare.Models
+﻿using Microsoft.AspNetCore.Mvc;
+
+namespace processDataShare.Models
 {
+   
     public class Asq6_model
     {
         //ROB1 

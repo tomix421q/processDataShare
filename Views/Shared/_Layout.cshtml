@@ -10,17 +10,17 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 </head>
 
+@*Loading screen*@
+<div id="loader" class="bg-dark vw-100 vh-100 position-absolute z-3 justify-content-center align-items-center flex-column">
 
-<body class="" style="background-color: #222831; ">
-   
-    <div id="loader" class="bg-dark vw-100 vh-100 position-absolute z-3 justify-content-center align-items-center flex-column">
-
-        <div class="spinner-border text-warning" role="status" style="width: 6rem; height: 6rem;">
-            <span class="visually-hidden">Loading...</span>
-        </div>
-        <h4 class="m-3 fs-3">Loading...</h4>
-
+    <div class="spinner-border text-warning" role="status" style="width: 6rem; height: 6rem;">
+        <span class="visually-hidden">Loading...</span>
     </div>
+    <h4 class="m-3 fs-3">Loading...</h4>
+
+</div>
+@*@Html.Partial("static_components/_loadingScreen")*@
+<body class="" style="background-color: #222831; ">
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-white box-shadow mb-1 m-0 p-0" style="background-color: #EEEEEE;">
 
@@ -91,7 +91,7 @@
     <script>
         document.onreadystatechange = function () {
             if (document.readyState !== "complete") {
-                document.querySelector("body").style.visibility = "hidden"; 
+                document.querySelector("body").style.visibility = "hidden";
                 document.querySelector("#loader").style.visibility = "flex";
             } else {
                 document.querySelector("#loader").style.display = "none";

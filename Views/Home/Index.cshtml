@@ -1,15 +1,120 @@
 ﻿@model processDataShare.Models.MainIndex_model
 @{
-    <meta http-equiv="refresh" content="60">
+    @*<meta http-equiv="refresh" content="60">*@
     <!-- Obnoví stránku každých 5 sekúnd -->
     ViewData["Title"] = "Home Dashboard";
 }
+@section Scripts {
+    <script>
+        
+        $(document).ready(function () {
+            const el = document.querySelector("#test")
+
+            JsonMainIndex();
+            setInterval(JsonMainIndex, 30000);
+            function JsonMainIndex() {
+                $.ajax({
+                    url: "@Url.Action("JsonMainIndex")",
+                    type: "GET",
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log(result)
+                        createOrUpdateCard({ "rob1_downtime": result.asQ_1_ROB1_Downtime_Time, "asq1Connection": result.connectionAsq1 });
+                    },
+                    error: function () {
+                        alert("Fails");
+                    }
+
+                });
+            }
+
+            const container = $("#cardsContainer");
+            const template = $("#card-template");
+            const Asq1Card = template.clone();
+            container.append(Asq1Card);
+            Asq1Card.find("#machineName").html("ASQ 1");
+            Asq1Card.append($("#link"));
+           
+            createOrUpdateCard("Wait");
+
+            function createOrUpdateCard(data) {
+                console.log(data);
+                
+                data.asq1Connection === null ? Asq1Card.find("#connection").removeClass("d-block").addClass("d-none") : Asq1Card.find("#connection").removeClass("d-none").addClass("d-flex"), Asq1Card.find("#connectionInfo").attr("title", data.asq1Connection);
+
+                let asq1Rob1Downtime_hod = Math.floor(data.rob1_downtime / 60);
+                let asq1Rob1Downtime_min = data.rob1_downtime % 60;
+
+                if (data === "Wait") {
+                    Asq1Card.find("#connection").removeClass("d-block").addClass("d-none");
+                    Asq1Card.find("#Downtime_rob1").html("Waiting on data...");
+                    Asq1Card.find("#rob1_table").removeClass("bg-danger").removeClass("bg-success").addClass("bg-warning");
+                } else {
+                    if (data.rob1_downtime === 0) {
+                        Asq1Card.find("#Downtime_rob1").html("In Production");
+                        Asq1Card.find("#rob1_table").removeClass("bg-danger").removeClass("bg-warning").addClass("bg-success");
+                    }
+                    else {
+                        Asq1Card.find("#rob1_table").removeClass("bg-success").removeClass("bg-warning").addClass("bg-danger");
+                        if (data.rob1_downtime > 60){
+                            Asq1Card.find("#Downtime_rob1").html("Nevyrába " + asq1Rob1Downtime_hod + "Hod " + asq1Rob1Downtime_min + "Min");
+                            }else {
+                            Asq1Card.find("#Downtime_rob1").html("Nevyrába " + asq1Rob1Downtime_min + "Min");
+                            }
+                         }
+                }  
+                
+            };
+        
 
 
-<div class="d-flex flex-wrap justify-content-center">
+
+
+
+
+
+
+
+
+
+
+
+        });
+    </script>
+}
+
+
+
+
+
+
+<div id="cardsContainer" class="d-flex flex-wrap justify-content-center">
     
-    @*__________________ASQ1_Container_______________*@
-    <!--@Html.Partial("static_components/_loadingScreen")-->
+    <div class="d-none">
+
+        <div id="card-template" class="text-black bg-success-subtle col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2 justify-content-between m-2 shadow-lg card ">
+            <div id="connection" class="position-absolute w-100 h-100 bg-dark d-none bottom-0">
+                <h2 class="fs-4 w-75 mx-auto text-center d-flex flex-column justify-content-end text-warning gap-3 pb-3">
+                    Problem s pripojenim k PLC
+                    <br /><abbr title="" id="connectionInfo" class="text-info fs-5 justify-content-end">Viac Info</abbr>
+                </h2>
+            </div>
+            <h1 id="machineName" class="z-2 fs-3 pb-1  bg-success-subtle px-1 text-center rounded-2 mb-0"></h1>
+            <div class="d-flex h-100">
+
+                <div id="rob1_table" class="text-center  text-black justify-content-between max-w w-50 rounded-2 border-dark-subtle border-1 border">
+                    <h1 class="fs-4 text-success-emphasis  ">[Forma A]</h1>
+                    <p>Stav<br /> <span id="Downtime_rob1" class="text-white fs-6  bg-dark p-1" d> </span> </p>
+                </div>
+                <div id="rob2_table" class="text-center colorStatus_ROB2 text-black justify-content-between max-w  w-50 rounded-2 border-dark-subtle border-1 border">
+                    <h1 class="fs-4 text-success-emphasis  ">[Forma B]</h1>
+                    <p>Stav<br /> <span id="Downtime_rob2" class="text-white fs-6 bg-dark p-1"> </span></p>
+                </div>
+            </div>
+        </div>
+        <a id="link" class="btn btn-primary w-100 " asp-controller="Asq" asp-action="Asq1">Aktualne parametre info</a>
+    </div>
+  
     @*__________________ASQ1_Container_______________*@
     @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq1, nameMachine = "ASQ 1", inc_AsqRob1_Downtime_Time = Model.ASQ_1_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_1_ROB2_Downtime_Time, linkMachine = "Asq1" })
 

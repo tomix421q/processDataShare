@@ -1,5 +1,6 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using processDataShare.Models;
 using S7.Net;
 
@@ -7,23 +8,31 @@ namespace processDataShare.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
         public IActionResult Index()
+        {                      
+            Models.MainIndex_model MainIndexModel = LoadPLCData(); // nacitat data plc                    
+            return View(MainIndexModel);
+        }
+
+        [HttpGet]
+        public JsonResult JsonMainIndex()
         {
-            ViewBag.loadingg = true;
-            Console.WriteLine(ViewBag.loadingg);
+            Models.MainIndex_model MainIndexModel = LoadPLCData(); // nacitat data plc (ajax)
+            return Json(MainIndexModel);
+        }
+
+        private Models.MainIndex_model LoadPLCData()
+        {
+            // Sem vložte kód pro načtení aktualizovaných dat z PLC nebo jiného zdroje
+            //ViewBag.loadingg = true;
+            //Console.WriteLine(ViewBag.loadingg);
             Models.MainIndex_model MainIndexModel = new();
+
             {
-                
                 //________________ASQ_1_________________
                 try
                 {
-                    
+
                     using (var plc_asq1 = new Plc(CpuType.S71500, "10.184.159.241", 0, 1))
                     {
                         plc_asq1.Open();
@@ -31,6 +40,7 @@ namespace processDataShare.Controllers
                         {
                             MainIndexModel.ASQ_1_ROB1_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW0.0")).ConvertToShort();
                             MainIndexModel.ASQ_1_ROB2_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW20.0")).ConvertToShort();
+
                         }
                         else
                         {
@@ -134,7 +144,7 @@ namespace processDataShare.Controllers
                         plc_asq6.Open();
                         if (plc_asq6.IsConnected)
                         {
-                            MainIndexModel.ASQ_6_ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort() ;
+                            MainIndexModel.ASQ_6_ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort();
                             MainIndexModel.ASQ_6_ROB2_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW20.0")).ConvertToShort();
                         }
                         else
@@ -309,46 +319,32 @@ namespace processDataShare.Controllers
                             MainIndexModel.connectionEqcMF4 = "Nieco sa pokazilo...";
                         }
                     }
-                    
+
                 }
                 catch (Exception ex)
                 {
                     MainIndexModel.connectionEqcMF4 = ex.Message;
 
                 }
-                
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-                ViewBag.loadingg = false;
-                Console.WriteLine(ViewBag.loadingg);
-
-
-
-
-                return View(MainIndexModel);
+                return MainIndexModel;
             }
 
-        }
 
 
 
 
 
+
+
+
+
+
+
+
+
+
+
+        }            //plc data loader main index
     }
 }
 

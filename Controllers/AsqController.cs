@@ -15,8 +15,6 @@ namespace processDataShare.Controllers
         {
             Models.Asq1_model Asq1Model = new();
             Models.MainIndex_model MainIndexModel = new();
-
-
             try
             {
 

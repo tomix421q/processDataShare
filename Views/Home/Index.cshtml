@@ -8,10 +8,34 @@
     <script>
         
         $(document).ready(function () {
-            const el = document.querySelector("#test")
+            const container = $("#cardsContainer");
+            const templateAsq = $("#card-template-asq");
+            const templateMFeqc = $("#card-template-mfeqc");
+            // Init karty pre stroje
+            const asq1Card = doubleTab_initMachineCard("ASQ_1");
+            const asq2Card = doubleTab_initMachineCard("ASQ_2");
+            const asq3Card = doubleTab_initMachineCard("ASQ_3");
+            const asq4Card = doubleTab_initMachineCard("ASQ_4");
+            const asq5Card = doubleTab_initMachineCard("ASQ_5");
+            const asq6Card = doubleTab_initMachineCard("ASQ_6");
+            const mfeqc1Card = oneTab_initMachineCard("MFeqc_1");
+            const mfeqc2Card = oneTab_initMachineCard("MFeqc_2");
+            const mfeqc3Card = oneTab_initMachineCard("MFeqc_3");
+            const mfeqc4Card = oneTab_initMachineCard("MFeqc_4");
+            //const mfeqc5Card = oneTab_initMachineCard("MFeqc_5");
+            //const mfeqc6Card = oneTab_initMachineCard("MFeqc_6");
+            //const mfeqc7Card = oneTab_initMachineCard("MFeqc_7");
+            //const mfeqc8Card = oneTab_initMachineCard("MFeqc_8");
+            const armrestOpelFr = oneTab_initMachineCard("OpelArmrestFr");
+            const armrestOpelRr = oneTab_initMachineCard("OpelArmrestRr");
+            const insertOpelFr = oneTab_initMachineCard("OpelInsertFr");
+            const insertOpelRr = oneTab_initMachineCard("OpelInsertRr");
+            
 
             JsonMainIndex();
             setInterval(JsonMainIndex, 30000);
+
+            //receive json to ajax and push to updateMachineCard every interval
             function JsonMainIndex() {
                 $.ajax({
                     url: "@Url.Action("JsonMainIndex")",
@@ -19,61 +43,145 @@
                     dataType: 'json',
                     success: function (result) {
                         console.log(result)
-                        createOrUpdateCard({ "rob1_downtime": result.asQ_1_ROB1_Downtime_Time, "asq1Connection": result.connectionAsq1 });
+                        // Aktualizace karet s novými daty
+                        doubleTab_updateMachineCard(asq1Card, [result.asQ_1_ROB1_Downtime_Time, result.connectionAsq1, result.asQ_1_ROB2_Downtime_Time]);
+                        doubleTab_updateMachineCard(asq2Card, [result.asQ_2_ROB1_Downtime_Time, result.connectionAsq2, result.asQ_2_ROB2_Downtime_Time]);
+                        doubleTab_updateMachineCard(asq3Card, [result.asQ_3_ROB1_Downtime_Time, result.connectionAsq3, result.asQ_3_ROB2_Downtime_Time]);
+                        doubleTab_updateMachineCard(asq4Card, [result.asQ_4_ROB1_Downtime_Time, result.connectionAsq4, result.asQ_4_ROB2_Downtime_Time]);
+                        doubleTab_updateMachineCard(asq5Card, [result.asQ_5_ROB1_Downtime_Time, result.connectionAsq5, result.asQ_5_ROB2_Downtime_Time]);
+                        doubleTab_updateMachineCard(asq6Card, [result.asQ_6_ROB1_Downtime_Time, result.connectionAsq6, result.asQ_6_ROB2_Downtime_Time]);
+                        oneTab_updateMachineCard(mfeqc1Card, [result.eqcMF1_actualDownTime, result.connectionEqcMF1]);
+                        oneTab_updateMachineCard(mfeqc2Card, [result.eqcMF2_actualDownTime, result.connectionEqcMF2]);
+                        oneTab_updateMachineCard(mfeqc3Card, [result.eqcMF3_actualDownTime, result.connectionEqcMF3]);
+                        oneTab_updateMachineCard(mfeqc4Card, [result.eqcMF4_actualDownTime, result.connectionEqcMF4]);
+                        oneTab_updateMachineCard(armrestOpelFr, [result.opelArmrestFD_actualDowntime, result.connectionOpelArmrestFd]);
+                        oneTab_updateMachineCard(armrestOpelRr, [result.opelArmrestRD_actualDowntime, result.connectionOpelArmrestRd]);
+                        oneTab_updateMachineCard(insertOpelFr, [result.opelInsertFD_actualDowntime, result.connectionOpelInsertFd]);
+                        oneTab_updateMachineCard(insertOpelRr, [result.opelInsertRD_actualDowntime, result.connectionOpelInsertRd]);
                     },
                     error: function () {
-                        alert("Fails");
+                        alert("Problem with load data try again please...");
                     }
 
                 });
             }
 
-            const container = $("#cardsContainer");
-            const template = $("#card-template");
-            const Asq1Card = template.clone();
-            container.append(Asq1Card);
-            Asq1Card.find("#machineName").html("ASQ 1");
-            Asq1Card.append($("#link"));
-           
-            createOrUpdateCard("Wait");
+            //double tab template init and update
+            function doubleTab_initMachineCard(machineName) {
+                const machineCard = templateAsq.clone();
+                container.append(machineCard);
 
-            function createOrUpdateCard(data) {
-                console.log(data);
-                
-                data.asq1Connection === null ? Asq1Card.find("#connection").removeClass("d-block").addClass("d-none") : Asq1Card.find("#connection").removeClass("d-none").addClass("d-flex"), Asq1Card.find("#connectionInfo").attr("title", data.asq1Connection);
-
-                let asq1Rob1Downtime_hod = Math.floor(data.rob1_downtime / 60);
-                let asq1Rob1Downtime_min = data.rob1_downtime % 60;
-
-                if (data === "Wait") {
-                    Asq1Card.find("#connection").removeClass("d-block").addClass("d-none");
-                    Asq1Card.find("#Downtime_rob1").html("Waiting on data...");
-                    Asq1Card.find("#rob1_table").removeClass("bg-danger").removeClass("bg-success").addClass("bg-warning");
-                } else {
-                    if (data.rob1_downtime === 0) {
-                        Asq1Card.find("#Downtime_rob1").html("In Production");
-                        Asq1Card.find("#rob1_table").removeClass("bg-danger").removeClass("bg-warning").addClass("bg-success");
-                    }
-                    else {
-                        Asq1Card.find("#rob1_table").removeClass("bg-success").removeClass("bg-warning").addClass("bg-danger");
-                        if (data.rob1_downtime > 60){
-                            Asq1Card.find("#Downtime_rob1").html("Nevyrába " + asq1Rob1Downtime_hod + "Hod " + asq1Rob1Downtime_min + "Min");
-                            }else {
-                            Asq1Card.find("#Downtime_rob1").html("Nevyrába " + asq1Rob1Downtime_min + "Min");
-                            }
-                         }
-                }  
-                
+                machineCard.find("#machineName").html(machineName);
+                const linkId = `#${machineName}`;
+                const link = machineCard.find(linkId);
+                link.removeClass("d-none");
+                machineCard.append(link);
+    
+               return {
+                    card: machineCard,
+                    nameForMachine: machineName,
+                    link: link,
+                    rob1Downtime: machineCard.find("#Downtime_rob1").html("Waiting on data..."),
+                    rob1Table: machineCard.find("#rob1_table").removeClass("bg-danger").removeClass("bg-success").addClass("bg-warning"),
+                    rob2Downtime: machineCard.find("#Downtime_rob2").html("Waiting on data..."),
+                    rob2Table: machineCard.find("#rob2_table").removeClass("bg-danger").removeClass("bg-success").addClass("bg-warning"),
+                    connection: machineCard.find("#connection"),
+                    connectionInfo: machineCard.find("#connectionInfo"),                   
+                };
             };
-        
+            function doubleTab_updateMachineCard(machineCard, data) {
+                console.log("Data pre " + machineCard.nameForMachine + "  =>  " + data);
+                let Rob1Downtime_hod = Math.floor(data[0] / 60);
+                let Rob1Downtime_min = data[0] % 60;
+                let Rob2Downtime_hod = Math.floor(data[2] / 60);
+                let Rob2Downtime_min = data[2] % 60;
+                
+                if (data[1] === null || data === "Wait") {
+                    machineCard.connection.removeClass("d-block").addClass("d-none");
+                } else {
+                    machineCard.connection.removeClass("d-none").addClass("d-flex");
+                    machineCard.connectionInfo.attr("title", data[1]);
+                }
 
+                if (data[0] === 0) {
+                    machineCard.rob1Downtime.html("In Production");
+                    machineCard.rob1Table.removeClass("bg-danger").removeClass("bg-warning").addClass("bg-success");
+                } else if (data[0] >= 1) {
+                    machineCard.rob1Table.removeClass("bg-success").removeClass("bg-warning").addClass("bg-danger");
+                    if (data[0] > 60) {
+                        machineCard.rob1Downtime.html("Inactive " + Rob1Downtime_hod + "Hod " + Rob1Downtime_min + "Min");
+                    } else {
+                        machineCard.rob1Downtime.html("Inactive " + Rob1Downtime_min + "Min");
+                    }
+                } else {
+                    machineCard.rob1Downtime.html("Waiting on data...");
+                    machineCard.rob1Table.removeClass("bg-danger").removeClass("bg-success").addClass("bg-warning");
+                }
 
+                if (data[2] === 0) {
+                    machineCard.rob2Downtime.html("In Production");
+                    machineCard.rob2Table.removeClass("bg-danger").removeClass("bg-warning").addClass("bg-success");
+                } else if (data[2] >= 1) {
+                    machineCard.rob2Table.removeClass("bg-success").removeClass("bg-warning").addClass("bg-danger");
+                    if (data[2] > 60) {
+                        machineCard.rob2Downtime.html("Inactive " + Rob2Downtime_hod + "Hod " + Rob2Downtime_min + "Min");
+                    } else {
+                        machineCard.rob2Downtime.html("Inactive " + Rob2Downtime_min + "Min");
+                    }
+                } else {
+                    machineCard.rob2Downtime.html("Waiting on data...");
+                    machineCard.rob2Table.removeClass("bg-danger").removeClass("bg-success").addClass("bg-warning");
+                };
+            };
 
+            //double tab template init and update
+            function oneTab_initMachineCard(machineName) {
+                const machineCard = templateMFeqc.clone();
+                container.append(machineCard);
 
+                machineCard.find("#machineName").html(machineName);
+                const linkId = `#${machineName}`;
+                const link = machineCard.find(linkId);
+                link.removeClass("d-none");
+                machineCard.append(link);
 
+                return {
+                    card: machineCard,
+                    nameForMachine: machineName,
+                    link: link,
+                    downtime: machineCard.find("#downtime").html("Waiting on data..."),
+                    table: machineCard.removeClass("bg-danger").removeClass("bg-success").addClass("bg-warning"),
+                    connection: machineCard.find("#connection"),
+                    connectionInfo: machineCard.find("#connectionInfo"),
+                };
+            };
+            function oneTab_updateMachineCard(machineCard, data) {
+                console.log("Data pre " + machineCard.nameForMachine + "  =>  " + data);
+                let downtime_hod = Math.floor(data[0] / 60);
+                let downtime_min = data[0] % 60;
 
+                if (data[1] === null || data === "Wait") {
+                    machineCard.connection.removeClass("d-block").addClass("d-none");
+                } else {
+                    machineCard.connection.removeClass("d-none").addClass("d-flex");
+                    machineCard.connectionInfo.attr("title", data[1]);
+                }
 
-
+                if (data[0] === 0) {
+                    machineCard.downtime.html("In Production");
+                    machineCard.table.removeClass("bg-danger").removeClass("bg-warning").addClass("bg-success");
+                } else if (data[0] >= 1) {
+                    machineCard.table.removeClass("bg-success").removeClass("bg-warning").addClass("bg-danger");
+                    if (data[0] > 60) {
+                        machineCard.downtime.html("Inactive " + downtime_hod + "Hod " + downtime_min + "Min");
+                    } else {
+                        machineCard.downtime.html("Inactive " + Rob1Downtime_min + "Min");
+                    }
+                } else {
+                    machineCard.downtime.html("Waiting on data...");
+                    machineCard.table.removeClass("bg-danger").removeClass("bg-success").addClass("bg-warning");
+                }
+            };
 
 
 
@@ -92,11 +200,11 @@
     
     <div class="d-none">
 
-        <div id="card-template" class="text-black bg-success-subtle col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2 justify-content-between m-2 shadow-lg card ">
+        <div id="card-template-asq" class="text-black bg-success-subtle col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2 justify-content-between m-2 shadow-lg card ">
             <div id="connection" class="position-absolute w-100 h-100 bg-dark d-none bottom-0">
                 <h2 class="fs-4 w-75 mx-auto text-center d-flex flex-column justify-content-end text-warning gap-3 pb-3">
-                    Problem s pripojenim k PLC
-                    <br /><abbr title="" id="connectionInfo" class="text-info fs-5 justify-content-end">Viac Info</abbr>
+                    Problém s pripojením k PLC...
+                    <br /><abbr id="connectionInfo" title=""  class="text-info fs-5 justify-content-end">More Info</abbr>
                 </h2>
             </div>
             <h1 id="machineName" class="z-2 fs-3 pb-1  bg-success-subtle px-1 text-center rounded-2 mb-0"></h1>
@@ -108,67 +216,178 @@
                 </div>
                 <div id="rob2_table" class="text-center colorStatus_ROB2 text-black justify-content-between max-w  w-50 rounded-2 border-dark-subtle border-1 border">
                     <h1 class="fs-4 text-success-emphasis  ">[Forma B]</h1>
-                    <p>Stav<br /> <span id="Downtime_rob2" class="text-white fs-6 bg-dark p-1"> </span></p>
+                    <p>Status<br /> <span id="Downtime_rob2" class="text-white fs-6 bg-dark p-1"> </span></p>
                 </div>
             </div>
+
+            @*Links*@
+
+            <a target="_blank" id="ASQ_1" class="btn btn-primary w-100 d-none" asp-controller="Asq" asp-action="Asq1">Machine parameters</a>
+            <a target="_blank" id="ASQ_2" class="btn btn-primary w-100 d-none" asp-controller="Asq" asp-action="Asq2">Machine parameters</a>
+            <a target="_blank" id="ASQ_3" class="btn btn-primary w-100 d-none" asp-controller="Asq" asp-action="Asq3">Machine parameters</a>
+            <a target="_blank" id="ASQ_4" class="btn btn-primary w-100 d-none" asp-controller="Asq" asp-action="Asq4">Machine parameters</a>
+            <a target="_blank" id="ASQ_5" class="btn btn-primary w-100 d-none" asp-controller="Asq" asp-action="Asq5">Machine parameters</a>
+            <a target="_blank" id="ASQ_6" class="btn btn-primary w-100 d-none" asp-controller="Asq" asp-action="Asq6">Machine parameters</a>
         </div>
-        <a id="link" class="btn btn-primary w-100 " asp-controller="Asq" asp-action="Asq1">Aktualne parametre info</a>
+
+
+        <div id="card-template-mfeqc" class="text-center card text-black m-2 shadow-lg justify-content-between col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2">
+            <div id="connection" class="position-absolute d-flex w-100 h-100 bottom-0  bg-dark d-none">
+                <h2 class="fs-4 w-75 mx-auto text-center text-warning pb-3 gap-2 bg-dark  d-flex flex-column justify-content-end">
+                    Problém s pripojením k PLC...
+                    <br /><abbr id="connectionInfo" title="" class="text-info fs-5">More Info</abbr>
+                </h2>
+            </div>
+            <h1 id="machineName" class="z-2 fs-3 border-bottom border-1 border-dark-subtle bg-success-subtle pb-1 px-1 text-center rounded-2">Machine name</h1>
+
+            <p>Status <br /><span id="downtime" class="text-white fs-5 bg-dark p-1 "></span></p>
+
+            @*Links*@
+            <a target="_blank" id="MFeqc_1" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF1">Machine parameters</a>
+            <a target="_blank" id="MFeqc_2" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF2">Machine parameters</a>
+            <a target="_blank" id="MFeqc_3" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF3">Machine parameters</a>
+            <a target="_blank" id="MFeqc_4" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF4">Machine parameters</a>
+            @*<a target="_blank" id="MFeqc_5" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF5">Machine parameters</a>
+            <a target="_blank" id="MFeqc_6" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF6">Machine parameters</a>
+            <a target="_blank" id="MFeqc_7" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF7">Machine parameters</a>
+        <   a target="_blank" id="MFeqc_8" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF8">Machine parameters</a>*@
+            <a target="_blank" id="OpelArmrestFr" class="btn btn-primary w-100 d-none" asp-controller="Opel" asp-action="OpelArmrestFd">Machine parameters</a>
+            <a target="_blank" id="OpelArmrestRr" class="btn btn-primary w-100 d-none" asp-controller="Opel" asp-action="OpelArmrestRd">Machine parameters</a>
+            <a target="_blank" id="OpelInsertFr" class="btn btn-primary w-100 d-none" asp-controller="Opel" asp-action="OpelInsertFd">Machine parameters</a>
+            <a target="_blank" id="OpelInsertRr" class="btn btn-primary w-100 d-none" asp-controller="Opel" asp-action="OpelInsertRd">Machine parameters</a>
+
+
+        </div>
+
     </div>
   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     @*__________________ASQ1_Container_______________*@
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq1, nameMachine = "ASQ 1", inc_AsqRob1_Downtime_Time = Model.ASQ_1_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_1_ROB2_Downtime_Time, linkMachine = "Asq1" })
+    <!--@Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq1, nameMachine = "ASQ 1", inc_AsqRob1_Downtime_Time = Model.ASQ_1_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_1_ROB2_Downtime_Time, linkMachine = "Asq1" })-->
 
     @*__________________ASQ2_Container_______________*@
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq2, nameMachine = "ASQ 2", inc_AsqRob1_Downtime_Time = Model.ASQ_2_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_2_ROB2_Downtime_Time, linkMachine = "Asq2" })
+    <!--@Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq2, nameMachine = "ASQ 2", inc_AsqRob1_Downtime_Time = Model.ASQ_2_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_2_ROB2_Downtime_Time, linkMachine = "Asq2" })-->
 
     @*__________________ASQ3_Container_______________*@
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq3, nameMachine = "ASQ 3", inc_AsqRob1_Downtime_Time = Model.ASQ_3_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_3_ROB2_Downtime_Time, linkMachine = "Asq3" })
+    <!--@Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq3, nameMachine = "ASQ 3", inc_AsqRob1_Downtime_Time = Model.ASQ_3_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_3_ROB2_Downtime_Time, linkMachine = "Asq3" })-->
 
     @*__________________ASQ4_Container_______________*@
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq4, nameMachine = "ASQ 4", inc_AsqRob1_Downtime_Time = Model.ASQ_4_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_4_ROB2_Downtime_Time, linkMachine = "Asq4" })
+    <!--@Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq4, nameMachine = "ASQ 4", inc_AsqRob1_Downtime_Time = Model.ASQ_4_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_4_ROB2_Downtime_Time, linkMachine = "Asq4" })-->
 
     @*__________________ASQ5_Container_______________*@
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq5, nameMachine = "ASQ 5", inc_AsqRob1_Downtime_Time = Model.ASQ_5_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_5_ROB2_Downtime_Time, linkMachine = "Asq5" })
+    <!--@Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq5, nameMachine = "ASQ 5", inc_AsqRob1_Downtime_Time = Model.ASQ_5_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_5_ROB2_Downtime_Time, linkMachine = "Asq5" })-->
 
     @*_________________ASQ6_Container________________*@
-    @Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq6, nameMachine = "ASQ 6", inc_AsqRob1_Downtime_Time = Model.ASQ_6_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_6_ROB2_Downtime_Time, linkMachine = "Asq6" })
+    <!--@Html.Partial("static_components/_doubleTabTemplate", new { connection = @Model.connectionAsq6, nameMachine = "ASQ 6", inc_AsqRob1_Downtime_Time = Model.ASQ_6_ROB1_Downtime_Time, inc_AsqRob2_Downtime_Time = Model.ASQ_6_ROB2_Downtime_Time, linkMachine = "Asq6" })-->
 
     @*___________Opel Armrest FD container_____________*@
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestFd, nameMachine = "Opel Armrest FD", inc_Downtime_Time = Model.OpelArmrestFD_actualDowntime, controller = "Opel", linkMachine = "OpelArmrestFd" })
+    <!--@Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestFd, nameMachine = "Opel Armrest FD", inc_Downtime_Time = Model.OpelArmrestFD_actualDowntime, controller = "Opel", linkMachine = "OpelArmrestFd" })-->
 
     @*___________Opel Armrest RD container_____________*@
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestRd, nameMachine = "Opel Armrest RD", inc_Downtime_Time = Model.OpelArmrestRD_actualDowntime, controller = "Opel", linkMachine = "OpelArmrestRd" })
+    <!--@Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelArmrestRd, nameMachine = "Opel Armrest RD", inc_Downtime_Time = Model.OpelArmrestRD_actualDowntime, controller = "Opel", linkMachine = "OpelArmrestRd" })-->
 
     @*___________Opel Insert FD container_____________*@
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelInsertFd, nameMachine = "Opel Insert FD", inc_Downtime_Time = Model.OpelInsertFD_actualDowntime, controller = "Opel", linkMachine = "OpelInsertFd" })
+    <!--@Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelInsertFd, nameMachine = "Opel Insert FD", inc_Downtime_Time = Model.OpelInsertFD_actualDowntime, controller = "Opel", linkMachine = "OpelInsertFd" })-->
 
     @*___________Opel Insert RD container_____________*@
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelInsertRd, nameMachine = "Opel Insert RD", inc_Downtime_Time = Model.OpelInsertRD_actualDowntime, controller = "Opel", linkMachine = "OpelInsertRd" })
+    <!--@Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionOpelInsertRd, nameMachine = "Opel Insert RD", inc_Downtime_Time = Model.OpelInsertRD_actualDowntime, controller = "Opel", linkMachine = "OpelInsertRd" })-->
 
     @*_____________Eqc MF 1 container_________________*@
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF1, nameMachine = "Eqc MF 1", inc_Downtime_Time = Model.EqcMF1_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF1" })
+    <!--@Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF1, nameMachine = "Eqc MF 1", inc_Downtime_Time = Model.EqcMF1_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF1" })-->
 
     @*_____________Eqc MF 2 container_________________*@
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF2, nameMachine = "Eqc MF 2", inc_Downtime_Time = Model.EqcMF2_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF2" })
+    <!--@Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF2, nameMachine = "Eqc MF 2", inc_Downtime_Time = Model.EqcMF2_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF2" })-->
 
     @*_____________Eqc MF 3 container_________________*@
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF3, nameMachine = "Eqc MF 3", inc_Downtime_Time = Model.EqcMF3_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF3" })
+    <!--@Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF3, nameMachine = "Eqc MF 3", inc_Downtime_Time = Model.EqcMF3_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF3" })-->
 
     @*_____________Eqc MF 4 container_________________*@
-    @Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF4, nameMachine = "Eqc MF 4", inc_Downtime_Time = Model.EqcMF4_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF4" })
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <!--@Html.Partial("static_components/_oneTabTemplate", new { connection = @Model.connectionEqcMF4, nameMachine = "Eqc MF 4", inc_Downtime_Time = Model.EqcMF4_actualDownTime, controller = "MFeqc", linkMachine = "EqcMF4" })-->
 
 </div>
 

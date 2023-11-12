@@ -2,6 +2,7 @@
 {
     public class OpelInsertFront_model
     {
+        public string connection { get; set; }
         //Classic
         public short actualDowntime { get; set; }
         public int rightPart { get; set; }

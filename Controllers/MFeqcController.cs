@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using processDataShare.Models;
 using processDataShare.Models.eqcMfModels;
 using S7.Net;
 using S7.Net.Types;
@@ -15,8 +16,19 @@ namespace processDataShare.Controllers
         //______________________MF1__________________________
         public IActionResult EqcMF1()
         {
+            Models.eqcMfModels.EqcMf1_model EqcMf1model = LoadPLCData_MF1(); // nacitat data plc  
+            return View(EqcMf1model);
+        }
+
+        [HttpGet]
+        public JsonResult JsonMF1()
+        {
+            Models.eqcMfModels.EqcMf1_model EqcMf1model = LoadPLCData_MF1(); // nacitat data plc (ajax)
+            return Json(EqcMf1model);
+        }
+
+        private Models.eqcMfModels.EqcMf1_model LoadPLCData_MF1(){
             Models.eqcMfModels.EqcMf1_model EqcMf1model = new();
-            Models.MainIndex_model MainIndexModel = new();
             try
             {
 
@@ -26,12 +38,12 @@ namespace processDataShare.Controllers
 
                     if (plc_eqcMf1.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        EqcMf1model.connection = "Connection OK";
 
                         EqcMf1model.actualDowntime = ((ushort)plc_eqcMf1.Read("DB189.DBW0.0")).ConvertToShort();
 
                         EqcMf1model.ActualToolName = plc_eqcMf1.Read(DataType.DataBlock, 189, 2, VarType.String, 20).ToString();
-                        
+
 
                         int startAdress = 258; // Adresa UDT
                         int sizeInBytes = 78; // Veľkosť UDT v bajtoch
@@ -43,7 +55,7 @@ namespace processDataShare.Controllers
                         EqcMf1model.MachineAuto = udtData[0].SelectBit(0);
                         EqcMf1model.ConveyorOK = udtData[0].SelectBit(1);
                         EqcMf1model.MainStepNumber = S7.Net.Types.Int.FromByteArray(udtData.Skip(2).Take(2).ToArray());
-                        EqcMf1model.CycleTime = S7.Net.Types.DInt.FromByteArray(udtData.Skip(4).Take(4).ToArray())/10;
+                        EqcMf1model.CycleTime = S7.Net.Types.DInt.FromByteArray(udtData.Skip(4).Take(4).ToArray()) / 10;
                         EqcMf1model.ProductionCurrentNum = S7.Net.Types.DInt.FromByteArray(udtData.Skip(8).Take(4).ToArray());
                         //tool
                         EqcMf1model.ToolHome = udtData[12].SelectBit(0);
@@ -81,23 +93,33 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "Something is bad..." + MainIndexModel.connectionEqcMF1;
+                        EqcMf1model.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionEqcMF1 = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionEqcMF1;
+                EqcMf1model.connection = ex.Message;
             }
-            return View(EqcMf1model);
+            return EqcMf1model;
         }
 
         //______________________MF2__________________________
         public IActionResult EqcMF2()
         {
+            Models.eqcMfModels.EqcMf2_model EqcMf2model = LoadPLCData_MF2(); // nacitat data plc  
+            return View(EqcMf2model);
+        }
+
+        [HttpGet]
+        public JsonResult JsonMF2()
+        {
+            Models.eqcMfModels.EqcMf2_model EqcMf2model = LoadPLCData_MF2(); // nacitat data plc (ajax)
+            return Json(EqcMf2model);
+        }
+
+        private Models.eqcMfModels.EqcMf2_model LoadPLCData_MF2(){
             Models.eqcMfModels.EqcMf2_model EqcMf2model = new();
-            Models.MainIndex_model MainIndexModel = new();
             try
             {
 
@@ -107,7 +129,7 @@ namespace processDataShare.Controllers
 
                     if (plc_eqcMf2.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        EqcMf2model.connection = "Connection OK";
 
                         EqcMf2model.actualDowntime = ((ushort)plc_eqcMf2.Read("DB189.DBW0.0")).ConvertToShort();
 
@@ -160,23 +182,33 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "Something is bad..." + MainIndexModel.connectionEqcMF2;
+                        EqcMf2model.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionEqcMF2 = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionEqcMF2;
+                EqcMf2model.connection = ex.Message;
             }
-            return View(EqcMf2model);
+            return EqcMf2model;
         }
 
         //______________________MF3__________________________
         public IActionResult EqcMF3()
         {
+            Models.eqcMfModels.EqcMf3_model EqcMf3model = LoadPLCData_MF3(); // nacitat data plc (ajax)
+            return View(EqcMf3model);
+        }
+
+        [HttpGet]
+        public JsonResult JsonMF3()
+        {
+            Models.eqcMfModels.EqcMf3_model EqcMf3model = LoadPLCData_MF3(); // nacitat data plc (ajax)
+            return Json(EqcMf3model);
+        }
+
+        private Models.eqcMfModels.EqcMf3_model LoadPLCData_MF3(){
             Models.eqcMfModels.EqcMf3_model EqcMf3model = new();
-            Models.MainIndex_model MainIndexModel = new();
             try
             {
 
@@ -186,7 +218,7 @@ namespace processDataShare.Controllers
 
                     if (plc_eqcMf3.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        EqcMf3model.connection = "Connection OK";
 
                         EqcMf3model.actualDowntime = ((ushort)plc_eqcMf3.Read("DB189.DBW0.0")).ConvertToShort();
 
@@ -239,23 +271,33 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "Something is bad..." + MainIndexModel.connectionEqcMF3;
+                        EqcMf3model.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionEqcMF3 = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionEqcMF3;
+                EqcMf3model.connection = ex.Message;
             }
-            return View(EqcMf3model);
+return EqcMf3model;
         }
 
         //______________________MF4__________________________
         public IActionResult EqcMF4()
         {
+            Models.eqcMfModels.EqcMf4_model EqcMf4model = LoadPLCData_MF4(); // nacitat data plc 
+            return View(EqcMf4model);
+        }
+
+        [HttpGet]
+        public JsonResult JsonMF4()
+        {
+            Models.eqcMfModels.EqcMf4_model EqcMf4model = LoadPLCData_MF4(); // nacitat data plc (ajax)
+            return Json(EqcMf4model);
+        }
+
+        private Models.eqcMfModels.EqcMf4_model LoadPLCData_MF4(){
             Models.eqcMfModels.EqcMf4_model EqcMf4model = new();
-            Models.MainIndex_model MainIndexModel = new();
             try
             {
 
@@ -265,7 +307,7 @@ namespace processDataShare.Controllers
 
                     if (plc_eqcMf4.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        EqcMf4model.connection = "Connection OK";
 
                         EqcMf4model.actualDowntime = ((ushort)plc_eqcMf4.Read("DB189.DBW0.0")).ConvertToShort();
 
@@ -318,17 +360,17 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "Something is bad..." + MainIndexModel.connectionEqcMF4;
+                        EqcMf4model.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionEqcMF4 = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionEqcMF4;
+                EqcMf4model.connection = ex.Message;
             }
-            return View(EqcMf4model);
+            return EqcMf4model;
         }
+        
 
 
 
@@ -364,5 +406,5 @@ namespace processDataShare.Controllers
 
 
 
-    }
+        }
 }

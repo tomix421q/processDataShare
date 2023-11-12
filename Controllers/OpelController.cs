@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using processDataShare.Models;
 using S7.Net;
 using S7.Net.Types;
 
@@ -15,19 +16,28 @@ namespace processDataShare.Controllers
         //______________________OpelArmrest_FD_________________________
         public IActionResult OpelArmrestFD()
         {
+            Models.OpelArmrestFront_model OpelArmrestFDmodel = LoadPLCData_OpelArmrestFD(); // nacitat data plc        
+            return View(OpelArmrestFDmodel);
+        }
+
+        [HttpGet]
+        public JsonResult JsonOpelArmrestFD()
+        {
+            Models.OpelArmrestFront_model OpelArmrestFDmodel = LoadPLCData_OpelArmrestFD(); // nacitat data plc (ajax)
+            return Json(OpelArmrestFDmodel);
+        }
+
+        private Models.OpelArmrestFront_model LoadPLCData_OpelArmrestFD(){
             Models.OpelArmrestFront_model OpelArmrestFDmodel = new();
-            Models.OpelArmrestData UDTopelArmrestFDmodel = new();
-            Models.MainIndex_model MainIndexModel = new();
             try
             {
-
                 using (var plc_opelArmrestFD = new Plc(CpuType.S71500, "10.184.159.45", 0, 1))
                 {
                     plc_opelArmrestFD.Open();//Connect
 
                     if (plc_opelArmrestFD.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        OpelArmrestFDmodel.connection = "Connection OK";
 
                         OpelArmrestFDmodel.rightPart = ((uint)plc_opelArmrestFD.Read("DB26.DBD2.0")).ConvertToInt();
                         OpelArmrestFDmodel.leftPart = ((uint)plc_opelArmrestFD.Read("DB26.DBD6.0")).ConvertToInt();
@@ -43,63 +53,47 @@ namespace processDataShare.Controllers
                         // UDT
                         OpelArmrestFDmodel.tempLeftUp = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(0).Take(4).ToArray()));
                         OpelArmrestFDmodel.tempRightUp = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(4).Take(4).ToArray()));
-                        OpelArmrestFDmodel.tempLeftDown = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(8).Take(4).ToArray()));                      
+                        OpelArmrestFDmodel.tempLeftDown = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(8).Take(4).ToArray()));
                         OpelArmrestFDmodel.tempRightDown = (int)Math.Round(S7.Net.Types.Real.FromByteArray(udtData.Skip(12).Take(4).ToArray()));
-                        OpelArmrestFDmodel.heatingTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(16).Take(2).ToArray())/10;
-                        OpelArmrestFDmodel.heatingSetPointMax = S7.Net.Types.Int.FromByteArray(udtData.Skip(18).Take(2).ToArray())/10;
-                        OpelArmrestFDmodel.foldingTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(20).Take(2).ToArray())/10;
+                        OpelArmrestFDmodel.heatingTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(16).Take(2).ToArray()) / 10;
+                        OpelArmrestFDmodel.heatingSetPointMax = S7.Net.Types.Int.FromByteArray(udtData.Skip(18).Take(2).ToArray()) / 10;
+                        OpelArmrestFDmodel.foldingTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(20).Take(2).ToArray()) / 10;
                         OpelArmrestFDmodel.foldingSetPointMax = S7.Net.Types.Int.FromByteArray(udtData.Skip(22).Take(2).ToArray()) / 10;
                         OpelArmrestFDmodel.cycleTime = S7.Net.Types.Int.FromByteArray(udtData.Skip(24).Take(2).ToArray()) / 10;
                         OpelArmrestFDmodel.shotDateTime = S7.Net.Types.DateTime.FromByteArray(udtData.Skip(26).Take(8).ToArray());
                         OpelArmrestFDmodel.mouldNumber = S7.Net.Types.Word.FromByteArray(udtData.Skip(34).Take(2).ToArray());
                         OpelArmrestFDmodel.recipe = S7.Net.Types.Int.FromByteArray(udtData.Skip(36).Take(2).ToArray());
                         OpelArmrestFDmodel.pyroIndicatorOnOff = udtData[38].SelectBit(0);
-
-                        //if (OpelArmrestFDmodel.actualStep == 2)
-                        //{
-                        //    var opelData = new OpelArmrestData
-                        //    {
-
-                        //        // Nastavte vlastnosti objektu OpelArmrestData z OpelArmrestFDmodel
-                        //        tempLeftUp = OpelArmrestFDmodel.tempLeftUp,
-                        //        tempRightUp = OpelArmrestFDmodel.tempRightUp,
-                        //        tempRightDown = OpelArmrestFDmodel.tempRightDown,
-                        //        tempLeftDown = OpelArmrestFDmodel.tempLeftDown,
-                        //        heatingTime = OpelArmrestFDmodel.heatingTime,
-                        //        heatingSetPointMax = OpelArmrestFDmodel.heatingSetPointMax,
-                        //        foldingTime = OpelArmrestFDmodel.foldingTime,
-                        //        foldingSetPointMax = OpelArmrestFDmodel.foldingSetPointMax,
-                        //        cycleTime = OpelArmrestFDmodel.cycleTime,
-                        //        shotDateTime = OpelArmrestFDmodel.shotDateTime,
-                        //        mouldNumber = OpelArmrestFDmodel.mouldNumber,
-                        //        recipe = OpelArmrestFDmodel.recipe,
-                        //        pyroIndicatorOnOff = OpelArmrestFDmodel.pyroIndicatorOnOff
-                        //    };
-
-                        //    _context.OpelArmrestData.Add(opelData);
-                        //    _context.SaveChanges();
-                        //}
-
                     }
                     else
                     {
-                        ViewBag.connection = "Something is bad..." + MainIndexModel.connectionOpelArmrestFd;
+                        OpelArmrestFDmodel.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionOpelArmrestFd = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionOpelArmrestFd;
+                OpelArmrestFDmodel.connection = ex.Message;
             }
-            return View(OpelArmrestFDmodel);
-        }
+            return OpelArmrestFDmodel;
+        }     
+
         //______________________OpelArmrest_RD_________________________
         public IActionResult OpelArmrestRD()
         {
+            Models.OpelArmrestRear_model OpelArmrestRDmodel = LoadPLCData_OpelArmrestRD(); // nacitat data plc    
+            return View(OpelArmrestRDmodel);
+        }
+
+        [HttpGet]
+        public JsonResult JsonOpelArmrestRD()
+        {
+            Models.OpelArmrestRear_model OpelArmrestRDmodel = LoadPLCData_OpelArmrestRD(); // nacitat data plc (ajax)
+            return Json(OpelArmrestRDmodel);
+        }
+
+        private Models.OpelArmrestRear_model LoadPLCData_OpelArmrestRD() {
             Models.OpelArmrestRear_model OpelArmrestRDmodel = new();
-            
-            Models.MainIndex_model MainIndexModel = new();
             try
             {
 
@@ -109,7 +103,7 @@ namespace processDataShare.Controllers
 
                     if (plc_opelArmrestRD.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        OpelArmrestRDmodel.connection = "Connection OK";
 
                         OpelArmrestRDmodel.rightPart = ((uint)plc_opelArmrestRD.Read("DB26.DBD2.0")).ConvertToInt();
                         OpelArmrestRDmodel.leftPart = ((uint)plc_opelArmrestRD.Read("DB26.DBD6.0")).ConvertToInt();
@@ -136,61 +130,48 @@ namespace processDataShare.Controllers
                         OpelArmrestRDmodel.mouldNumber = S7.Net.Types.Word.FromByteArray(udtData.Skip(34).Take(2).ToArray());
                         OpelArmrestRDmodel.recipe = S7.Net.Types.Int.FromByteArray(udtData.Skip(36).Take(2).ToArray());
                         OpelArmrestRDmodel.pyroIndicatorOnOff = udtData[38].SelectBit(0);
-
-                        //if (OpelArmrestFDmodel.actualStep == 2)
-                        //{
-                        //    var opelData = new OpelArmrestData
-                        //    {
-
-                        //        // Nastavte vlastnosti objektu OpelArmrestData z OpelArmrestFDmodel
-                        //        tempLeftUp = OpelArmrestFDmodel.tempLeftUp,
-                        //        tempRightUp = OpelArmrestFDmodel.tempRightUp,
-                        //        tempRightDown = OpelArmrestFDmodel.tempRightDown,
-                        //        tempLeftDown = OpelArmrestFDmodel.tempLeftDown,
-                        //        heatingTime = OpelArmrestFDmodel.heatingTime,
-                        //        heatingSetPointMax = OpelArmrestFDmodel.heatingSetPointMax,
-                        //        foldingTime = OpelArmrestFDmodel.foldingTime,
-                        //        foldingSetPointMax = OpelArmrestFDmodel.foldingSetPointMax,
-                        //        cycleTime = OpelArmrestFDmodel.cycleTime,
-                        //        shotDateTime = OpelArmrestFDmodel.shotDateTime,
-                        //        mouldNumber = OpelArmrestFDmodel.mouldNumber,
-                        //        recipe = OpelArmrestFDmodel.recipe,
-                        //        pyroIndicatorOnOff = OpelArmrestFDmodel.pyroIndicatorOnOff
-                        //    };
-
-                        //    _context.OpelArmrestData.Add(opelData);
-                        //    _context.SaveChanges();
-                        //}
-
                     }
                     else
                     {
-                        ViewBag.connection = "Something is bad..." + MainIndexModel.connectionOpelArmrestRd;
+                        OpelArmrestRDmodel.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionOpelArmrestRd = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionOpelArmrestRd;
+                OpelArmrestRDmodel.connection = ex.Message;
             }
-            return View(OpelArmrestRDmodel);
+            return OpelArmrestRDmodel;
         }
+
         //______________________OpelInsert_FD__________________________
         public IActionResult OpelInsertFD()
         {
+
+            Models.OpelInsertFront_model OpelInsertFDmodel = LoadPLCData_OpelInsertFD(); // nacitat data plc 
+            return View(OpelInsertFDmodel);
+        }
+
+        [HttpGet]
+        public JsonResult JsonOpelInsertFD()
+        {
+            Models.OpelInsertFront_model OpelInsertFDmodel = LoadPLCData_OpelInsertFD(); // nacitat data plc (ajax)
+            return Json(OpelInsertFDmodel);
+        }
+
+        private Models.OpelInsertFront_model LoadPLCData_OpelInsertFD()
+{
             Models.OpelInsertFront_model OpelInsertFDmodel = new();
-            Models.MainIndex_model MainIndexModel = new();
             try
             {
-
+               
                 using (var plc_opelInsertFD = new Plc(CpuType.S71500, "10.184.159.48", 0, 1))
                 {
                     plc_opelInsertFD.Open();//Connect
 
                     if (plc_opelInsertFD.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        OpelInsertFDmodel.connection = "Connection OK";
 
                         OpelInsertFDmodel.rightPart = ((uint)plc_opelInsertFD.Read("DB26.DBD2.0")).ConvertToInt();
                         OpelInsertFDmodel.leftPart = ((uint)plc_opelInsertFD.Read("DB26.DBD6.0")).ConvertToInt();
@@ -223,22 +204,33 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "Something is bad..." + MainIndexModel.connectionOpelInsertFd;
+                        OpelInsertFDmodel.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionOpelInsertFd = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionOpelInsertFd;
+                OpelInsertFDmodel.connection = ex.Message;
             }
-            return View(OpelInsertFDmodel);
+            return OpelInsertFDmodel;
         }
+
         //______________________OpelInsert_RD__________________________
         public IActionResult OpelInsertRD()
         {
+            Models.OpelInsertRear_model OpelInsertRDmodel = LoadPLCData_OpelInsertRD(); // nacitat data plc (ajax)
+            return View(OpelInsertRDmodel);
+        }
+
+        [HttpGet]
+        public JsonResult JsonOpelInsertRD()
+        {
+            Models.OpelInsertRear_model OpelInsertRDmodel = LoadPLCData_OpelInsertRD(); // nacitat data plc (ajax)
+            return Json(OpelInsertRDmodel);
+        }
+
+        private Models.OpelInsertRear_model LoadPLCData_OpelInsertRD(){
             Models.OpelInsertRear_model OpelInsertRDmodel = new();
-            Models.MainIndex_model MainIndexModel = new();
             try
             {
 
@@ -248,7 +240,7 @@ namespace processDataShare.Controllers
 
                     if (plc_opelInsertRD.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        OpelInsertRDmodel.connection = "Connection OK";
 
                         OpelInsertRDmodel.rightPart = ((uint)plc_opelInsertRD.Read("DB26.DBD2.0")).ConvertToInt();
                         OpelInsertRDmodel.leftPart = ((uint)plc_opelInsertRD.Read("DB26.DBD6.0")).ConvertToInt();
@@ -283,17 +275,25 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "Something is bad..." + MainIndexModel.connectionOpelInsertRd;
+                        OpelInsertRDmodel.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionOpelInsertRd = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionOpelInsertRd;
+                OpelInsertRDmodel.connection = ex.Message;
             }
-            return View(OpelInsertRDmodel);
+            return OpelInsertRDmodel;
         }
+
+
+
+
+
+
+
+
+
 
     }
 }

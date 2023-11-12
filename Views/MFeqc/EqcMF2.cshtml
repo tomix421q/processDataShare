@@ -1,53 +1,140 @@
 ﻿@model processDataShare.Models.eqcMfModels.EqcMf2_model
 @{
-    <meta http-equiv="refresh" content="3">
+    @*<meta http-equiv="refresh" content="3">*@
     ViewData["Title"] = "MF_2 Info";
 
 }
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title>EqcMf 2</title>
-</head>
-<body class="mx-auto text-center container-md">
+@section Scripts {
+    <script>
+        const eqcNumber = $("#eqcNum").html("2");
+        var connection = $("#connection").html("Loading data...");
+
+        $(document).ready(function () {
+
+            JsonMainIndex();
+            setInterval(JsonMainIndex, 3000);
+            function JsonMainIndex() {
+                $.ajax({
+                    url: "@Url.Action("JsonMF2")",
+                    type: "GET",
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log(result)
+                        updateDom(result)
+                    },
+                    error: function () {
+                        alert("Problem with load data try again please...");
+                    }
+                });
+            }
 
 
-    @Html.Partial("static_components/_eqcMFlayout", new
-    {
-    numberMf = "2",
-    Connection = ViewBag.connection,
-    downtime = Model.actualDowntime,
-    MachineAuto = Model.MachineAuto,
-    ConveyorOk = Model.ConveyorOK,
-    StepNumber = Model.MainStepNumber,
-    CycleTime = Model.CycleTime,
-    productionCurrent = Model.ProductionCurrentNum,
-    ToolHoomed = Model.ToolHome,
-    HeaterOk = Model.HeaterOk,
-    ToolNumber = Model.ToolNumber,
-    ToolName = Model.ActualToolName,
-    BluemeltOk = Model.BluemeltOk,
-    ActualPressure = Model.ActualPressure,
-    AirInside1 = Model.SetAirInside1,
-    AirOutside1 = Model.SetAirOutside1,
-    PumpSpeed1 = Model.SetpumpSpeed1,
-    AirInside2 = Model.SetAirInside2,
-    AirOutside2 = Model.SetAirOutside2,
-    PumpSpeed2 = Model.SetpumpSpeed2,
-    AirInside3 = Model.SetAirInside3,
-    PumpSpeed3 = Model.SetpumpSpeed3,
-    ActualAirInside1 = Model.Actual_AirInside1,
-    ActualAirOutside1 = Model.Actual_AirOutside1,
-    ActualAirInside2 = Model.Actual_AirInside2,
-    ActualAirOutside2 = Model.Actual_AirOutside2,
-    ActualAirInside3 = Model.Actual_AirInside3,
-    RobotAutoMode = Model.RobotAutomaticMode,
-    RobotRunning = Model.RobotRunning,
-    RobotHome = Model.RobotHome,
-    ConnectedGripper = Model.RobotConnectedGripper,
-    RobotToolNumber = Model.RobotToolNumber
-    }
-)
+            function updateDom(data) {
+                if (data.connection === "Connection OK") {
+                    connection.removeClass("bg-warning").removeClass("text-danger").addClass("bg-success").addClass("text-dark");
+                    connection.html(data.connection);
+                } else {
+                    connection.removeClass("bg-success").removeClass("text-dark").addClass().addClass("bg-warning").addClass("text-danger");
+                    connection.html(data.connection);
+                };
+                //Global
+                $("#downtime").html(data.actualDowntime + "min");
+                $("#isMachineAuto").html(data.machineAuto === true ? "true" : "false");
+                $("#conveyorOk").html(data.conveyorOK === true ? "true" : "false");
+                $("#stepNumber").html(data.mainStepNumber);
+                $("#cycleTime").html(data.cycleTime + " sec");
+                $("#production").html(data.productionCurrentNum);
+                //Tool
+                $("#isToolHome").html(data.toolHome === true ? "true" : "false");
+                $("#isHeaterOk").html(data.heaterOk === true ? "true" : "false");
+                $("#toolNumber").html(data.toolNumber);
+                $("#toolName").html(data.actualToolName);
+                //Gluestation
+                $("#isBluemeltOk").html(data.bluemeltOk === true ? "true" : "false");
+                $("#actuallPressure").html(data.actualPressure + " bar");
+                $("#airInside1").html(data.setAirInside1 + " %");
+                $("#airOutside1").html(data.setAirOutside1 + " %");
+                $("#pumpSpeed1").html(data.setpumpSpeed1 + " %");
+                $("#airInside2").html(data.setAirInside2 + " %");
+                $("#airOutside2").html(data.setAirOutside2 + " %");
+                $("#pumpSpeed2").html(data.setpumpSpeed2 + " %");
+                $("#airInside3").html(data.setAirInside3 + " %");
+                $("#pumpSpeed3").html(data.setpumpSpeed3 + " %");
+                $("#actuallAirInside1").html(data.actual_AirInside1 + " %");
+                $("#actuallAirOutside1").html(data.actual_AirOutside1 + " %");
+                $("#actuallAirInside2").html(data.actual_AirOutside2 + " %");
+                $("#actuallAirOutside2").html(data.actual_AirOutside2 + " %");
+                $("#actuallAirInside3").html(data.actual_AirInside3 + " %");
+                //Robot
+                $("#isRobotAuto").html(data.robotAutomaticMode === true ? "true" : "false");
+                $("#isRobotRun").html(data.robotRunning === true ? "true" : "false");
+                $("#isRobotHome").html(data.robotHome === true ? "true" : "false");
+                $("#isRobotConnectedGripper").html(data.robotConnectedGripper === true ? "true" : "false");
+                $("#robotToolNum").html(data.robotToolNumber);
 
+            };
 
-</body>
-</html>
+        });
+    </script>
+}
+
+<h4 id="connection" class="text-warning rounded-2 mx-auto text-center p-2 m-4 border border-1 border-primary"></h4>
+
+<div class="text-dark">
+
+    <div class="d-flex justify-content-around m-4 flex-md-row flex-column  gap-4 p-2 pb-4 h-auto">
+        @* Basic Info*@
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3 ">
+            <h1 class="fs-2 text-center py-2 text-bg-primary">[Info MF <span id="eqcNum"></span>]</h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p>Inactive time: <span id="downtime" class="text-info fw-bold"></span> </p>
+            <p>Machine Auto: <span id="isMachineAuto" class="text-info fw-bold"></span> </p>
+            <p>Conveyor Ok: <span id="conveyorOk" class="text-info fw-bold"></span> </p>
+            <p>Main Step Number: <span id="stepNumber" class="text-info fw-bold"></span> </p>
+            <p>Cycle Time: <span id="cycleTime" class="text-info fw-bold"></span></p>
+            <p>Actual parts: <span id="production" class="text-info fw-bold"></span> </p>
+        </div>
+
+        @*Tool*@
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3">
+            <h1 class="fs-2 text-center py-2 text-bg-info">[TOOL]</h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p>Tool home: <span id="isToolHome" class="text-info fw-bold"> </span> </p>
+            <p>Heater ok: <span id="isHeaterOk" class="text-info fw-bold"></span> </p>
+            <p>Tool number: <span id="toolNumber" class="text-info fw-bold"></span> </p>
+            <p>Tool name: <span id="toolName" class="text-info fw-bold"> </span> </p>
+        </div>
+        @*Gluestation*@
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3">
+            <h1 class="fs-2 text-center py-2 text-bg-secondary">[Gluestation]</h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p>Bluemelt ok: <span id="isBluemeltOk" class="text-info fw-bold"> </span> </p>
+            <p>Actuall pressure: <span id="actuallPressure" class="text-info fw-bold"></span> </p>
+            <p>Set air inside 1: <span id="airInside1" class="text-info fw-bold"></span> </p>
+            <p>Set air outside 1: <span id="airOutside1" class="text-info fw-bold"></span> </p>
+            <p>Set pump 1: <span id="pumpSpeed1" class="text-info fw-bold"></span> </p>
+            <p>Set air inside 2: <span id="airInside2" class="text-info fw-bold"></span> </p>
+            <p>Set air outside 2: <span id="airOutside2" class="text-info fw-bold"></span> </p>
+            <p>Set pump 2: <span id="pumpSpeed2" class="text-info fw-bold"></span></p>
+            <p>Set air inside 3: <span id="airInside3" class="text-info fw-bold"></span> </p>
+            <p>Set pump 3: <span id="pumpSpeed3" class="text-info fw-bold"></span></p>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p class="text-danger">Actual air inside 1: <span id="actuallAirInside1" class="text-info fw-bold"></span> </p>
+            <p class="text-danger">Actual air outside 1: <span id="actuallAirOutside1" class="text-info fw-bold"></span> </p>
+            <p class="text-danger">Actual air inside 2: <span id="actuallAirInside2" class="text-info fw-bold"></span> </p>
+            <p class="text-danger">Actual air outside 2: <span id="actuallAirOutside2" class="text-info fw-bold"></span> </p>
+            <p class="text-danger">Actual air inside 3: <span id="actuallAirInside3" class="text-info fw-bold"></span> </p>
+        </div>
+        @*Robot*@
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3">
+            <h1 class="fs-2 text-center py-2 text-bg-warning">[Robot]</h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p>Automatic mode: <span id="isRobotAuto" class="text-info fw-bold"></span> </p>
+            <p>Robot running: <span id="isRobotRun" class="text-info fw-bold"></span> </p>
+            <p>Robot home: <span id="isRobotHome" class="text-info fw-bold"></span> </p>
+            <p>Connected gripper: <span id="isRobotConnectedGripper" class="text-info fw-bold"></span> </p>
+            <p>Gripper tool number: <span id="robotToolNum" class="text-info fw-bold"></span> </p>
+        </div>
+    </div>
+
+</div>

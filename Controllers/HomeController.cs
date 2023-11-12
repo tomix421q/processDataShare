@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Memory;
 using processDataShare.Models;
 using S7.Net;
+using System.Reflection;
 
 namespace processDataShare.Controllers
 {
@@ -23,9 +24,7 @@ namespace processDataShare.Controllers
 
         private Models.MainIndex_model LoadPLCData()
         {
-            // Sem vložte kód pro načtení aktualizovaných dat z PLC nebo jiného zdroje
-            //ViewBag.loadingg = true;
-            //Console.WriteLine(ViewBag.loadingg);
+            
             Models.MainIndex_model MainIndexModel = new();
 
             {
@@ -347,5 +346,28 @@ namespace processDataShare.Controllers
         }            //plc data loader main index
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

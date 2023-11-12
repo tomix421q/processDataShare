@@ -23,6 +23,7 @@
         public float Global_WeightTolPlus { get; set; }
         public int Global_GoWeightAfter { get; set; }
         public float Global_MixingTime { get; set; }
+        public string connection { get; set; }
 
     }
 }

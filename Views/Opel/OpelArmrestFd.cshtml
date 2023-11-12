@@ -1,52 +1,106 @@
 ﻿
 @model processDataShare.Models.OpelArmrestFront_model
 @{
-    <meta http-equiv="refresh" content="3">
-
+    @*<meta http-equiv="refresh" content="3">*@
+    ViewData["Title"] = "Opel_Armrest_Front Info";
 }
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body class="mx-auto text-center">
-    <h4 class="text-warning rounded-2 mx-auto text-center p-2 m-4 @(ViewBag.connection == "Connection OK" ? "bg-success text-dark" : "bg-warning text-danger")">
-        @ViewBag.connection
-    </h4>
+@section Scripts {
+    <script>
+        const machineName = $("#machineName").html("OPEL ARMREST FD");
+        var connection = $("#connection").html("Loading data...");
 
-    <div class="text-dark">
-        @*Main*@
-        <div class="d-flex justify-content-around m-4 flex-md-row flex-column gap-4">
-            <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 ">
-                <h1 class="fs-2 text-center py-2">Opel Armrest [Front] </h1>
-                <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
-                <p>Actual downtime: <span class="text-info fw-bold">@Model.actualDowntime min</span>  </p>
-                <p>Actual Step: <span class="text-info fw-bold">@Model.actualStep</span>   </p>
-                <p>Left parts: <span class="text-info fw-bold">@Model.leftPart</span> </p>
-                <p>Right parts: <span class="text-info fw-bold">@Model.rightPart</span>  </p>
-                <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
-            </div>
+        $(document).ready(function () {
 
-            @*UDT*@
-        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5">
-            <h1 class="fs-2 text-center py-2">Last Shot [Front] </h1>
+            JsonMainIndex();
+            setInterval(JsonMainIndex, 3000);
+            function JsonMainIndex() {
+                $.ajax({
+                    url: "@Url.Action("JsonOpelArmrestFD")",
+                    type: "GET",
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log(result)
+                        updateDom(result)
+                    },
+                    error: function () {
+                        alert("Problem with load data try again please...");
+                    }
+                });
+            }
+
+
+            function updateDom(data) {
+                if (data.connection === "Connection OK") {
+                    connection.removeClass("bg-warning").removeClass("text-danger").addClass("bg-success").addClass("text-dark");
+                    connection.html(data.connection);
+                } else {
+                    connection.removeClass("bg-success").removeClass("text-dark").addClass().addClass("bg-warning").addClass("text-danger");
+                    connection.html(data.connection);
+                };
+                //Global
+                $("#downtime").html(data.actualDowntime + " min");
+                $("#actuallStep").html(data.actualStep);
+                $("#leftPart").html(data.leftPart);
+                $("#rightPart").html(data.rightPart);
+                //Rob1
+                $("#tempLeftUp").html(data.tempLeftUp + " C&deg;");
+                $("#tempRightUp").html(data.tempRightUp + " C&deg;");
+                $("#tempLeftDown").html(data.tempLeftDown + " C&deg;");
+                $("#tempRightDown").html(data.tempRightDown + " C&deg;");
+                $("#heatingTime").html(data.heatingTime  + " s");
+                $("#heatingTimeSp").html(data.heatingSetPointMax + " s");
+                $("#foldingTime").html(data.foldingTime + "s");
+                $("#foldingTimeSp").html(data.foldingSetPointMax + "s");
+                $("#cycleTime").html(data.cycleTime + "s");
+                $("#DateTime").html(data.shotDateTime);
+                $("#mouldNum").html(data.mouldNumber);
+                $("#recipe").html(data.recipe);
+                $("#isPyroOn").html(data.pyroIndicatorOnOff === true ? "True" : "False");
+            };
+
+        });
+    </script>
+}
+
+<h4 id="connection" class="text-warning rounded-2 mx-auto text-center p-2 m-4 border border-1 border-primary"></h4>
+
+<div class="text-dark">
+
+    <div class="d-flex justify-content-around m-4 flex-md-row flex-column  gap-4 p-2 pb-4 h-auto">
+
+        @*Basic Info*@
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-4 ">
+            <h1 class="fs-2 text-center py-2 text-bg-primary"> [INFO <span id="machineName" class="text-warning"></span>] </h1>
             <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
-            <p class="text-dark-emphasis">TempLeft Up:<span class="text-info fw-bold"> @Model.tempLeftUp C&deg;</span></p>
-            <p class="text-dark-emphasis">TempRight Up:<span class="text-info fw-bold"> @Model.tempRightUp C&deg;</span></p>
-            <p class="text-dark-emphasis">TempLeft Down:<span class="text-info fw-bold"> @Model.tempLeftDown C&deg;</span></p>
-            <p class="text-dark-emphasis">TempRight Down:<span class="text-info fw-bold"> @Model.tempRightDown C&deg;</span></p>
-            <p class="text-dark-emphasis">Heating time:<span class="text-info fw-bold"> @Model.heatingTime s</span></p>
-            <p class="text-dark-emphasis">Heating setpoint max:<span class="text-info fw-bold"> @Model.heatingSetPointMax s</span></p>
-            <p class="text-dark-emphasis">Folding time:<span class="text-info fw-bold"> @Model.foldingTime s</span></p>
-            <p class="text-dark-emphasis">Folding setpoint max:<span class="text-info fw-bold"> @Model.foldingSetPointMax s</span></p>
-            <p class="text-dark-emphasis">Cycle time:<span class="text-info fw-bold"> @Model.cycleTime s</span></p>
-            <p class="text-dark-emphasis">Date time:<span class="text-info fw-bold"> @Model.shotDateTime </span></p>
-            <p class="text-dark-emphasis">Mould number:<span class="text-info fw-bold"> @Model.mouldNumber </span></p>
-            <p class="text-dark-emphasis">Recipe:<span class="text-info fw-bold"> @Model.recipe </span></p>
-            <p class="text-dark-emphasis">Pyro indicator:<span class="text-info fw-bold"> @Model.pyroIndicatorOnOff </span></p>
+            <p>Actual downtime: <span id="downtime" class="text-info fw-bold"></span>  </p>
+            <p>Actual Step: <span id="actuallStep" class="text-info fw-bold"></span>   </p>
+            <p>Left parts: <span id="leftPart" class="text-info fw-bold"></span> </p>
+            <p>Right parts: <span id="rightPart" class="text-info fw-bold"></span>  </p>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
         </div>
-            
+
+        @*UDT*@
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-4">
+            <h1 class="fs-2 text-center py-2 text-bg-secondary">[LAST SHOT] </h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p class="text-dark-emphasis">TempLeft Up:<span id="tempLeftUp" class="text-info fw-bold"> C&deg;</span></p>
+            <p class="text-dark-emphasis">TempRight Up:<span id="tempRightUp" class="text-info fw-bold"> C&deg;</span></p>
+            <p class="text-dark-emphasis">TempLeft Down:<span id="tempLeftDown" class="text-info fw-bold">  C&deg;</span></p>
+            <p class="text-dark-emphasis">TempRight Down:<span id="tempRightDown" class="text-info fw-bold">  C&deg;</span></p>
+            <p class="text-dark-emphasis">Heating time:<span id="heatingTime" class="text-info fw-bold">  s</span></p>
+            <p class="text-dark-emphasis">Heating setpoint max:<span id="heatingTimeSp" class="text-info fw-bold"> @Model.heatingSetPointMax s</span></p>
+            <p class="text-dark-emphasis">Folding time:<span id="foldingTime" class="text-info fw-bold">  s</span></p>
+            <p class="text-dark-emphasis">Folding setpoint max:<span id="foldingTimeSp" class="text-info fw-bold">  s</span></p>
+            <p class="text-dark-emphasis">Cycle time:<span id="cycleTime" class="text-info fw-bold">  s</span></p>
+            <p class="text-dark-emphasis">Date time:<span id="DateTime" class="text-info fw-bold">  </span></p>
+            <p class="text-dark-emphasis">Mould number:<span id="mouldNum" class="text-info fw-bold">  </span></p>
+            <p class="text-dark-emphasis">Recipe:<span id="recipe" class="text-info fw-bold"> </span></p>
+            <p class="text-dark-emphasis">Pyro indicator:<span id="isPyroOn" class="text-info fw-bold"> @Model.pyroIndicatorOnOff </span></p>
         </div>
-</body>
-</html>
+
+
+    </div>
+</div>
+
 
 

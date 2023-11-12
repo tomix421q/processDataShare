@@ -1,55 +1,104 @@
 ﻿@model processDataShare.Models.Asq6_model
 @{
-    <meta http-equiv="refresh" content="3">
+    @*<meta http-equiv="refresh" content="3">*@
     ViewData["Title"] = "ASQ_6 Info";
 
 }
+@section Scripts {
+    <script>
+        const asqNumber = $("#asqNum").html("6");
+        var connection = $("#connection").html("Loading data...");
+
+        $(document).ready(function () {
+
+            JsonMainIndex();
+            setInterval(JsonMainIndex, 3000);
+            function JsonMainIndex() {
+                $.ajax({
+                    url: "@Url.Action("JsonAsq6")",
+                    type: "GET",
+                    dataType: 'json',
+                    success: function (result) {
+                        console.log(result)
+                        updateDom(result)
+                    },
+                    error: function () {
+                        alert("Problem with load data try again please...");
+                    }
+                });
+            }
 
 
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <title></title>
-</head>
-<body class="mx-auto text-center">
-    <h4 class="text-warning rounded-2 mx-auto text-center p-2 m-4 @(ViewBag.connection == "Connection OK" ? "bg-success text-dark" : "bg-warning text-danger")">
-        @ViewBag.connection
-</h4>
+            function updateDom(data) {
+                if (data.connection === "Connection OK") {
+                    connection.removeClass("bg-warning").removeClass("text-danger").addClass("bg-success").addClass("text-dark");
+                    connection.html(data.connection);
+                } else {
+                    connection.removeClass("bg-success").removeClass("text-dark").addClass().addClass("bg-warning").addClass("text-danger");
+                    connection.html(data.connection);
+                };
+                //Global
+                $("#weightRefVal").html(data.global_RefValue + "g");
+                $("#weightTolMin").html(data.global_WeightTolMinus + "g");
+                $("#weightTolMax").html(data.global_WeightTolPlus + "g");
+                $("#weightMixTime").html(data.global_MixingTime + "s");
+                //Rob1
+                $("#downtime_rob1").html(data.roB1_Downtime_Time + "min");
+                $("#formNum_rob1").html(data.roB1_FormNumber);
+                $("#actualWeight_rob1").html(data.roB1_WeightActualValue + "g");
+                $("#temp_rob1").html(data.roB1_Temperature + " C&deg;");
+                $("#setTemp_rob1").html(data.roB1_SetTemperature + " C&deg;");
+                $("#timeDrying_rob1").html(data.roB1_TimeDrying);
+                //Rob2
+                $("#downtime_rob2").html(data.roB2_Downtime_Time + "min");
+                $("#formNum_rob2").html(data.roB2_FormNumber);
+                $("#actualWeight_rob2").html(data.roB2_WeightActualValue + "g");
+                $("#temp_rob2").html(data.roB2_Temperature + " C&deg;");
+                $("#setTemp_rob2").html(data.roB2_SetTemperature + " C&deg;");
+                $("#timeDrying_rob2").html(data.roB2_TimeDrying);
+            };
 
-    <div class="text-dark">
+        });
+    </script>
+}
+
+
+<h4 id="connection" class="text-warning rounded-2 mx-auto text-center p-2 m-4 border border-1 border-primary"></h4>
+<div class="text-dark">
+
+    <div class="d-flex justify-content-around m-4 flex-md-row flex-column  gap-4 p-2 pb-4 h-auto">
+        @*Basic Info*@
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3 ">
+            <h1 class="fs-2 text-center py-2 text-bg-primary">[Global Info ASQ <span id="asqNum"></span>]</h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p>Weight ref value: <span id="weightRefVal" class="text-info fw-bold"></span> </p>
+            <p>Weight tolerance minus: <span id="weightTolMin" class="text-info fw-bold"></span> </p>
+            <p>Weight tolerance plus: <span id="weightTolMax" class="text-info fw-bold"></span> </p>
+            <p>Mixing time: <span id="weightMixTime" class="text-info fw-bold"></span> </p>
+
+        </div>
         @*ROB1*@
-        <div class="d-flex justify-content-around m-4 flex-md-row flex-column gap-4">
-            <div class="bg-info-subtle p-2 px-4 rounded-2 col-12 col-md-3 fs-5 ">
-                <h1 class="fs-2 text-center py-2">ASQ 6 [Form A - ROB1]</h1>
-                <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
-                <p>Inactive time: <span class="text-info fw-bold">@Model.ROB1_Downtime_Time Min</span> </p>
-                <p>Actual formnumber:<span class="text-info fw-bold">@Model.ROB1_FormNumber</span>  </p>
-                <p>Actual weight: <span class="text-info fw-bold">@Model.ROB1_WeightActualValue g</span> </p>
-                <p>Temperature: <span class="text-info fw-bold">@Model.ROB1_Temperature C&deg;</span> </p>
-                <p>Set temperature: <span class="text-info fw-bold">@Model.ROB1_SetTemperature C&deg;</span> </p>
-                <p>Time drying: <span class="text-info fw-bold">@Model.ROB1_TimeDrying</span> </p>
-            </div>
-            @*Global*@
-            <div class="bg-info-subtle p-2 px-4 rounded-2 col-12 col-md-3 fs-5">
-                <h1 class="fs-2 text-center py-2">ASQ 6 [Global parameter]</h1>
-                <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
-                <p>Weight ref value: <span class="text-info fw-bold">@Model.Global_RefValue g</span> </p>
-                <p>Weight tolerance minus: <span class="text-info fw-bold">@Model.Global_WeightTolMinus g</span> </p>
-                <p>Weight tolerance plus: <span class="text-info fw-bold">@Model.Global_WeightTolPlus g</span> </p>
-                <p>Mixing time: <span class="text-info fw-bold">@Model.Global_MixingTime min</span> </p>
-
-            </div>
-            @*ROB2*@
-            <div class="bg-info-subtle p-2 px-4 rounded-2 col-12 col-md-3 fs-5">
-                <h1 class="fs-2 text-center py-2">ASQ 6 [Form B - ROB2]</h1>
-                <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
-                <p>Inactive time: <span class="text-info fw-bold">@Model.ROB2_Downtime_Time Min</span> </p>
-                <p>Actual formnumber: <span class="text-info fw-bold">@Model.ROB2_FormNumber</span> </p>
-                <p>Actual weight: <span class="text-info fw-bold">@Model.ROB2_WeightActualValue g</span> </p>
-                <p>Temperature: <span class="text-info fw-bold">@Model.ROB2_Temperature C&deg;</span> </p>
-                <p>Set temperature: <span class="text-info fw-bold">@Model.ROB2_SetTemperature C&deg;</span></p>
-                <p>Time drying: <span class="text-info fw-bold">@Model.ROB2_TimeDrying</span> </p>
-            </div>
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3">
+            <h1 class="fs-2 text-center py-2 text-bg-info">[FORM A]</h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p>Inactive time: <span id="downtime_rob1" class="text-info fw-bold"> </span> </p>
+            <p>Actual formnumber: <span id="formNum_rob1" class="text-info fw-bold"></span> </p>
+            <p>Actual weight: <span id="actualWeight_rob1" class="text-info fw-bold"></span> </p>
+            <p>Temperature: <span id="temp_rob1" class="text-info fw-bold"> </span> </p>
+            <p>Set temperature: <span id="setTemp_rob1" class="text-info fw-bold"></span> </p>
+            <p>Time drying: <span id="timeDrying_rob1" class="text-info fw-bold"></span> </p>
+        </div>
+        @*ROB2*@
+        <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3">
+            <h1 class="fs-2 text-center py-2 text-bg-secondary">[FORM B]</h1>
+            <div class=" border-bottom border-3 border-info-subtle w-100 mx-auto"></div>
+            <p>Inactive time: <span id="downtime_rob2" class="text-info fw-bold"> </span> </p>
+            <p>Actual formnumber: <span id="formNum_rob2" class="text-info fw-bold"></span> </p>
+            <p>Actual weight: <span id="actualWeight_rob2" class="text-info fw-bold"></span> </p>
+            <p>Temperature: <span id="temp_rob2" class="text-info fw-bold"></span> </p>
+            <p>Set temperature: <span id="setTemp_rob2" class="text-info fw-bold"></span> </p>
+            <p>Time drying: <span id="timeDrying_rob2" class="text-info fw-bold"></span> </p>
         </div>
     </div>
-</body>
-</html>
+
+</div>

@@ -1,17 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using processDataShare.Models;
 using S7.Net;
 
 namespace processDataShare.Controllers
 {
+
     public class AsqController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         //________________________Asq_1___________________________
         public IActionResult Asq1()
+        {
+            Models.Asq1_model Asq1Model = LoadPLCData_Asq1(); // nacitat data plc (ajax)
+            return View(Asq1Model);
+        } //create view
+
+        [HttpGet]
+        public JsonResult JsonAsq1()
+        {
+            Models.Asq1_model Asq1Model = LoadPLCData_Asq1(); // nacitat data plc (ajax)
+            return Json(Asq1Model);
+        } //json get
+
+        private Models.Asq1_model LoadPLCData_Asq1()
         {
             Models.Asq1_model Asq1Model = new();
             Models.MainIndex_model MainIndexModel = new();
@@ -24,7 +34,7 @@ namespace processDataShare.Controllers
 
                     if (plc_asq1.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        Asq1Model.connection = "Connection OK";
 
                         //ROB1
                         Asq1Model.ROB1_Downtime_Time = ((ushort)plc_asq1.Read("DB179.DBW0.0")).ConvertToShort();
@@ -45,39 +55,47 @@ namespace processDataShare.Controllers
                         Asq1Model.Global_WeightTolMinus = ((uint)plc_asq1.Read("DB179.DBD44.0")).ConvertToFloat();
                         Asq1Model.Global_WeightTolPlus = ((uint)plc_asq1.Read("DB179.DBD48.0")).ConvertToFloat();
                         Asq1Model.Global_MixingTime = ((uint)plc_asq1.Read("DB179.DBD54.0")).ConvertToFloat();
-                        Asq1Model.Global_GoWeightAfter = ((ushort)plc_asq1.Read("DB179.DBW0.0")).ConvertToShort();
+                        
                     }
                     else
                     {
-                        ViewBag.connection = "Nieco sa pokazilo :(";
+                        Asq1Model.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionAsq1 = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionAsq1;
+                Asq1Model.connection = ex.Message;
             }
-            return View(Asq1Model);
-        }
+            return Asq1Model;
+        } //connect to plc 
 
         //________________________Asq_2___________________________
         public IActionResult Asq2()
         {
-            Models.Asq2_model Asq2Model = new();
-            Models.MainIndex_model MainIndexModel = new();
+            Models.Asq2_model Asq2Model = LoadPLCData_Asq2(); // nacitat data plc (ajax)            
+            return View(Asq2Model);
+        }
 
+        [HttpGet]
+        public JsonResult JsonAsq2()
+        {
+            Models.Asq2_model Asq2Model = LoadPLCData_Asq2(); // nacitat data plc (ajax)
+            return Json(Asq2Model);
+        }
+
+        private Models.Asq2_model LoadPLCData_Asq2() {
+            Models.Asq2_model Asq2Model = new();
 
             try
             {
-
                 using (var plc_asq2 = new Plc(CpuType.S71500, "10.184.159.109", 0, 1))
                 {
                     plc_asq2.Open();//Connect
 
                     if (plc_asq2.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        Asq2Model.connection = "Connection OK";
 
                         //ROB1
                         Asq2Model.ROB1_Downtime_Time = ((ushort)plc_asq2.Read("DB179.DBW0.0")).ConvertToShort();
@@ -102,25 +120,33 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "Nieco sa pokazilo :(";
+                        Asq2Model.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionAsq2 = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionAsq2;
+                Asq2Model.connection = ex.Message;
             }
-            return View(Asq2Model);
+            return Asq2Model;
         }
 
         //________________________Asq_3___________________________
         public IActionResult Asq3()
         {
+            Models.Asq3_model Asq3Model = LoadPLCData_Asq3(); // nacitat data plc (ajax)
+            return View(Asq3Model);
+        }
+
+        [HttpGet]
+        public JsonResult JsonAsq3()
+        {
+            Models.Asq3_model Asq3Model = LoadPLCData_Asq3(); // nacitat data plc (ajax)
+            return Json(Asq3Model);
+        }
+
+        private Models.Asq3_model LoadPLCData_Asq3(){
             Models.Asq3_model Asq3Model = new();
-            Models.MainIndex_model MainIndexModel = new();
-
-
             try
             {
 
@@ -130,7 +156,7 @@ namespace processDataShare.Controllers
 
                     if (plc_asq3.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        Asq3Model.connection = "Connection OK";
 
                         //ROB1
                         Asq3Model.ROB1_Downtime_Time = ((ushort)plc_asq3.Read("DB179.DBW0.0")).ConvertToShort();
@@ -155,34 +181,42 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "Nieco sa pokazilo :(";
+                        Asq3Model.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionAsq3 = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionAsq3;
+                Asq3Model.connection = ex.Message;
             }
-            return View(Asq3Model);
+            return Asq3Model;
         }
 
         //________________________Asq_4___________________________
         public IActionResult Asq4()
         {
-            Models.Asq4_model Asq4Model = new();
-            Models.MainIndex_model MainIndexModel = new();
+            Models.Asq4_model Asq4Model = LoadPLCData_Asq4(); // nacitat data plc (ajax)
+            return View(Asq4Model);
+        }
 
+        [HttpGet]
+        public JsonResult JsonAsq4()
+        {
+            Models.Asq4_model Asq4Model = LoadPLCData_Asq4(); // nacitat data plc (ajax)
+            return Json(Asq4Model);
+        }
+
+        private Models.Asq4_model LoadPLCData_Asq4(){
+            Models.Asq4_model Asq4Model = new();
             try
             {
-
                 using (var plc_asq4 = new Plc(CpuType.S71500, "10.184.159.12", 0, 1))
                 {
                     plc_asq4.Open();//Connect
 
                     if (plc_asq4.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        Asq4Model.connection = "Connection OK";
 
                         //ROB1
                         Asq4Model.ROB1_Downtime_Time = ((ushort)plc_asq4.Read("DB179.DBW0.0")).ConvertToShort();
@@ -207,24 +241,33 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "Nieco sa pokazilo :(";
+                        Asq4Model.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionAsq4 = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionAsq4;
+                Asq4Model.connection = ex.Message;
             }
-            return View(Asq4Model);
+            return Asq4Model;
         }
 
         //________________________Asq_5___________________________
         public IActionResult Asq5()
         {
-            Models.Asq5_model Asq5Model = new();
-            Models.MainIndex_model MainIndexModel = new();
+            Models.Asq5_model Asq5Model = LoadPLCData_Asq5(); // nacitat data plc (ajax)
+            return View(Asq5Model);
+        }
 
+        [HttpGet]
+        public JsonResult JsonAsq5()
+        {
+            Models.Asq5_model Asq5Model = LoadPLCData_Asq5(); // nacitat data plc (ajax)
+            return Json(Asq5Model);
+        }
+
+        private Models.Asq5_model LoadPLCData_Asq5(){
+            Models.Asq5_model Asq5Model = new();
             try
             {
 
@@ -234,7 +277,7 @@ namespace processDataShare.Controllers
 
                     if (plc_asq5.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        Asq5Model.connection = "Connection OK";
 
                         //ROB1
                         Asq5Model.ROB1_Downtime_Time = ((ushort)plc_asq5.Read("DB179.DBW0.0")).ConvertToShort();
@@ -259,23 +302,34 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "something is bad";
+                        Asq5Model.connection = "Error please reload page...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionAsq5 = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionAsq5;
+                Asq5Model.connection = ex.Message;
             }
-            return View(Asq5Model);
+            return Asq5Model;
         }
 
         //________________________Asq_6___________________________
         public IActionResult Asq6()
         {
+            Models.Asq6_model Asq6Model = LoadPLCData_Asq6(); // nacitat data plc (ajax)
+            return View(Asq6Model);
+        }
+
+        [HttpGet]
+        public JsonResult JsonAsq6()
+        {
+            Models.Asq6_model Asq6Model = LoadPLCData_Asq6(); // nacitat data plc (ajax)
+            return Json(Asq6Model);
+        }
+
+        private Models.Asq6_model LoadPLCData_Asq6() 
+{
             Models.Asq6_model Asq6Model = new();
-            Models.MainIndex_model MainIndexModel = new();
             try
             {
                 using (var plc_asq6 = new Plc(CpuType.S71500, "10.184.159.184", 0, 1))
@@ -283,7 +337,7 @@ namespace processDataShare.Controllers
                     plc_asq6.Open(); //Connect
                     if (plc_asq6.IsConnected)
                     {
-                        ViewBag.connection = "Connection OK";
+                        Asq6Model.connection = "Connection OK";
 
                         //ROB1
                         Asq6Model.ROB1_Downtime_Time = ((ushort)plc_asq6.Read("DB179.DBW0.0")).ConvertToShort();
@@ -308,17 +362,31 @@ namespace processDataShare.Controllers
                     }
                     else
                     {
-                        ViewBag.connection = "Something is bad...";
+                        Asq6Model.connection = "Something is bad...";
                     };
                 }
             }
             catch (Exception ex)
             {
-                MainIndexModel.connectionAsq6 = ex.Message;
-                ViewBag.connection = MainIndexModel.connectionAsq6;
+                Asq6Model.connection = ex.Message;
             }
-            return View(Asq6Model);
+            return Asq6Model;
         }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }
 

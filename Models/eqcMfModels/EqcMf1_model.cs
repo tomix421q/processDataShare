@@ -2,6 +2,7 @@
 {
     public class EqcMf1_model
     {
+        public string connection { get; set; }
         public short actualDowntime { get; set; }
         public string ActualToolName { get; set; }
         //Basic Info

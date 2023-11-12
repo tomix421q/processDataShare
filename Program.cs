@@ -30,12 +30,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapBlazorHub();
 app.Run();
-
-
-
-
-
-
-
-
-

@@ -1,12 +1,12 @@
-﻿@model processDataShare.Models.eqcMfModels.EqcMf2_model
+﻿@model processDataShare.Models.eqcMfModels.EqcMf5_model
 @{
     @*<meta http-equiv="refresh" content="3">*@
-    ViewData["Title"] = "MF_2 Info";
+    ViewData["Title"] = "MF_5 Info";
 
 }
 @section Scripts {
     <script>
-        const eqcNumber = $("#eqcNum").html("2");
+        const eqcNumber = $("#eqcNum").html("5");
         var connection = $("#connection").html("Loading data...");
 
         $(document).ready(function () {
@@ -15,7 +15,7 @@
             setInterval(JsonMainIndex, 3000);
             function JsonMainIndex() {
                 $.ajax({
-                    url: "@Url.Action("JsonMF2")",
+                    url: "@Url.Action("JsonMF5")",
                     type: "GET",
                     dataType: 'json',
                     success: function (result) {
@@ -82,7 +82,7 @@
 
 <div class="text-dark mx-lg-5">
 
-    <div class="d-flex justify-content-around m-4 flex-md-row flex-column  gap-4 p-2 pb-4 h-auto">
+    <div class="d-flex justify-content-around m-4 flex-md-row flex-column gap-4 p-2 pb-4 h-auto">
         @* Basic Info*@
         <div class="bg-info-subtle p-2 px-4 rounded-2 fs-5 col-12 col-md-3 ">
             <h1 class="fs-2 text-center py-2 text-bg-primary">[Info MF <span id="eqcNum"></span>]</h1>

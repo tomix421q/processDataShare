@@ -21,10 +21,10 @@
             const mfeqc2Card = oneTab_initMachineCard("MFeqc_2");
             const mfeqc3Card = oneTab_initMachineCard("MFeqc_3");
             const mfeqc4Card = oneTab_initMachineCard("MFeqc_4");
-            //const mfeqc5Card = oneTab_initMachineCard("MFeqc_5");
-            //const mfeqc6Card = oneTab_initMachineCard("MFeqc_6");
-            //const mfeqc7Card = oneTab_initMachineCard("MFeqc_7");
-            //const mfeqc8Card = oneTab_initMachineCard("MFeqc_8");
+            const mfeqc5Card = oneTab_initMachineCard("MFeqc_5");
+            const mfeqc6Card = oneTab_initMachineCard("MFeqc_6");
+            const mfeqc7Card = oneTab_initMachineCard("MFeqc_7");
+            const mfeqc8Card = oneTab_initMachineCard("MFeqc_8");
             const armrestOpelFr = oneTab_initMachineCard("OpelArmrestFr");
             const armrestOpelRr = oneTab_initMachineCard("OpelArmrestRr");
             const insertOpelFr = oneTab_initMachineCard("OpelInsertFr");
@@ -53,6 +53,10 @@
                         oneTab_updateMachineCard(mfeqc2Card, [result.eqcMF2_actualDownTime, result.connectionEqcMF2]);
                         oneTab_updateMachineCard(mfeqc3Card, [result.eqcMF3_actualDownTime, result.connectionEqcMF3]);
                         oneTab_updateMachineCard(mfeqc4Card, [result.eqcMF4_actualDownTime, result.connectionEqcMF4]);
+                        oneTab_updateMachineCard(mfeqc5Card, [result.eqcMF5_actualDownTime, result.connectionEqcMF5]);
+                        oneTab_updateMachineCard(mfeqc6Card, [result.eqcMF6_actualDownTime, result.connectionEqcMF6]);
+                        oneTab_updateMachineCard(mfeqc7Card, [result.eqcMF7_actualDownTime, result.connectionEqcMF7]);
+                        oneTab_updateMachineCard(mfeqc8Card, [result.eqcMF8_actualDownTime, result.connectionEqcMF8]);
                         oneTab_updateMachineCard(armrestOpelFr, [result.opelArmrestFD_actualDowntime, result.connectionOpelArmrestFd]);
                         oneTab_updateMachineCard(armrestOpelRr, [result.opelArmrestRD_actualDowntime, result.connectionOpelArmrestRd]);
                         oneTab_updateMachineCard(insertOpelFr, [result.opelInsertFD_actualDowntime, result.connectionOpelInsertFd]);
@@ -174,7 +178,7 @@
                     if (data[0] > 60) {
                         machineCard.downtime.html("Inactive " + downtime_hod + "Hod " + downtime_min + "Min");
                     } else {
-                        machineCard.downtime.html("Inactive " + Rob1Downtime_min + "Min");
+                        machineCard.downtime.html("Inactive " + downtime_min + "Min");
                     }
                 } else {
                     machineCard.downtime.html("Waiting on data...");
@@ -199,6 +203,7 @@
     
     <div class="d-none">
 
+        @*twoTab Layout*@
         <div id="card-template-asq" class="text-black bg-success-subtle col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2 justify-content-between m-2 shadow-lg card ">
             <div id="connection" class="position-absolute w-100 h-100 bg-dark d-none bottom-0">
                 <h2 class="fs-4 w-75 mx-auto text-center d-flex flex-column justify-content-end text-warning gap-3 pb-3">
@@ -229,7 +234,7 @@
             <a target="_blank" id="ASQ_6" class="btn btn-primary w-100 d-none" asp-controller="Asq" asp-action="Asq6">Machine parameters</a>
         </div>
 
-
+        @*oneTab Layout*@
         <div id="card-template-mfeqc" class="text-center card text-black m-2 shadow-lg justify-content-between col-10 col-md-5 col-lg-4 col-xl-3 col-xxl-2">
             <div id="connection" class="position-absolute d-flex w-100 h-100 bottom-0  bg-dark d-none">
                 <h2 class="fs-4 w-75 mx-auto text-center text-warning pb-3 gap-2 bg-dark  d-flex flex-column justify-content-end">
@@ -246,10 +251,10 @@
             <a target="_blank" id="MFeqc_2" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF2">Machine parameters</a>
             <a target="_blank" id="MFeqc_3" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF3">Machine parameters</a>
             <a target="_blank" id="MFeqc_4" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF4">Machine parameters</a>
-            @*<a target="_blank" id="MFeqc_5" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF5">Machine parameters</a>
+            <a target="_blank" id="MFeqc_5" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF5">Machine parameters</a>
             <a target="_blank" id="MFeqc_6" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF6">Machine parameters</a>
             <a target="_blank" id="MFeqc_7" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF7">Machine parameters</a>
-        <   a target="_blank" id="MFeqc_8" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF8">Machine parameters</a>*@
+            <a target="_blank" id="MFeqc_8" class="btn btn-primary w-100 d-none" asp-controller="MFeqc" asp-action="EqcMF8">Machine parameters</a>
             <a target="_blank" id="OpelArmrestFr" class="btn btn-primary w-100 d-none" asp-controller="Opel" asp-action="OpelArmrestFd">Machine parameters</a>
             <a target="_blank" id="OpelArmrestRr" class="btn btn-primary w-100 d-none" asp-controller="Opel" asp-action="OpelArmrestRd">Machine parameters</a>
             <a target="_blank" id="OpelInsertFr" class="btn btn-primary w-100 d-none" asp-controller="Opel" asp-action="OpelInsertFd">Machine parameters</a>

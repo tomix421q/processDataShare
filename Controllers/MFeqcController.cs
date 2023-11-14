@@ -370,41 +370,402 @@ return EqcMf3model;
             }
             return EqcMf4model;
         }
-        
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //______________________MF5__________________________
+        public IActionResult EqcMF5()
+        {
+            Models.eqcMfModels.EqcMf5_model EqcMf5model = LoadPLCData_MF5(); // nacitat data plc 
+            return View(EqcMf5model);
         }
+
+        [HttpGet]
+        public JsonResult JsonMF5()
+        {
+            Models.eqcMfModels.EqcMf5_model EqcMf5model = LoadPLCData_MF5(); // nacitat data plc (ajax)
+            return Json(EqcMf5model);
+        }
+
+        private Models.eqcMfModels.EqcMf5_model LoadPLCData_MF5()
+        {
+            Models.eqcMfModels.EqcMf5_model EqcMf5model = new();
+            try
+            {
+
+                using (var plc_eqcMf5 = new Plc(CpuType.S71500, "10.184.159.89", 0, 1))
+                {
+                    plc_eqcMf5.Open();//Connect
+
+                    if (plc_eqcMf5.IsConnected)
+                    {
+                        EqcMf5model.connection = "Connection OK";
+
+                        EqcMf5model.actualDowntime = ((ushort)plc_eqcMf5.Read("DB189.DBW0.0")).ConvertToShort();
+
+                        EqcMf5model.ActualToolName = plc_eqcMf5.Read(DataType.DataBlock, 189, 2, VarType.String, 20).ToString();
+
+
+                        int startAdress = 258; // Adresa UDT
+                        int sizeInBytes = 78; // Veľkosť UDT v bajtoch
+                        int numberDB = 189; // Cislo DB blocku v plc
+
+                        //Scan multiply
+                        var udtData = plc_eqcMf5.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
+                        //basic info
+                        EqcMf5model.MachineAuto = udtData[0].SelectBit(0);
+                        EqcMf5model.ConveyorOK = udtData[0].SelectBit(1);
+                        EqcMf5model.MainStepNumber = S7.Net.Types.Int.FromByteArray(udtData.Skip(2).Take(2).ToArray());
+                        EqcMf5model.CycleTime = S7.Net.Types.DInt.FromByteArray(udtData.Skip(4).Take(4).ToArray()) / 10;
+                        EqcMf5model.ProductionCurrentNum = S7.Net.Types.DInt.FromByteArray(udtData.Skip(8).Take(4).ToArray());
+                        //tool
+                        EqcMf5model.ToolHome = udtData[12].SelectBit(0);
+                        EqcMf5model.HeaterOk = udtData[12].SelectBit(1);
+                        EqcMf5model.ToolNumber = S7.Net.Types.Word.FromByteArray(udtData.Skip(14).Take(2).ToArray());
+                        //bluemelt gluestation
+                        EqcMf5model.BluemeltOk = udtData[17].SelectBit(0);
+                        EqcMf5model.ActualPressure = S7.Net.Types.Real.FromByteArray(udtData.Skip(18).Take(4).ToArray());
+
+                        EqcMf5model.SetAirInside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(22).Take(4).ToArray());
+                        EqcMf5model.SetAirOutside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(26).Take(4).ToArray());
+                        EqcMf5model.SetpumpSpeed1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(30).Take(4).ToArray());
+
+                        EqcMf5model.SetAirInside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(34).Take(4).ToArray());
+                        EqcMf5model.SetAirOutside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(38).Take(4).ToArray());
+                        EqcMf5model.SetpumpSpeed2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(42).Take(4).ToArray());
+
+                        EqcMf5model.SetAirInside3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(46).Take(4).ToArray());
+                        EqcMf5model.SetpumpSpeed3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(50).Take(4).ToArray());
+
+                        EqcMf5model.Actual_AirInside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(54).Take(4).ToArray());
+                        EqcMf5model.Actual_AirOutside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(58).Take(4).ToArray());
+                        EqcMf5model.Actual_AirInside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(62).Take(4).ToArray());
+                        EqcMf5model.Actual_AirOutside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(66).Take(4).ToArray());
+                        EqcMf5model.Actual_AirInside3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(70).Take(4).ToArray());
+                        //Robot
+                        EqcMf5model.RobotAutomaticMode = udtData[74].SelectBit(0);
+                        EqcMf5model.RobotRunning = udtData[74].SelectBit(1);
+                        EqcMf5model.RobotHome = udtData[74].SelectBit(2);
+                        EqcMf5model.RobotConnectedGripper = udtData[74].SelectBit(3);
+                        EqcMf5model.RobotToolNumber = S7.Net.Types.Int.FromByteArray(udtData.Skip(76).Take(2).ToArray());
+
+                    }
+                    else
+                    {
+                        EqcMf5model.connection = "Error please reload page...";
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                EqcMf5model.connection = ex.Message;
+            }
+            return EqcMf5model;
+        }
+
+        //______________________MF6__________________________
+        public IActionResult EqcMF6()
+        {
+            Models.eqcMfModels.EqcMf6_model EqcMf6model = LoadPLCData_MF6(); // nacitat data plc 
+            return View(EqcMf6model);
+        }
+
+        [HttpGet]
+        public JsonResult JsonMF6()
+        {
+            Models.eqcMfModels.EqcMf6_model EqcMf6model = LoadPLCData_MF6(); // nacitat data plc (ajax)
+            return Json(EqcMf6model);
+        }
+
+        private Models.eqcMfModels.EqcMf6_model LoadPLCData_MF6()
+        {
+            Models.eqcMfModels.EqcMf6_model EqcMf6model = new();
+            try
+            {
+
+                using (var plc_eqcMf6 = new Plc(CpuType.S71500, "10.184.159.99", 0, 1))
+                {
+                    plc_eqcMf6.Open();//Connect
+
+                    if (plc_eqcMf6.IsConnected)
+                    {
+                        EqcMf6model.connection = "Connection OK";
+
+                        EqcMf6model.actualDowntime = ((ushort)plc_eqcMf6.Read("DB189.DBW0.0")).ConvertToShort();
+
+                        EqcMf6model.ActualToolName = plc_eqcMf6.Read(DataType.DataBlock, 189, 2, VarType.String, 20).ToString();
+
+
+                        int startAdress = 258; // Adresa UDT
+                        int sizeInBytes = 78; // Veľkosť UDT v bajtoch
+                        int numberDB = 189; // Cislo DB blocku v plc
+
+                        //Scan multiply
+                        var udtData = plc_eqcMf6.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
+                        //basic info
+                        EqcMf6model.MachineAuto = udtData[0].SelectBit(0);
+                        EqcMf6model.ConveyorOK = udtData[0].SelectBit(1);
+                        EqcMf6model.MainStepNumber = S7.Net.Types.Int.FromByteArray(udtData.Skip(2).Take(2).ToArray());
+                        EqcMf6model.CycleTime = S7.Net.Types.DInt.FromByteArray(udtData.Skip(4).Take(4).ToArray()) / 10;
+                        EqcMf6model.ProductionCurrentNum = S7.Net.Types.DInt.FromByteArray(udtData.Skip(8).Take(4).ToArray());
+                        //tool
+                        EqcMf6model.ToolHome = udtData[12].SelectBit(0);
+                        EqcMf6model.HeaterOk = udtData[12].SelectBit(1);
+                        EqcMf6model.ToolNumber = S7.Net.Types.Word.FromByteArray(udtData.Skip(14).Take(2).ToArray());
+                        //bluemelt gluestation
+                        EqcMf6model.BluemeltOk = udtData[17].SelectBit(0);
+                        EqcMf6model.ActualPressure = S7.Net.Types.Real.FromByteArray(udtData.Skip(18).Take(4).ToArray());
+
+                        EqcMf6model.SetAirInside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(22).Take(4).ToArray());
+                        EqcMf6model.SetAirOutside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(26).Take(4).ToArray());
+                        EqcMf6model.SetpumpSpeed1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(30).Take(4).ToArray());
+
+                        EqcMf6model.SetAirInside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(34).Take(4).ToArray());
+                        EqcMf6model.SetAirOutside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(38).Take(4).ToArray());
+                        EqcMf6model.SetpumpSpeed2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(42).Take(4).ToArray());
+
+                        EqcMf6model.SetAirInside3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(46).Take(4).ToArray());
+                        EqcMf6model.SetpumpSpeed3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(50).Take(4).ToArray());
+
+                        EqcMf6model.Actual_AirInside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(54).Take(4).ToArray());
+                        EqcMf6model.Actual_AirOutside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(58).Take(4).ToArray());
+                        EqcMf6model.Actual_AirInside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(62).Take(4).ToArray());
+                        EqcMf6model.Actual_AirOutside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(66).Take(4).ToArray());
+                        EqcMf6model.Actual_AirInside3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(70).Take(4).ToArray());
+                        //Robot
+                        EqcMf6model.RobotAutomaticMode = udtData[74].SelectBit(0);
+                        EqcMf6model.RobotRunning = udtData[74].SelectBit(1);
+                        EqcMf6model.RobotHome = udtData[74].SelectBit(2);
+                        EqcMf6model.RobotConnectedGripper = udtData[74].SelectBit(3);
+                        EqcMf6model.RobotToolNumber = S7.Net.Types.Int.FromByteArray(udtData.Skip(76).Take(2).ToArray());
+
+                    }
+                    else
+                    {
+                        EqcMf6model.connection = "Error please reload page...";
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                EqcMf6model.connection = ex.Message;
+            }
+            return EqcMf6model;
+        }
+
+        //______________________MF7__________________________
+        public IActionResult EqcMF7()
+        {
+            Models.eqcMfModels.EqcMf7_model EqcMf7model = LoadPLCData_MF7(); // nacitat data plc 
+            return View(EqcMf7model);
+        }
+
+        [HttpGet]
+        public JsonResult JsonMF7()
+        {
+            Models.eqcMfModels.EqcMf7_model EqcMf7model = LoadPLCData_MF7(); // nacitat data plc (ajax)
+            return Json(EqcMf7model);
+        }
+
+        private Models.eqcMfModels.EqcMf7_model LoadPLCData_MF7()
+        {
+            Models.eqcMfModels.EqcMf7_model EqcMf7model = new();
+            try
+            {
+
+                using (var plc_eqcMf7 = new Plc(CpuType.S71500, "10.184.159.171", 0, 1))
+                {
+                    plc_eqcMf7.Open();//Connect
+
+                    if (plc_eqcMf7.IsConnected)
+                    {
+                        EqcMf7model.connection = "Connection OK";
+
+                        EqcMf7model.actualDowntime = ((ushort)plc_eqcMf7.Read("DB189.DBW0.0")).ConvertToShort();
+
+                        EqcMf7model.ActualToolName = plc_eqcMf7.Read(DataType.DataBlock, 189, 2, VarType.String, 20).ToString();
+
+
+                        int startAdress = 258; // Adresa UDT
+                        int sizeInBytes = 78; // Veľkosť UDT v bajtoch
+                        int numberDB = 189; // Cislo DB blocku v plc
+
+                        //Scan multiply
+                        var udtData = plc_eqcMf7.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
+                        //basic info
+                        EqcMf7model.MachineAuto = udtData[0].SelectBit(0);
+                        EqcMf7model.ConveyorOK = udtData[0].SelectBit(1);
+                        EqcMf7model.MainStepNumber = S7.Net.Types.Int.FromByteArray(udtData.Skip(2).Take(2).ToArray());
+                        EqcMf7model.CycleTime = S7.Net.Types.DInt.FromByteArray(udtData.Skip(4).Take(4).ToArray()) / 10;
+                        EqcMf7model.ProductionCurrentNum = S7.Net.Types.DInt.FromByteArray(udtData.Skip(8).Take(4).ToArray());
+                        //tool
+                        EqcMf7model.ToolHome = udtData[12].SelectBit(0);
+                        EqcMf7model.HeaterOk = udtData[12].SelectBit(1);
+                        EqcMf7model.ToolNumber = S7.Net.Types.Word.FromByteArray(udtData.Skip(14).Take(2).ToArray());
+                        //bluemelt gluestation
+                        EqcMf7model.BluemeltOk = udtData[17].SelectBit(0);
+                        EqcMf7model.ActualPressure = S7.Net.Types.Real.FromByteArray(udtData.Skip(18).Take(4).ToArray());
+
+                        EqcMf7model.SetAirInside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(22).Take(4).ToArray());
+                        EqcMf7model.SetAirOutside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(26).Take(4).ToArray());
+                        EqcMf7model.SetpumpSpeed1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(30).Take(4).ToArray());
+
+                        EqcMf7model.SetAirInside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(34).Take(4).ToArray());
+                        EqcMf7model.SetAirOutside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(38).Take(4).ToArray());
+                        EqcMf7model.SetpumpSpeed2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(42).Take(4).ToArray());
+
+                        EqcMf7model.SetAirInside3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(46).Take(4).ToArray());
+                        EqcMf7model.SetpumpSpeed3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(50).Take(4).ToArray());
+
+                        EqcMf7model.Actual_AirInside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(54).Take(4).ToArray());
+                        EqcMf7model.Actual_AirOutside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(58).Take(4).ToArray());
+                        EqcMf7model.Actual_AirInside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(62).Take(4).ToArray());
+                        EqcMf7model.Actual_AirOutside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(66).Take(4).ToArray());
+                        EqcMf7model.Actual_AirInside3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(70).Take(4).ToArray());
+                        //Robot
+                        EqcMf7model.RobotAutomaticMode = udtData[74].SelectBit(0);
+                        EqcMf7model.RobotRunning = udtData[74].SelectBit(1);
+                        EqcMf7model.RobotHome = udtData[74].SelectBit(2);
+                        EqcMf7model.RobotConnectedGripper = udtData[74].SelectBit(3);
+                        EqcMf7model.RobotToolNumber = S7.Net.Types.Int.FromByteArray(udtData.Skip(76).Take(2).ToArray());
+
+                    }
+                    else
+                    {
+                        EqcMf7model.connection = "Error please reload page...";
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                EqcMf7model.connection = ex.Message;
+            }
+            return EqcMf7model;
+        }
+
+        //______________________MF8__________________________
+        public IActionResult EqcMF8()
+        {
+            Models.eqcMfModels.EqcMf8_model EqcMf8model = LoadPLCData_MF8(); // nacitat data plc 
+            return View(EqcMf8model);
+        }
+
+        [HttpGet]
+        public JsonResult JsonMF8()
+        {
+            Models.eqcMfModels.EqcMf8_model EqcMf8model = LoadPLCData_MF8(); // nacitat data plc (ajax)
+            return Json(EqcMf8model);
+        }
+
+        private Models.eqcMfModels.EqcMf8_model LoadPLCData_MF8()
+        {
+            Models.eqcMfModels.EqcMf8_model EqcMf8model = new();
+            try
+            {
+
+                using (var plc_eqcMf8 = new Plc(CpuType.S71500, "10.184.159.101", 0, 1))
+                {
+                    plc_eqcMf8.Open();//Connect
+
+                    if (plc_eqcMf8.IsConnected)
+                    {
+                        EqcMf8model.connection = "Connection OK";
+
+                        EqcMf8model.actualDowntime = ((ushort)plc_eqcMf8.Read("DB189.DBW0.0")).ConvertToShort();
+
+                        EqcMf8model.ActualToolName = plc_eqcMf8.Read(DataType.DataBlock, 189, 2, VarType.String, 20).ToString();
+
+
+                        int startAdress = 258; // Adresa UDT
+                        int sizeInBytes = 78; // Veľkosť UDT v bajtoch
+                        int numberDB = 189; // Cislo DB blocku v plc
+
+                        //Scan multiply
+                        var udtData = plc_eqcMf8.ReadBytes(DataType.DataBlock, numberDB, startAdress, sizeInBytes);
+                        //basic info
+                        EqcMf8model.MachineAuto = udtData[0].SelectBit(0);
+                        EqcMf8model.ConveyorOK = udtData[0].SelectBit(1);
+                        EqcMf8model.MainStepNumber = S7.Net.Types.Int.FromByteArray(udtData.Skip(2).Take(2).ToArray());
+                        EqcMf8model.CycleTime = S7.Net.Types.DInt.FromByteArray(udtData.Skip(4).Take(4).ToArray()) / 10;
+                        EqcMf8model.ProductionCurrentNum = S7.Net.Types.DInt.FromByteArray(udtData.Skip(8).Take(4).ToArray());
+                        //tool
+                        EqcMf8model.ToolHome = udtData[12].SelectBit(0);
+                        EqcMf8model.HeaterOk = udtData[12].SelectBit(1);
+                        EqcMf8model.ToolNumber = S7.Net.Types.Word.FromByteArray(udtData.Skip(14).Take(2).ToArray());
+                        //bluemelt gluestation
+                        EqcMf8model.BluemeltOk = udtData[17].SelectBit(0);
+                        EqcMf8model.ActualPressure = S7.Net.Types.Real.FromByteArray(udtData.Skip(18).Take(4).ToArray());
+
+                        EqcMf8model.SetAirInside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(22).Take(4).ToArray());
+                        EqcMf8model.SetAirOutside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(26).Take(4).ToArray());
+                        EqcMf8model.SetpumpSpeed1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(30).Take(4).ToArray());
+
+                        EqcMf8model.SetAirInside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(34).Take(4).ToArray());
+                        EqcMf8model.SetAirOutside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(38).Take(4).ToArray());
+                        EqcMf8model.SetpumpSpeed2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(42).Take(4).ToArray());
+
+                        EqcMf8model.SetAirInside3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(46).Take(4).ToArray());
+                        EqcMf8model.SetpumpSpeed3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(50).Take(4).ToArray());
+
+                        EqcMf8model.Actual_AirInside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(54).Take(4).ToArray());
+                        EqcMf8model.Actual_AirOutside1 = S7.Net.Types.Real.FromByteArray(udtData.Skip(58).Take(4).ToArray());
+                        EqcMf8model.Actual_AirInside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(62).Take(4).ToArray());
+                        EqcMf8model.Actual_AirOutside2 = S7.Net.Types.Real.FromByteArray(udtData.Skip(66).Take(4).ToArray());
+                        EqcMf8model.Actual_AirInside3 = S7.Net.Types.Real.FromByteArray(udtData.Skip(70).Take(4).ToArray());
+                        //Robot
+                        EqcMf8model.RobotAutomaticMode = udtData[74].SelectBit(0);
+                        EqcMf8model.RobotRunning = udtData[74].SelectBit(1);
+                        EqcMf8model.RobotHome = udtData[74].SelectBit(2);
+                        EqcMf8model.RobotConnectedGripper = udtData[74].SelectBit(3);
+                        EqcMf8model.RobotToolNumber = S7.Net.Types.Int.FromByteArray(udtData.Skip(76).Take(2).ToArray());
+
+                    }
+                    else
+                    {
+                        EqcMf8model.connection = "Error please reload page...";
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                EqcMf8model.connection = ex.Message;
+            }
+            return EqcMf8model;
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 }

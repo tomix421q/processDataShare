@@ -75,7 +75,7 @@
         </nav>
     </header>
     <div>
-        <main role="main" class=" container-fluid mx-auto ">
+        <main role="main" id="main-content" class=" container-fluid mx-auto ">
             @RenderBody()
 
         </main>
@@ -98,6 +98,20 @@
                 document.querySelector("body").style.visibility = "visible";
             }
         };
+
+
+        document.addEventListener(
+            "keydown",
+            (e) => {
+                if (e.key === "Enter") {
+                    /*toggleFullScreen();*/
+                }
+            },
+            false,
+        );
+
+        
+        
     </script>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

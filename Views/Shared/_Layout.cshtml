@@ -11,7 +11,7 @@
 </head>
 
 @*Loading screen*@
-<div id="loader" class="bg-dark vw-100 vh-100 position-absolute z-3 justify-content-center align-items-center flex-column">
+<div id="loader" class="bg-dark vw-100 vh-100 position-fixed  z-3 w-100 h-100 justify-content-center align-items-center">
 
     <div class="spinner-border text-warning" role="status" style="width: 6rem; height: 6rem;">
         <span class="visually-hidden">Loading...</span>
@@ -26,52 +26,59 @@
 
             <div class="container-fluid ">
                 <a class="navbar-brand fw-bold" asp-area="" asp-controller="Home" asp-action="Index"><span class=" text-success fs-4 fw-bolder">[ </span>  Process Live Share <span class=" text-success fs-4 fw-bolder">] </span></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                <button class="navbar-toggler border-0 bg-dark" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
+                    
                 </button>
 
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                    </li>
-                    @*<li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>*@
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Machines
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq1">Asq1</a></li>
-                            <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq2">Asq2</a></li>
-                            <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq3">Asq3</a></li>
-                            <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq4">Asq4</a></li>
-                            <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq5">Asq5</a></li>
-                            <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq6">Asq6</a></li>
-                            <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelArmrestFd">OpelArmrestFd</a></li>
-                            <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelArmrestRd">OpelArmrestRd</a></li>
-                            <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelInsertFd">OpelInsertFd</a></li>
-                            <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelInsertRd">OpelInsertRd</a></li>
-                            <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF1">EqcMF1</a></li>
-                            <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF2">EqcMF2</a></li>
-                            <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF3">EqcMF3</a></li>
-                            <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF4">EqcMF4</a></li>
-                            <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF5">EqcMF5</a></li>
-                            <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF6">EqcMF6</a></li>
-                            <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF7">EqcMF7</a></li>
-                            <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF8">EqcMF8</a></li>
-                        </ul>
-                    </li>
+                @*mobile*@
+                <div class="collapse navbar-collapse text-center" id="navbarNavDropdown">
+                    <ul class="navbar-nav flex-grow-1 fs-5 ">
+                        <li class="nav-item mx-1">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        @*<li class="nav-item">
+                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            <           /li>*@
+                        <li class="nav-item dropdown mx-1">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Machines
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq1">Asq1</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq2">Asq2</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq3">Asq3</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq4">Asq4</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq5">Asq5</a></li>
+                                <li><a class="dropdown-item" asp-controller="Asq" asp-action="Asq6">Asq6</a></li>
+                                <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelArmrestFd">OpelArmrestFd</a></li>
+                                <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelArmrestRd">OpelArmrestRd</a></li>
+                                <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelInsertFd">OpelInsertFd</a></li>
+                                <li><a class="dropdown-item" asp-controller="Opel" asp-action="OpelInsertRd">OpelInsertRd</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF1">EqcMF1</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF2">EqcMF2</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF3">EqcMF3</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF4">EqcMF4</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF5">EqcMF5</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF6">EqcMF6</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF7">EqcMF7</a></li>
+                                <li><a class="dropdown-item" asp-controller="MFeqc" asp-action="EqcMF8">EqcMF8</a></li>
+                            </ul>
+                        </li>
 
-                </ul>
-                <div class="hover-zoom">
-                    <a href="mailto: tomas.zilka@yanfeng.com?subject = Feedback&body = Message" class="pe-auto cursor-pointer hover-zoom text-decoration-none"><i class="bi bi-send text-dark fs-5 pe-auto cursor-pointer ">Send Idea <span class="text-warning-subtle">/</span> Fault</i> </a>
+                    </ul>
+                    <div class="hover-zoom">
+                        <a href="mailto: tomas.zilka@yanfeng.com?subject = Feedback&body = Message" class="pe-auto cursor-pointer hover-zoom text-decoration-none"><i class="bi bi-send text-dark fs-5 pe-auto cursor-pointer ">Send Idea <span class="text-warning-subtle">/</span> Fault</i> </a>
 
+                    </div>
                 </div>
+                @*//*@
+               
+               
 
             </div>
-            </div>
+           
         </nav>
     </header>
     <div>
